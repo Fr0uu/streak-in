@@ -18,7 +18,13 @@ import { MobileContainer } from '@/components/layout/MobileContainer';
 
 export default function HistoryPage() {
   const { logs, streak, todaySession } = useWorkout();
-  const [expandedLogId, setExpandedLogId] = useState<string | null>(logs[0]?.id || null);
+  const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (logs.length > 0 && !expandedLogId) {
+      setExpandedLogId(logs[0].id);
+    }
+  }, [logs, expandedLogId]);
 
   const toggleExpand = (id: string) => {
     setExpandedLogId((prev) => (prev === id ? null : id));
@@ -96,16 +102,6 @@ export default function HistoryPage() {
               {logs.map((log) => {
                 const isExpanded = expandedLogId === log.id;
                 const durMin = Math.max(1, Math.round(log.durasiDetik / 60));
-                const totalReps = log.setsCompleted.reduce((sum, s) => sum + (s.nilai || 0), 0);
-
-                // Group sets by exercise
-                const setsByExercise: Record<string, number[]> = {};
-                log.setsCompleted.forEach((s) => {
-                  if (!setsByExercise[s.exerciseId]) {
-                    setsByExercise[s.exerciseId] = [];
-                  }
-                  setsByExercise[s.exerciseId].push(s.nilai);
-                });
 
                 return (
                   <div
@@ -120,13 +116,18 @@ export default function HistoryPage() {
                       <div className="flex items-start gap-3">
                         <div className="w-2.5 h-2.5 rounded-full bg-[#C8F135] mt-1.5 flex-shrink-0" />
                         <div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex flex-wrap items-center gap-2">
                             <h3 className="font-bold text-sm sm:text-base text-[#EEF1F4]">
                               {log.sessionNama}
                             </h3>
                             <span className="text-[11px] font-semibold text-[#C8F135] bg-[#C8F135]/10 px-2 py-0.5 rounded">
                               Tuntas
                             </span>
+                            {log.skillFocus && (
+                              <span className="text-[11px] font-semibold text-[#FF7A3D] bg-[#FF7A3D]/10 border border-[#FF7A3D]/25 px-2 py-0.5 rounded flex items-center gap-1">
+                                🎯 Skill: {log.skillFocus.toUpperCase()}
+                              </span>
+                            )}
                           </div>
                           <div className="flex items-center gap-3 text-xs text-[#8A929C] mt-1">
                             <span className="flex items-center gap-1">
@@ -144,7 +145,7 @@ export default function HistoryPage() {
 
                       <div className="flex items-center gap-3">
                         <span className="text-xs font-bold text-[#EEF1F4] hidden sm:inline">
-                          {totalReps} Reps
+                          {log.setsCompleted.length} Set Selesai
                         </span>
                         <div className="w-8 h-8 rounded-lg bg-[#15171A] border border-[#2E3238] flex items-center justify-center text-[#8A929C]">
                           {isExpanded ? (
@@ -160,25 +161,59 @@ export default function HistoryPage() {
                     {isExpanded && (
                       <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-1 border-t border-[#2E3238] bg-[#1E2227]/50">
                         <div className="text-[11px] font-bold text-[#8A929C] uppercase tracking-wider mb-2.5">
-                          Rincian Gerakan & Repetisi per Set:
+                          Rincian Gerakan, Tahanan Statis (Isometric) & Repetisi per Set:
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                          {Object.entries(setsByExercise).map(([exId, repsList]) => {
-                            const ex = SEED_EXERCISES.find((e) => e.id === exId);
-                            return (
+                          {(() => {
+                            // Group sets by exercise with isometric awareness
+                            interface ExGroup {
+                              id: string;
+                              name: string;
+                              isIsometric: boolean;
+                              values: number[];
+                            }
+                            const grouped: Record<string, ExGroup> = {};
+                            log.setsCompleted.forEach((s) => {
+                              const exMeta = SEED_EXERCISES.find((e) => e.id === s.exerciseId);
+                              const isIso = Boolean(s.isIsometric || exMeta?.isTimeBased);
+                              if (!grouped[s.exerciseId]) {
+                                grouped[s.exerciseId] = {
+                                  id: s.exerciseId,
+                                  name: s.exerciseName || exMeta?.nama || s.exerciseId,
+                                  isIsometric: isIso,
+                                  values: [],
+                                };
+                              }
+                              grouped[s.exerciseId].values.push(s.nilai);
+                            });
+
+                            return Object.values(grouped).map((item) => (
                               <div
-                                key={exId}
+                                key={item.id}
                                 className="p-3 rounded-xl bg-[#15171A] border border-[#2E3238] flex items-center justify-between text-xs"
                               >
-                                <span className="font-semibold text-[#EEF1F4]">
-                                  {ex?.nama || exId}
-                                </span>
-                                <span className="font-mono text-[#C8F135]">
-                                  {repsList.length}x ({repsList.join(', ')})
+                                <div className="flex items-center gap-1.5 truncate pr-2">
+                                  <span className="font-semibold text-[#EEF1F4] truncate">
+                                    {item.name}
+                                  </span>
+                                  {item.isIsometric && (
+                                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#FF7A3D]/15 text-[#FF7A3D] font-mono flex-shrink-0">
+                                      Hold
+                                    </span>
+                                  )}
+                                </div>
+                                <span
+                                  className={`font-mono font-bold flex-shrink-0 ${
+                                    item.isIsometric ? 'text-[#FF7A3D]' : 'text-[#C8F135]'
+                                  }`}
+                                >
+                                  {item.values
+                                    .map((v) => (item.isIsometric ? `${v}s` : `${v} reps`))
+                                    .join(', ')}
                                 </span>
                               </div>
-                            );
-                          })}
+                            ));
+                          })()}
                         </div>
                       </div>
                     )}

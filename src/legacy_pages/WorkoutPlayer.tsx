@@ -388,7 +388,8 @@ export const WorkoutPlayer: React.FC = () => {
 
             <div className="text-center py-3">
               <div className="text-4xl sm:text-5xl font-mono font-extrabold text-[#C8F135] tracking-wider">
-                00:{String(timerSeconds).padStart(2, '0')}
+                {String(Math.floor(timerSeconds / 60)).padStart(2, '0')}:
+                {String(timerSeconds % 60).padStart(2, '0')}
               </div>
               <p className="text-xs text-[#8A929C] mt-1">
                 {timerSeconds === 0 ? 'Waktu habis! Siap set berikutnya.' : 'Istirahat antar set'}

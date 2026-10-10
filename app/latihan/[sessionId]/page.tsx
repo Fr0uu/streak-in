@@ -9,6 +9,10 @@ import {
   ArrowRight,
   Info,
   Clock,
+  Flame,
+  Pause,
+  RotateCcw,
+  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useWorkout } from '@/context/WorkoutContext';
@@ -26,28 +30,23 @@ export default function WorkoutPlayerPage() {
   const session = getSessionById(sessionId || '');
 
   // Current exercise index
-  const [exerciseIndex, setExerciseIndex] = useState<number>(() => {
-    if (activeWorkout && activeWorkout.sessionId === sessionId) {
-      return activeWorkout.exerciseIndex || 0;
-    }
-    return 0;
-  });
+  const [exerciseIndex, setExerciseIndex] = useState<number>(0);
 
   // Track completed sets for entire session
-  const [completedSets, setCompletedSets] = useState<CompletedSet[]>(() => {
-    if (activeWorkout && activeWorkout.sessionId === sessionId) {
-      return activeWorkout.completedSets || [];
-    }
-    return [];
-  });
+  const [completedSets, setCompletedSets] = useState<CompletedSet[]>([]);
 
   // Session start time
-  const [startTime] = useState<string>(() => {
+  const [startTime, setStartTime] = useState<string>('');
+
+  useEffect(() => {
     if (activeWorkout && activeWorkout.sessionId === sessionId) {
-      return activeWorkout.mulai;
+      setExerciseIndex(activeWorkout.exerciseIndex || 0);
+      setCompletedSets(activeWorkout.completedSets || []);
+      setStartTime(activeWorkout.mulai);
+    } else {
+      setStartTime(new Date().toISOString());
     }
-    return new Date().toISOString();
-  });
+  }, [activeWorkout, sessionId]);
 
   // Modal states
   const [showExitModal, setShowExitModal] = useState(false);
@@ -56,6 +55,10 @@ export default function WorkoutPlayerPage() {
   // Rest Timer State
   const [timerRunning, setTimerRunning] = useState(false);
   const [timerSeconds, setTimerSeconds] = useState(45);
+
+  // Isometric Hold Timer State
+  const [holdTimerRunning, setHoldTimerRunning] = useState(false);
+  const [holdTimerElapsed, setHoldTimerElapsed] = useState(0);
 
   // If session not found, redirect to home
   useEffect(() => {
@@ -81,6 +84,17 @@ export default function WorkoutPlayerPage() {
     return () => clearInterval(interval);
   }, [timerRunning, timerSeconds]);
 
+  // Isometric Hold stopwatch interval
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (holdTimerRunning) {
+      interval = setInterval(() => {
+        setHoldTimerElapsed((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [holdTimerRunning]);
+
   if (!session) return null;
 
   const currentSessionExercise = session.exercises[exerciseIndex];
@@ -91,15 +105,24 @@ export default function WorkoutPlayerPage() {
   if (!currentSessionExercise || !currentExerciseData) return null;
 
   const totalExercises = session.exercises.length;
+  const isIsometricHold = Boolean(
+    currentSessionExercise.isIsometric ||
+    currentSessionExercise.unit === 'detik' ||
+    currentExerciseData.isTimeBased
+  );
   const targetDefaultVal = currentSessionExercise.target;
 
   // Handle set completion
   const handleCompleteSet = (setNumber: number, value: number) => {
+    const holdRecorded = holdTimerElapsed > 0 ? holdTimerElapsed : (value || targetDefaultVal);
+
     const newCompleted: CompletedSet = {
       exerciseId: currentExerciseData.id,
+      exerciseName: currentExerciseData.nama,
       noSet: setNumber,
-      nilai: value || targetDefaultVal,
+      nilai: holdRecorded,
       selesai: true,
+      isIsometric: isIsometricHold,
     };
 
     const updatedSets = [
@@ -111,7 +134,11 @@ export default function WorkoutPlayerPage() {
 
     setCompletedSets(updatedSets);
 
-    // Save active workout state to localStorage
+    // Reset hold timer
+    setHoldTimerRunning(false);
+    setHoldTimerElapsed(0);
+
+    // Save active workout state
     if (currentUser) {
       const activeState: ActiveWorkout = {
         userId: currentUser.id,
@@ -123,13 +150,13 @@ export default function WorkoutPlayerPage() {
       saveActiveWorkout(activeState);
     }
 
-    // Auto-start rest timer (45 seconds or exercise custom rest)
+    // Auto-start rest timer (45 seconds)
     setTimerSeconds(currentSessionExercise.istirahatDetik || 45);
     setTimerRunning(true);
   };
 
   const handleAdjustTimer = (delta: number) => {
-    setTimerSeconds((prev) => Math.max(0, prev + delta));
+    setTimerSeconds((prev) => Math.min(300, Math.max(0, prev + delta)));
   };
 
   const handleSkipTimer = () => {
@@ -145,9 +172,12 @@ export default function WorkoutPlayerPage() {
   // Navigate to next exercise or finish session
   const handleNextOrFinish = async () => {
     setTimerRunning(false);
+    setHoldTimerRunning(false);
+
     if (exerciseIndex < totalExercises - 1) {
       const nextIdx = exerciseIndex + 1;
       setExerciseIndex(nextIdx);
+      setHoldTimerElapsed(0);
       if (currentUser) {
         saveActiveWorkout({
           userId: currentUser.id,
@@ -159,13 +189,14 @@ export default function WorkoutPlayerPage() {
       }
     } else {
       // Finish Workout!
-      const startMs = new Date(startTime).getTime();
+      const startMs = startTime ? new Date(startTime).getTime() : Date.now() - 60000;
       const endMs = Date.now();
       const durationSeconds = Math.max(60, Math.round((endMs - startMs) / 1000));
 
       const logId = await addWorkoutLog({
         sessionId: session.id,
         sessionNama: session.nama,
+        skillFocus: session.skillId || null,
         tanggal: new Date().toISOString().split('T')[0],
         durasiDetik: durationSeconds,
         setsCompleted: completedSets,
@@ -190,6 +221,11 @@ export default function WorkoutPlayerPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-[#C8F135]">
                 Gerakan {exerciseIndex + 1} dari {totalExercises}
               </span>
+              {session.skillId && (
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FF7A3D]/20 text-[#FF7A3D] border border-[#FF7A3D]/30">
+                  Target Skill: {session.skillId.toUpperCase()}
+                </span>
+              )}
             </div>
             <h1 className="font-extrabold text-base sm:text-lg text-[#EEF1F4]">
               {session.nama}
@@ -221,11 +257,11 @@ export default function WorkoutPlayerPage() {
             <Play className="w-8 h-8 fill-current ml-1" />
           </div>
           <span className="text-xs font-bold text-[#EEF1F4]">{currentExerciseData.nama}</span>
-          <span className="text-[11px] text-[#8A929C]">Panduan Form Ideal • Ramah Kos</span>
+          <span className="text-[11px] text-[#8A929C]">Panduan Form Ideal • Ramah Kamar Kos</span>
 
-          {/* Badge Tempo */}
+          {/* Badge Tempo / Mode */}
           <div className="absolute bottom-3 left-3 bg-[#15171A]/80 backdrop-blur px-2.5 py-1 rounded-lg border border-[#2E3238] text-[11px] font-semibold text-[#C8F135]">
-            Tempo: 2-1-2
+            {isIsometricHold ? 'Mode: Isometric Static Hold' : 'Tempo: 2-1-2 Repetisi'}
           </div>
         </div>
 
@@ -235,12 +271,90 @@ export default function WorkoutPlayerPage() {
             <h2 className="text-2xl font-extrabold text-[#EEF1F4]">
               {currentExerciseData.nama}
             </h2>
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#C8F135]/15 text-[#C8F135] border border-[#C8F135]/30">
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-bold border ${
+                isIsometricHold
+                  ? 'bg-[#FF7A3D]/15 text-[#FF7A3D] border-[#FF7A3D]/30'
+                  : 'bg-[#C8F135]/15 text-[#C8F135] border-[#C8F135]/30'
+              }`}
+            >
               {currentSessionExercise.sets} Set × {currentSessionExercise.target} {currentSessionExercise.unit}
             </span>
           </div>
           <p className="text-xs text-[#8A929C]">Area Otot: {currentExerciseData.area}</p>
         </div>
+
+        {/* ISOMETRIC HOLD COUNTDOWN / STOPWATCH TIMER COMPONENT */}
+        {isIsometricHold && (
+          <div className="card-surface p-5 mb-5 border-[#FF7A3D]/50 bg-gradient-to-br from-[#23272D] to-[#1C1F24] shadow-xl relative overflow-hidden">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#FF7A3D]">
+                <Flame className="w-4 h-4 fill-[#FF7A3D]" />
+                <span>Isometric Hold Timer</span>
+              </div>
+              <span className="text-[11px] text-[#8A929C]">
+                Target: {currentSessionExercise.target} dtk
+              </span>
+            </div>
+
+            {/* Hold Counter Display */}
+            <div className="text-center py-4 relative">
+              <div
+                className={`text-5xl sm:text-6xl font-mono font-extrabold tracking-wider transition-colors ${
+                  holdTimerElapsed >= currentSessionExercise.target
+                    ? 'text-[#C8F135] animate-pulse'
+                    : 'text-[#FF7A3D]'
+                }`}
+              >
+                {String(Math.floor(holdTimerElapsed / 60)).padStart(2, '0')}:
+                {String(holdTimerElapsed % 60).padStart(2, '0')}
+              </div>
+
+              <p className="text-xs text-[#8A929C] mt-2">
+                {holdTimerRunning
+                  ? 'Pertahankan kontraksi otot, kunci siku & postur!'
+                  : holdTimerElapsed > 0
+                  ? `Hold tercapai: ${holdTimerElapsed} detik`
+                  : 'Klik tombol di bawah untuk mulai menahan posisi'}
+              </p>
+            </div>
+
+            {/* Hold Controls */}
+            <div className="grid grid-cols-2 gap-2.5 mt-2">
+              {!holdTimerRunning ? (
+                <button
+                  type="button"
+                  onClick={() => setHoldTimerRunning(true)}
+                  className="py-3 px-4 rounded-xl bg-[#FF7A3D] hover:bg-[#f06b2e] text-[#15171A] text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all"
+                >
+                  <Play className="w-4 h-4 fill-current" />
+                  <span>{holdTimerElapsed === 0 ? 'Mulai Tahan (Hold)' : 'Lanjutkan Hold'}</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setHoldTimerRunning(false)}
+                  className="py-3 px-4 rounded-xl bg-[#23272D] border border-[#FF7A3D]/40 text-[#FF7A3D] text-xs font-bold flex items-center justify-center gap-2 transition-all"
+                >
+                  <Pause className="w-4 h-4" />
+                  <span>Jeda Sementara</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  setHoldTimerRunning(false);
+                  setHoldTimerElapsed(0);
+                }}
+                className="py-3 px-4 rounded-xl bg-[#15171A] border border-[#2E3238] text-[#8A929C] hover:text-[#EEF1F4] text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Reset Detik</span>
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Technique Points Checklist */}
         <div className="card-surface p-4 mb-4 border-[#2E3238]">
@@ -270,20 +384,10 @@ export default function WorkoutPlayerPage() {
           </ul>
         </div>
 
-        {/* Safety Warning for Inverted Row */}
-        {currentExerciseData.id === 'ex9' && (
-          <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 mb-4 text-xs text-red-300 flex items-start gap-2.5">
-            <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-            <div>
-              <span className="font-bold">PENTING - Keselamatan Meja:</span> Pastikan meja atau tiang benar-benar kokoh dan mampu menahan bobot tubuh penuhmu sebelum menggantungkan diri.
-            </div>
-          </div>
-        )}
-
         {/* Modification Chips: Lebih Mudah / Lebih Sulit */}
         <div className="card-surface p-3.5 mb-5 border-[#2E3238]">
           <div className="text-[11px] font-bold text-[#8A929C] uppercase tracking-wider mb-2">
-            Variasi Gerakan (Pilihan Level):
+            Variasi Gerakan (Pilihan Penyesuaian Level):
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
@@ -362,7 +466,12 @@ export default function WorkoutPlayerPage() {
 
                   <button
                     type="button"
-                    onClick={() => handleCompleteSet(setNo, currentSessionExercise.target)}
+                    onClick={() =>
+                      handleCompleteSet(
+                        setNo,
+                        holdTimerElapsed > 0 ? holdTimerElapsed : currentSessionExercise.target
+                      )
+                    }
                     className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all min-h-[40px] ${
                       isSetDone
                         ? 'bg-[#C8F135]/20 text-[#C8F135] border border-[#C8F135]/40'
@@ -375,7 +484,11 @@ export default function WorkoutPlayerPage() {
                         <span>Selesai ✓</span>
                       </>
                     ) : (
-                      <span>Selesai Set</span>
+                      <span>
+                        {holdTimerElapsed > 0
+                          ? `Catat ${holdTimerElapsed}s`
+                          : 'Selesai Set'}
+                      </span>
                     )}
                   </button>
                 </div>
@@ -397,10 +510,11 @@ export default function WorkoutPlayerPage() {
 
             <div className="text-center py-3">
               <div className="text-4xl sm:text-5xl font-mono font-extrabold text-[#C8F135] tracking-wider">
-                00:{String(timerSeconds).padStart(2, '0')}
+                {String(Math.floor(timerSeconds / 60)).padStart(2, '0')}:
+                {String(timerSeconds % 60).padStart(2, '0')}
               </div>
               <p className="text-xs text-[#8A929C] mt-1">
-                {timerSeconds === 0 ? 'Waktu habis! Siap set berikutnya.' : 'Istirahat antar set'}
+                {timerSeconds === 0 ? 'Waktu istirahat habis! Siap set berikutnya.' : 'Istirahat antar set'}
               </p>
             </div>
 
@@ -445,7 +559,7 @@ export default function WorkoutPlayerPage() {
                 </>
               ) : (
                 <>
-                  <span>Selesai Latihan 🎉</span>
+                  <span>Selesai Latihan & Simpan Progres 🎉</span>
                   <CheckCircle2 className="w-4 h-4" />
                 </>
               )}
@@ -506,4 +620,3 @@ export default function WorkoutPlayerPage() {
     </div>
   );
 }
-

@@ -3,123 +3,106 @@
 import { prisma } from '@/lib/prisma';
 import { getSessionUser } from '@/lib/session';
 
-export interface SaveLibraryInput {
-  durasi: string[];
-  fokus: string[];
-  sessionIds: string[];
-}
-
 export interface SetLogItemInput {
   exerciseId: string;
+  exerciseName?: string;
   noSet: number;
-  nilai: number;
-  selesai?: boolean;
+  valueLogged: number;
+  isIsometric?: boolean;
 }
 
 export interface CreateWorkoutLogInput {
   sessionId: string;
   sessionName: string;
+  skillFocus?: string;
   durasiDetik: number;
+  streakCount?: number;
   sets: SetLogItemInput[];
 }
 
-// 1. saveUserLibrary: Upsert preferensi durasi & fokus siswa ke tabel UserLibrary
-export async function saveUserLibrary(input: SaveLibraryInput) {
+// 1. getSkillProgressList: Ambil daftar progres skill untuk user yang aktif
+export async function getSkillProgressList() {
   try {
     const user = await getSessionUser();
+    if (!user) return { success: false, error: 'Belum terautentikasi' };
 
-    if (!user) {
-      return {
-        success: false,
-        error: 'Sesi pengguna tidak valid. Silakan masuk terlebih dahulu.',
-      };
-    }
+    const progress = await prisma.userSkillProgress.findMany({
+      where: { userId: user.id },
+    });
 
-    const savedLibrary = await prisma.userLibrary.upsert({
+    return { success: true, data: progress };
+  } catch (error) {
+    console.error('Error getSkillProgressList:', error);
+    return { success: false, error: 'Gagal memuat progres skill' };
+  }
+}
+
+// 2. updateSkillStageAndHold: Perbarui stage dan rekor hold detik
+export async function updateSkillStageAndHold(skillId: string, stage: number, holdSec?: number) {
+  try {
+    const user = await getSessionUser();
+    if (!user) return { success: false, error: 'Belum terautentikasi' };
+
+    const existing = await prisma.userSkillProgress.findUnique({
       where: {
-        userId: user.id,
+        userId_skillId: {
+          userId: user.id,
+          skillId,
+        },
+      },
+    });
+
+    const newBest = typeof holdSec === 'number'
+      ? Math.max(holdSec, existing?.bestHoldSec ?? 0)
+      : existing?.bestHoldSec ?? 0;
+
+    const updated = await prisma.userSkillProgress.upsert({
+      where: {
+        userId_skillId: {
+          userId: user.id,
+          skillId,
+        },
       },
       update: {
-        durasi: input.durasi,
-        fokus: input.fokus,
-        sessionIds: input.sessionIds,
+        currentStage: stage,
+        bestHoldSec: newBest,
       },
       create: {
         userId: user.id,
-        durasi: input.durasi,
-        fokus: input.fokus,
-        sessionIds: input.sessionIds,
+        skillId,
+        currentStage: stage,
+        bestHoldSec: newBest,
       },
     });
 
-    return {
-      success: true,
-      data: savedLibrary,
-    };
+    return { success: true, data: updated };
   } catch (error) {
-    console.error('Error saat menyimpan user library:', error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Gagal menyimpan preferensi library',
-    };
+    console.error('Error updateSkillStageAndHold:', error);
+    return { success: false, error: 'Gagal memperbarui stage skill' };
   }
 }
 
-// 2. getUserLibrary: Ambil preferensi berdasarkan userId
-export async function getUserLibrary() {
-  try {
-    const user = await getSessionUser();
-
-    if (!user) {
-      return {
-        success: false,
-        error: 'Pengguna belum terautentikasi.',
-      };
-    }
-
-    const library = await prisma.userLibrary.findUnique({
-      where: {
-        userId: user.id,
-      },
-    });
-
-    return {
-      success: true,
-      data: library,
-    };
-  } catch (error) {
-    console.error('Error saat mengambil user library:', error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Gagal memuat preferensi library',
-    };
-  }
-}
-
-// 3. createWorkoutLog: Simpan sesi latihan selesai ke WorkoutLog sekaligus menyisipkan array SetLog secara nested
+// 3. createWorkoutLog: Simpan sesi latihan selesai dan detail set
 export async function createWorkoutLog(input: CreateWorkoutLogInput) {
   try {
     const user = await getSessionUser();
-
-    if (!user) {
-      return {
-        success: false,
-        error: 'Pengguna belum terautentikasi untuk mencatat latihan.',
-      };
-    }
+    if (!user) return { success: false, error: 'Belum terautentikasi' };
 
     const workoutLog = await prisma.workoutLog.create({
       data: {
         userId: user.id,
         sessionId: input.sessionId,
         sessionName: input.sessionName,
+        skillFocus: input.skillFocus || null,
         durasiDetik: input.durasiDetik,
+        streakCount: input.streakCount ?? 1,
         sets: {
           create: input.sets.map((set) => ({
             exerciseId: set.exerciseId,
+            exerciseName: set.exerciseName || 'Gerakan',
             noSet: set.noSet,
-            nilai: set.nilai,
-            selesai: set.selesai ?? true,
+            valueLogged: set.valueLogged,
+            isIsometric: Boolean(set.isIsometric),
           })),
         },
       },
@@ -132,35 +115,29 @@ export async function createWorkoutLog(input: CreateWorkoutLogInput) {
       },
     });
 
-    return {
-      success: true,
-      data: workoutLog,
-    };
+    // Update best hold jika ada latihan isometrik skill
+    if (input.skillFocus) {
+      const maxHold = Math.max(...input.sets.filter((s) => s.isIsometric).map((s) => s.valueLogged), 0);
+      if (maxHold > 0) {
+        await updateSkillStageAndHold(input.skillFocus, 1, maxHold);
+      }
+    }
+
+    return { success: true, data: workoutLog };
   } catch (error) {
-    console.error('Error saat mencatat workout log:', error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Gagal menyimpan catatan latihan',
-    };
+    console.error('Error createWorkoutLog:', error);
+    return { success: false, error: 'Gagal mencatat latihan' };
   }
 }
 
-// 4. getWorkoutHistory: Ambil riwayat latihan siswa beserta detail set-nya terurut dari tanggal terbaru
+// 4. getWorkoutHistory: Ambil riwayat latihan terurut terbaru
 export async function getWorkoutHistory() {
   try {
     const user = await getSessionUser();
-
-    if (!user) {
-      return {
-        success: false,
-        error: 'Pengguna belum terautentikasi untuk melihat riwayat.',
-      };
-    }
+    if (!user) return { success: false, error: 'Belum terautentikasi' };
 
     const history = await prisma.workoutLog.findMany({
-      where: {
-        userId: user.id,
-      },
+      where: { userId: user.id },
       include: {
         sets: {
           orderBy: {
@@ -173,15 +150,9 @@ export async function getWorkoutHistory() {
       },
     });
 
-    return {
-      success: true,
-      data: history,
-    };
+    return { success: true, data: history };
   } catch (error) {
-    console.error('Error saat mengambil riwayat latihan:', error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Gagal memuat riwayat latihan',
-    };
+    console.error('Error getWorkoutHistory:', error);
+    return { success: false, error: 'Gagal memuat riwayat latihan' };
   }
 }

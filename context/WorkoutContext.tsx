@@ -1,8 +1,15 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { UserLibrary, WorkoutLog, ActiveWorkout, WorkoutSession, ReminderSetting, CompletedSet } from '@/src/types';
-import { SEED_SESSIONS } from '@/src/data/seedSessions';
+import {
+  UserLibrary,
+  WorkoutLog,
+  ActiveWorkout,
+  WorkoutSession,
+  ReminderSetting,
+  UserSkillProgress,
+} from '@/src/types';
+import { SEED_SESSIONS } from '@/lib/seedData';
 import { useAuth } from './AuthContext';
 import { safeLocalStorage, STORAGE_KEYS, calculateStreak, getLocalDateString } from '@/src/utils/storage';
 
@@ -13,6 +20,10 @@ interface WorkoutContextType {
   streak: number;
   reminder: ReminderSetting;
   todaySession: WorkoutSession;
+  skillProgressList: UserSkillProgress[];
+  getSkillProgress: (skillId: string) => UserSkillProgress;
+  updateSkillStage: (skillId: string, stage: number) => Promise<void>;
+  updateBestHold: (skillId: string, holdSec: number) => Promise<void>;
   saveLibrary: (durasi: number[], fokus: string[], sessionIds: string[]) => Promise<void>;
   saveActiveWorkout: (active: ActiveWorkout | null) => void;
   clearActiveWorkout: () => void;
@@ -28,6 +39,11 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const [library, setLibrary] = useState<UserLibrary | null>(null);
   const [logs, setLogs] = useState<WorkoutLog[]>([]);
+  const [skillProgressList, setSkillProgressList] = useState<UserSkillProgress[]>([
+    { userId: currentUser?.id || '', skillId: 'l-sit', currentStage: 1, bestHoldSec: 0 },
+    { userId: currentUser?.id || '', skillId: 'handstand', currentStage: 1, bestHoldSec: 0 },
+    { userId: currentUser?.id || '', skillId: 'front-lever', currentStage: 1, bestHoldSec: 0 },
+  ]);
   const [activeWorkout, setActiveWorkout] = useState<ActiveWorkout | null>(null);
   const [reminder, setReminder] = useState<ReminderSetting>({
     userId: currentUser?.id || '',
@@ -35,10 +51,10 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
     jam: '16:00',
   });
 
-  // Fetch Library & Workout Logs from MySQL API whenever currentUser changes
+  // Fetch Library, Workout Logs, & Skill Progress from API whenever currentUser changes
   const loadUserData = useCallback(async (userId: string) => {
     try {
-      // 1. Fetch Library from MySQL
+      // 1. Fetch Library
       const libRes = await fetch('/api/library');
       if (libRes.ok) {
         const libData = await libRes.json();
@@ -48,13 +64,22 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
             userId: l.userId,
             durasi: Array.isArray(l.durasi) ? l.durasi.map(Number) : [10, 15],
             fokus: Array.isArray(l.fokus) ? l.fokus : ['Push', 'Legs'],
-            sessionIds: Array.isArray(l.sessionIds) ? l.sessionIds : ['s4', 's1', 's2', 's5'],
+            sessionIds: Array.isArray(l.sessionIds) ? l.sessionIds : ['s1', 's2', 's_lsit_1'],
           };
           setLibrary(parsedLib);
         }
       }
 
-      // 2. Fetch Logs from MySQL
+      // 2. Fetch Skill Progress
+      const skillRes = await fetch('/api/skills/progress');
+      if (skillRes.ok) {
+        const skillData = await skillRes.json();
+        if (skillData.success && Array.isArray(skillData.data) && skillData.data.length > 0) {
+          setSkillProgressList(skillData.data);
+        }
+      }
+
+      // 3. Fetch Workout Logs
       const logsRes = await fetch('/api/workout-logs');
       if (logsRes.ok) {
         const logsData = await logsRes.json();
@@ -64,25 +89,30 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
             userId: item.userId,
             sessionId: item.sessionId,
             sessionNama: item.sessionName || item.sessionNama || 'Sesi Latihan',
+            skillFocus: item.skillFocus || null,
             tanggal: item.completedAt ? item.completedAt.slice(0, 10) : getLocalDateString(),
             durasiDetik: item.durasiDetik || 0,
+            streakCount: item.streakCount ?? 1,
             setsCompleted: (item.sets || []).map((s: any) => ({
               exerciseId: s.exerciseId,
+              exerciseName: s.exerciseName || 'Gerakan',
               noSet: s.noSet,
-              nilai: s.nilai,
-              selesai: Boolean(s.selesai),
+              nilai: s.valueLogged ?? s.nilai ?? 0,
+              selesai: true,
+              isIsometric: Boolean(s.isIsometric),
             })),
           }));
           setLogs(mappedLogs);
         }
       }
     } catch (err) {
-      console.warn('Fallback ke local storage karena koneksi API tertunda:', err);
-      // Fallback to local storage if API is offline
+      console.warn('Fallback ke local storage:', err);
       const rawLogs = safeLocalStorage.getItem(STORAGE_KEYS.LOGS);
       if (rawLogs) {
-        const allLogs: WorkoutLog[] = JSON.parse(rawLogs);
-        setLogs(allLogs.filter((l) => l.userId === userId));
+        try {
+          const allLogs: WorkoutLog[] = JSON.parse(rawLogs);
+          setLogs(allLogs.filter((l) => l.userId === userId));
+        } catch {}
       }
     }
   }, []);
@@ -129,12 +159,73 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const streak = calculateStreak(logs);
 
+  const getSkillProgress = (skillId: string): UserSkillProgress => {
+    const found = skillProgressList.find((p) => p.skillId === skillId);
+    if (found) return found;
+    return {
+      userId: currentUser?.id || '',
+      skillId,
+      currentStage: 1,
+      bestHoldSec: 0,
+    };
+  };
+
+  const updateSkillStage = async (skillId: string, stage: number) => {
+    setSkillProgressList((prev) => {
+      const exists = prev.some((p) => p.skillId === skillId);
+      if (exists) {
+        return prev.map((p) => (p.skillId === skillId ? { ...p, currentStage: stage } : p));
+      }
+      return [
+        ...prev,
+        { userId: currentUser?.id || '', skillId, currentStage: stage, bestHoldSec: 0 },
+      ];
+    });
+
+    try {
+      await fetch('/api/skills/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ skillId, currentStage: stage }),
+      });
+    } catch (err) {
+      console.error('Gagal memperbarui skill stage:', err);
+    }
+  };
+
+  const updateBestHold = async (skillId: string, holdSec: number) => {
+    setSkillProgressList((prev) => {
+      const exists = prev.some((p) => p.skillId === skillId);
+      if (exists) {
+        return prev.map((p) =>
+          p.skillId === skillId
+            ? { ...p, bestHoldSec: Math.max(holdSec, p.bestHoldSec) }
+            : p
+        );
+      }
+      return [
+        ...prev,
+        { userId: currentUser?.id || '', skillId, currentStage: 1, bestHoldSec: holdSec },
+      ];
+    });
+
+    try {
+      await fetch('/api/skills/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ skillId, bestHoldSec: holdSec }),
+      });
+    } catch (err) {
+      console.error('Gagal memperbarui best hold:', err);
+    }
+  };
+
   // Auto-rotating session calculation
   const getTodaySession = (): WorkoutSession => {
     const userSessionIds =
       library?.sessionIds && library.sessionIds.length > 0
         ? library.sessionIds
-        : ['s4', 's1', 's2', 's5'];
+        : ['s_lsit_1', 's1', 's_handstand_1', 's2'];
 
     if (logs.length === 0) {
       const first = SEED_SESSIONS.find((s) => s.id === userSessionIds[0]);
@@ -170,7 +261,6 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
     setLibrary(newLib);
 
-    // Kirim ke API MySQL
     try {
       await fetch('/api/library', {
         method: 'POST',
@@ -178,7 +268,7 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
         body: JSON.stringify({ durasi, fokus, sessionIds }),
       });
     } catch (err) {
-      console.error('Gagal menyimpan library ke MySQL:', err);
+      console.error('Gagal menyimpan library:', err);
     }
   };
 
@@ -199,17 +289,31 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const addWorkoutLog = async (logData: Omit<WorkoutLog, 'id' | 'userId'>): Promise<string> => {
     if (!currentUser) return '';
     const tempId = `log_${Date.now()}`;
+    const newStreak = streak + 1;
+
     const newLog: WorkoutLog = {
       ...logData,
       id: tempId,
       userId: currentUser.id,
+      streakCount: newStreak,
       tanggal: logData.tanggal || getLocalDateString(),
     };
 
     setLogs((prev) => [newLog, ...prev]);
     clearActiveWorkout();
 
-    // Simpan ke MySQL via API /api/workout-logs
+    // Cek hold detik maksimal dari sets yang isIsometric
+    let maxIsometricHold = 0;
+    logData.setsCompleted.forEach((s) => {
+      if (s.isIsometric && s.nilai > maxIsometricHold) {
+        maxIsometricHold = s.nilai;
+      }
+    });
+
+    if (logData.skillFocus && maxIsometricHold > 0) {
+      updateBestHold(logData.skillFocus, maxIsometricHold);
+    }
+
     try {
       const res = await fetch('/api/workout-logs', {
         method: 'POST',
@@ -217,12 +321,15 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
         body: JSON.stringify({
           sessionId: logData.sessionId,
           sessionName: logData.sessionNama,
+          skillFocus: logData.skillFocus || null,
           durasiDetik: logData.durasiDetik,
+          streakCount: newStreak,
           sets: logData.setsCompleted.map((s) => ({
             exerciseId: s.exerciseId,
+            exerciseName: s.exerciseName || 'Gerakan',
             noSet: s.noSet,
-            nilai: s.nilai,
-            selesai: s.selesai,
+            valueLogged: s.nilai,
+            isIsometric: Boolean(s.isIsometric),
           })),
         }),
       });
@@ -234,7 +341,7 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
         }
       }
     } catch (err) {
-      console.error('Gagal mencatat log ke MySQL:', err);
+      console.error('Gagal mencatat log ke Supabase:', err);
     }
 
     return tempId;
@@ -263,6 +370,10 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
         streak,
         reminder,
         todaySession,
+        skillProgressList,
+        getSkillProgress,
+        updateSkillStage,
+        updateBestHold,
         saveLibrary,
         saveActiveWorkout,
         clearActiveWorkout,
@@ -283,4 +394,3 @@ export const useWorkout = () => {
   }
   return context;
 };
-

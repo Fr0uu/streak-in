@@ -18,24 +18,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    if (typeof window === 'undefined') return null;
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  // Load theme and stored user on mount (client-only to prevent hydration mismatch)
+  useEffect(() => {
     initStorageData();
     const stored = safeLocalStorage.getItem(STORAGE_KEYS.CURRENT_USER);
     if (stored) {
       try {
-        return JSON.parse(stored);
-      } catch {
-        return null;
-      }
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.id) {
+          setCurrentUser(parsed);
+        }
+      } catch {}
     }
-    return null;
-  });
 
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-
-  // Load theme on mount
-  useEffect(() => {
     const saved = safeLocalStorage.getItem(STORAGE_KEYS.THEME);
     const initialTheme = saved === 'light' || saved === 'dark' ? saved : 'dark';
     setTheme(initialTheme);

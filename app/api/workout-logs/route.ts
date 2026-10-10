@@ -36,7 +36,7 @@ export async function GET() {
   }
 }
 
-// POST /api/workout-logs - Simpan workout log baru beserta detail sets secara nested
+// POST /api/workout-logs - Simpan workout log baru beserta detail sets secara nested & perbarui skill progress
 export async function POST(req: NextRequest) {
   try {
     const user = await getSessionUser();
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { sessionId, sessionName, durasiDetik, sets } = body;
+    const { sessionId, sessionName, skillFocus, durasiDetik, streakCount, sets } = body;
 
     if (!sessionId || !sessionName || typeof durasiDetik !== 'number' || !Array.isArray(sets)) {
       return NextResponse.json(
@@ -58,18 +58,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 1. Simpan Workout Log & Sets
     const newLog = await prisma.workoutLog.create({
       data: {
         userId: user.id,
         sessionId,
         sessionName,
+        skillFocus: skillFocus || null,
         durasiDetik,
+        streakCount: typeof streakCount === 'number' ? streakCount : 1,
         sets: {
-          create: sets.map((s: { exerciseId: string; noSet: number; nilai: number; selesai?: boolean }) => ({
+          create: sets.map((s: {
+            exerciseId: string;
+            exerciseName?: string;
+            noSet: number;
+            nilai?: number;
+            valueLogged?: number;
+            isIsometric?: boolean;
+          }) => ({
             exerciseId: s.exerciseId,
+            exerciseName: s.exerciseName || 'Gerakan',
             noSet: s.noSet,
-            nilai: s.nilai,
-            selesai: s.selesai ?? true,
+            valueLogged: s.valueLogged ?? s.nilai ?? 0,
+            isIsometric: Boolean(s.isIsometric),
           })),
         },
       },
@@ -79,6 +90,47 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+
+    // 2. Jika latihan fokus pada skill tertentu, perbarui rekor hold detik terbaik
+    if (skillFocus) {
+      // Cari hold detik maksimal dari sets yang isIsometric
+      let maxHoldSec = 0;
+      sets.forEach((s: any) => {
+        if (s.isIsometric && (s.valueLogged || s.nilai)) {
+          const val = Number(s.valueLogged || s.nilai || 0);
+          if (val > maxHoldSec) maxHoldSec = val;
+        }
+      });
+
+      if (maxHoldSec > 0) {
+        const existingProgress = await prisma.userSkillProgress.findUnique({
+          where: {
+            userId_skillId: {
+              userId: user.id,
+              skillId: skillFocus,
+            },
+          },
+        });
+
+        if (existingProgress) {
+          if (maxHoldSec > existingProgress.bestHoldSec) {
+            await prisma.userSkillProgress.update({
+              where: { id: existingProgress.id },
+              data: { bestHoldSec: maxHoldSec },
+            });
+          }
+        } else {
+          await prisma.userSkillProgress.create({
+            data: {
+              userId: user.id,
+              skillId: skillFocus,
+              currentStage: 1,
+              bestHoldSec: maxHoldSec,
+            },
+          });
+        }
+      }
+    }
 
     return NextResponse.json({ success: true, data: newLog }, { status: 201 });
   } catch (error) {

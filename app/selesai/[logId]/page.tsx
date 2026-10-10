@@ -11,6 +11,8 @@ import {
   Bell,
   ArrowRight,
   Zap,
+  Award,
+  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useWorkout } from '@/context/WorkoutContext';
@@ -35,6 +37,16 @@ export default function WorkoutDonePage() {
     ? Math.max(1, Math.round(currentLog.durasiDetik / 60))
     : 15;
 
+  // Cek hold detik terbaik di log ini
+  const maxHoldInLog = currentLog
+    ? Math.max(
+        ...currentLog.setsCompleted
+          .filter((s) => s.isIsometric)
+          .map((s) => s.nilai),
+        0
+      )
+    : 0;
+
   // Show reminder offer only if user hasn't set reminder yet
   const showReminderPrompt = !reminder.aktif && !dismissReminderOffer;
 
@@ -56,12 +68,12 @@ export default function WorkoutDonePage() {
             Latihan Selesai! 🎉
           </h1>
           <p className="text-sm text-[#8A929C] mt-1.5">
-            Kerja bagus, {currentUser?.nama || 'Siswa'}! Satu sesi lebih dekat menuju tubuh bugar & fokus.
+            Kerja bagus, {currentUser?.nama || 'Siswa'}! Satu sesi lebih dekat menuju tubuh bugar & penguasaan skill calisthenics.
           </p>
         </div>
 
         {/* 2x2 Performance Metrics Grid */}
-        <div className="grid grid-cols-2 gap-3 mb-5">
+        <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="card-surface p-4 border-[#2E3238]">
             <div className="flex items-center gap-1.5 text-xs text-[#8A929C] mb-1">
               <Clock className="w-3.5 h-3.5" />
@@ -81,7 +93,9 @@ export default function WorkoutDonePage() {
             <div className="text-xl sm:text-2xl font-extrabold text-[#EEF1F4] truncate">
               {currentLog?.sessionNama || 'Calisthenics'}
             </div>
-            <span className="text-[11px] text-[#8A929C]">Target Sesi</span>
+            <span className="text-[11px] text-[#8A929C]">
+              {currentLog?.skillFocus ? `Skill: ${currentLog.skillFocus.toUpperCase()}` : 'Target Sesi'}
+            </span>
           </div>
 
           <div className="card-surface p-4 border-[#2E3238]">
@@ -98,18 +112,41 @@ export default function WorkoutDonePage() {
           <div className="card-surface p-4 border-[#2E3238]">
             <div className="flex items-center gap-1.5 text-xs text-[#8A929C] mb-1">
               <Flame className="w-3.5 h-3.5 text-[#FF7A3D]" />
-              <span>Total Repetisi</span>
+              <span>Total Reps / Detik</span>
             </div>
             <div className="text-xl sm:text-2xl font-extrabold text-[#EEF1F4]">
-              {totalReps} Reps
+              {totalReps}
             </div>
-            <span className="text-[11px] text-[#C8F135] font-semibold">Akurasi Form Baik</span>
+            <span className="text-[11px] text-[#C8F135] font-semibold">Kontraksi Efektif</span>
           </div>
         </div>
 
+        {/* Isometric Personal Best Highlight (If applicable) */}
+        {maxHoldInLog > 0 && (
+          <div className="card-surface p-4 sm:p-5 mb-4 border-[#FF7A3D]/40 bg-gradient-to-r from-[#23272D] to-[#1E2227] flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#FF7A3D]/20 text-[#FF7A3D] flex items-center justify-center font-bold">
+                🔥
+              </div>
+              <div>
+                <span className="text-xs font-bold text-[#FF7A3D] uppercase tracking-wider block">
+                  Rekor Tahanan (Isometric Hold)
+                </span>
+                <p className="text-xs text-[#8A929C]">Hold terlama yang dicapai pada sesi ini</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <span className="text-2xl font-extrabold text-[#FF7A3D] font-mono">
+                {maxHoldInLog}s
+              </span>
+              <span className="text-[10px] text-[#C8F135] block font-semibold">Tercatat di Database!</span>
+            </div>
+          </div>
+        )}
+
         {/* Streak Booster Card */}
         <div className="card-surface p-5 mb-5 border-[#2E3238] bg-gradient-to-br from-[#23272D] to-[#15171A]">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-xl bg-[#C8F135]/20 text-[#C8F135] flex items-center justify-center">
                 <Flame className="w-6 h-6 fill-[#C8F135]" />
@@ -119,12 +156,12 @@ export default function WorkoutDonePage() {
                   Streak {streak} Hari 🔥
                 </h3>
                 <p className="text-xs text-[#8A929C]">
-                  Disiplin berturut-turut di sela jam sekolah!
+                  Disiplin konsisten di sela tugas sekolah!
                 </p>
               </div>
             </div>
             <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#C8F135] text-[#15171A]">
-              Tercatat!
+              +1 Hari
             </span>
           </div>
         </div>
@@ -166,21 +203,27 @@ export default function WorkoutDonePage() {
         {/* CTAs */}
         <div className="space-y-2.5">
           <Link
-            href="/riwayat"
+            href="/skills"
             className="w-full btn-brand py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#C8F135]/20"
           >
-            <span>Lihat Riwayat Latihan</span>
+            <Award className="w-4 h-4" />
+            <span>Lihat Progres di Katalog Skill</span>
             <ArrowRight className="w-4 h-4 stroke-[2.5]" />
           </Link>
           <Link
-            href="/home"
+            href="/riwayat"
             className="w-full btn-outline py-3.5 text-sm font-semibold flex items-center justify-center gap-2"
           >
-            <span>Kembali ke Beranda</span>
+            <span>Lihat Riwayat Latihan</span>
+          </Link>
+          <Link
+            href="/home"
+            className="w-full text-center py-2 text-xs text-[#8A929C] hover:text-[#EEF1F4] transition-colors block"
+          >
+            Kembali ke Beranda
           </Link>
         </div>
       </MobileContainer>
     </div>
   );
 }
-

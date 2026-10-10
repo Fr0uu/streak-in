@@ -1,95 +1,84 @@
-# Spesifikasi Prototype & Deployment: Calisthenic Siswa Sibuk
+# Spesifikasi Application & Skill Engine: Calisthenic Siswa (Skill Mastery)
 
-Website latihan calisthenic untuk siswa SMA/SMK yang sibuk. Dokumen ini adalah spesifikasi siap pakai untuk dikembangkan menjadi aplikasi web production-ready berbasis **Next.js App Router**, **Supabase (Database & Auth)**, dan **Vercel Hosting**.
+Website latihan calisthenic untuk siswa SMA/SMK dengan pendekatan **Skill Evolution Engine**. Pengguna berlatih melalui tahapan progresi (*Stage 1–5*) untuk menguasai gerakan spesifik (*L-Sit*, *Handstand*, *Front Lever*, *Push-up*, *Pull-up*).
 
 ---
 
-## 1. Ringkasan Produk & Tech Stack
+## 1. Tech Stack & Infrastructure
 
-| Item | Isi |
+| Layer | Teknologi |
 |---|---|
-| **Tujuan** | Membantu siswa sibuk berlatih calisthenic secara rutin lewat sesi singkat 10–30 menit, panduan gerakan, dan pencatatan latihan |
-| **Pengguna Target** | Siswa SMA/SMK usia 16–18 tahun dengan jadwal padat, berlatih mandiri di rumah |
-| **Framework Frontend** | Next.js 14+ (App Router, TypeScript, React) |
-| **Styling & UI** | Tailwind CSS, Lucide React Icons |
+| **Framework** | Next.js 14+ (App Router, TypeScript) |
+| **Styling** | Tailwind CSS (Mobile-First Responsive) |
+| **Icons** | Lucide React |
+| **ORM** | Prisma ORM (`postgresql` provider) |
 | **Database & Auth** | Supabase (PostgreSQL Database + Supabase Auth) |
-| **Hosting & Deployment**| Vercel (Hosting Gratis & Live Link untuk Pengujian Juri) |
-| **Bahasa Antarmuka** | Bahasa Indonesia |
-| **Nilai Utama** | Sesi 10–30 menit, 1-click start, panduan gerakan aman, tracker streak real-time |
+| **Deployment** | Vercel |
 
 ---
 
-## 2. Ruang Lingkup Aplikasi
+## 2. Skema Database Prisma (`prisma/schema.prisma`)
 
-### Termasuk dalam Prototype (Production Scope):
-1. **Autentikasi (Supabase Auth):** Regristrasi akun baru, Masuk/Login, Keluar/Logout.
-2. **Custom Library (Supabase Database):** Menyimpan preferensi durasi & fokus siswa di database.
-3. **Dashboard Utama:** Sesi hari ini (auto-rotate), streak 7 hari, status latihan terputus (*active workout*).
-4. **Player Latihan Interaktif:** Set logger, timer istirahat countdown 45 detik (+15s, -15s, Lewati), chip progresi/regresi.
-5. **Ringkasan Selesai & Celebration:** Kalkulasi total durasi, set, repetisi, penambahan streak real-time.
-6. **Riwayat Latihan (Accordion View):** Catatan riwayat latihan tersimpan permanen di Supabase per siswa.
-7. **Responsive Dual-View Design:** Tampilan dioptimalkan untuk Mobile-First (HP) dan rapi di Desktop.
+```prisma
+generator client {
+  provider = "prisma-client-js"
+}
 
-### Tidak Termasuk (Out of Scope):
-- OAuth Social Login (Google/Facebook)
-- AI Camera posture evaluation & video analysis
-- Pembayaran, iklan, dan sosial feed/komunitas
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
 
----
+model UserSkillProgress {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  skillId      String   @map("skill_id")
+  currentStage Int      @default(1) @map("current_stage")
+  bestHoldSec  Int      @default(0) @map("best_hold_sec")
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-## 3. Peta Rute & Referensi UI Visual
+  @@unique([userId, skillId])
+  @@map("user_skill_progress")
+}
 
-| Rute | Akses | Deskripsi Layar | File Referensi Gambar UI |
-|---|---|---|---|
-| `/` | Publik | Beranda Landing Page | - |
-| `/akun` | Publik | Tab Login & Register | `dual_view_preview_layar_autentikasi_akun_calisthenic_siswa_sibuk.png` |
-| `/library` | Protected | Onboarding / Setup Custom Library | `dual_view_preview_layar_library_library_calisthenic_siswa_sibuk.png` |
-| `/home` | Protected | Dashboard Utama & Sesi Hari Ini | `dual_view_dashboard_utama_home_calisthenic_siswa_sibuk.png` |
-| `/latihan/[sessionId]`| Protected | Active Workout Player & Timer | `dual_view_preview_layar_player_latihan_latihan_sessionid_calistheni.png` |
-| `/selesai/[logId]` | Protected | Summary & Selebrasi Selesai | `dual_view_preview_ringkasan_selesai_latihan_selesai_logid_calisthenic_si.png` |
-| `/riwayat` | Protected | Riwayat & Rekap Latihan | `dual_view_preview_riwayat_latihan_riwayat_calisthenic_siswa_sibuk.png` |
+model UserLibrary {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String   @unique @map("user_id") @db.Uuid
+  durasi     String[]
+  skills     String[]
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
----
+  @@map("user_libraries")
+}
 
-## 4. Design System & Tokens
+model WorkoutLog {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  sessionId   String   @map("session_id")
+  sessionName String   @map("session_name")
+  skillFocus  String?  @map("skill_focus")
+  durasiDetik Int      @default(0) @map("durasi_detik")
+  streakCount Int      @default(1) @map("streak_count")
+  completedAt DateTime @default(now()) @map("completed_at") @db.Timestamptz
 
-### Color Palette Tokens
-- **Background Dark:** `#15171A` (Default Mode Gelap)
-- **Card Surface:** `#23272D` (Border 1px solid `#2E3238`)
-- **Primary Accent (Lime Green):** `#C8F135` (Gunakan untuk Tombol CTA Utama, Badge Streak, Status Aktif. *Teks di atas tombol warna ini wajib `#15171A`*).
-- **Secondary Accent (Energetic Orange):** `#FF7A3D` (Gunakan untuk Timer Countdown, Warning Box, Banner Latihan Terputus).
-- **Text Primary:** `#EEF1F4`
-- **Text Muted:** `#8A929C`
+  sets SetLog[]
 
-### Geometri & Layout
-- Radius Kartu: `16px` (`rounded-2xl`)
-- Radius Tombol: `12px` (`rounded-xl`)
-- Touch Target Minimal: `48px`
-- Layout Mobile: Single column dengan Bottom Navigation Bar (3 tab: Beranda, Library, Riwayat).
-- Layout Desktop: Centered container (`max-w-xl` atau `max-w-4xl`) dengan Top Header Navigation Bar.
+  @@map("workout_logs")
+}
 
----
+model SetLog {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  workoutLogId String   @map("workout_log_id") @db.Uuid
+  exerciseId   String   @map("exercise_id")
+  exerciseName String   @map("exercise_name")
+  noSet        Int      @map("no_set")
+  valueLogged  Int      @map("value_logged")
+  isIsometric  Boolean  @default(false) @map("is_isometric")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-## 5. Skema Database Supabase (SQL Script)
+  workoutLog WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
 
-Jalankan skrip SQL berikut di **Supabase SQL Editor** untuk membuat tabel database yang diperlukan:
-
-```sql
--- 1. TABEL USER LIBRARIES (Preferensi Durasi & Fokus Siswa)
-CREATE TABLE public.user_libraries (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL UNIQUE,
-  durasi TEXT[] NOT NULL DEFAULT '{}',
-  fokus TEXT[] NOT NULL DEFAULT '{}',
-  session_ids TEXT[] NOT NULL DEFAULT '{}',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
--- 2. TABEL WORKOUT LOGS (Riwayat Sesi Latihan Selesai)
-CREATE TABLE public.workout_logs (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
-  session_id TEXT NOT NULL,
-  session_name TEXT NOT NULL,
-  durasi_detik INTEGER NOT NULL DEFAULT 0,
-  completed_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text
+  @@map("set_logs")
+}

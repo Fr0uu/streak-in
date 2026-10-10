@@ -1,6 +1,3 @@
-// Prisma schema file for Calisthenic Siswa Sibuk
-// Connected to Local XAMPP MySQL (localhost:3306)
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,49 +8,70 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+// 0. AKUN SISWA (Autentikasi & Profil Siswa)
 model User {
-  id        String   @id @default(uuid())
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email     String   @unique
   nama      String
   kataSandi String?  @map("kata_sandi")
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   @@map("users")
 }
 
+// 1. PROGRES SKILL PENGGUNA (Target Skill: L-Sit, Handstand, Front Lever)
+model UserSkillProgress {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  skillId      String   @map("skill_id") // misal: 'l-sit', 'handstand', 'front-lever'
+  currentStage Int      @default(1) @map("current_stage") // Stage 1 s/d 5
+  bestHoldSec  Int      @default(0) @map("best_hold_sec") // Rekor detik hold
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@unique([userId, skillId])
+  @@map("user_skill_progress")
+}
+
+// 2. PREFERENSI DURASI & TARGET SKILL SISWA
 model UserLibrary {
-  id         String   @id @default(uuid())
-  userId     String   @unique @map("user_id")
-  durasi     Json
-  fokus      Json
-  sessionIds Json     @map("session_ids")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @unique @map("user_id") @db.Uuid
+  durasi    String[]
+  skills    String[] // Daftar skillId yang dipelajari
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   @@map("user_libraries")
 }
 
+// 3. RIWAYAT SESI LATIHAN SELESAI
 model WorkoutLog {
-  id          String   @id @default(uuid())
-  userId      String   @map("user_id")
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
   sessionId   String   @map("session_id")
   sessionName String   @map("session_name")
+  skillFocus  String?  @map("skill_focus")
   durasiDetik Int      @default(0) @map("durasi_detik")
-  completedAt DateTime @default(now()) @map("completed_at")
-  sets        SetLog[]
+  streakCount Int      @default(1) @map("streak_count")
+  completedAt DateTime @default(now()) @map("completed_at") @db.Timestamptz
+
+  sets SetLog[]
 
   @@map("workout_logs")
 }
 
+// 4. DETAIL SET, REPETISI & DETIK HOLD PER GERAKAN
 model SetLog {
-  id           String     @id @default(uuid())
-  workoutLogId String     @map("workout_log_id")
-  workoutLog   WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
-  exerciseId   String     @map("exercise_id")
-  noSet        Int        @map("no_set")
-  nilai        Int        @map("nilai")
-  selesai      Boolean    @default(true) @map("selesai")
-  createdAt    DateTime   @default(now()) @map("created_at")
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  workoutLogId String   @map("workout_log_id") @db.Uuid
+  exerciseId   String   @map("exercise_id")
+  exerciseName String   @map("exercise_name")
+  noSet        Int      @map("no_set")
+  valueLogged  Int      @map("value_logged") // jumlah reps atau detik hold
+  isIsometric  Boolean  @default(false) @map("is_isometric")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  workoutLog WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
 
   @@map("set_logs")
 }

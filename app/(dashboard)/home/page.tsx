@@ -11,17 +11,33 @@ import {
   CheckCircle2,
   ChevronRight,
   Sparkles,
+  Award,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useWorkout } from '@/context/WorkoutContext';
 import { SEED_EXERCISES } from '@/src/data/seedExercises';
+import { SEED_SKILLS } from '@/lib/seedData';
 import { getStreak7Days } from '@/src/utils/storage';
 import { MobileContainer } from '@/components/layout/MobileContainer';
 
 export default function HomePage() {
   const router = useRouter();
   const { currentUser } = useAuth();
-  const { library, activeWorkout, todaySession, streak, logs, getSessionById } = useWorkout();
+  const {
+    library,
+    activeWorkout,
+    todaySession,
+    streak,
+    logs,
+    getSessionById,
+    getSkillProgress,
+  } = useWorkout();
+
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const streakDays = getStreak7Days(logs);
 
@@ -44,7 +60,7 @@ export default function HomePage() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#EEF1F4]">
-              Halo, {currentUser?.nama || 'Siswa'} 👋
+              Halo, {mounted && currentUser?.nama ? currentUser.nama : 'Siswa'} 👋
             </h1>
             <p className="text-xs sm:text-sm text-[#8A929C] mt-0.5">
               Siap produktif & bugar di sela jadwal sekolah hari ini.
@@ -53,7 +69,7 @@ export default function HomePage() {
         </div>
 
         {/* Conditional Interrupted Workout Recovery Banner */}
-        {activeWorkout && (
+        {mounted && activeWorkout && (
           <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-[#FF7A3D]/10 border border-[#FF7A3D]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in duration-200">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#FF7A3D]/20 border border-[#FF7A3D]/30 text-[#FF7A3D] flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -145,6 +161,84 @@ export default function HomePage() {
               </button>
             </div>
 
+            {/* Skill Evolution Engine Section */}
+            <div className="card-surface p-5 border-[#2E3238]">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-[#C8F135]/15 border border-[#C8F135]/30 text-[#C8F135] flex items-center justify-center flex-shrink-0">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-sm sm:text-base text-[#EEF1F4] flex items-center gap-2">
+                      <span>Skill Evolution Engine</span>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#C8F135]/15 text-[#C8F135] border border-[#C8F135]/30 hidden sm:inline-block">
+                        3 Skill Utama
+                      </span>
+                    </h3>
+                    <p className="text-xs text-[#8A929C]">Progresi 5 tahapan sistematis ala Project Calis</p>
+                  </div>
+                </div>
+                <Link
+                  href="/skills"
+                  className="text-xs font-bold text-[#C8F135] hover:underline flex items-center gap-1 flex-shrink-0"
+                >
+                  <span>Lihat Semua</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {SEED_SKILLS.map((skill) => {
+                  const userProg = getSkillProgress(skill.id);
+                  const stageNum = userProg.currentStage || 1;
+                  const stageData =
+                    skill.stages.find((s) => s.stageNumber === stageNum) || skill.stages[0];
+                  const percent = Math.round((stageNum / skill.stages.length) * 100);
+
+                  return (
+                    <div
+                      key={skill.id}
+                      className="p-3.5 rounded-xl bg-[#15171A] border border-[#2E3238] flex flex-col justify-between hover:border-[#8A929C] transition-all"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-1 mb-1.5">
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#23272D] text-[#C8F135]">
+                            Stage {stageNum}/5
+                          </span>
+                          <span className="text-[10px] font-bold text-[#FF7A3D] flex items-center gap-0.5">
+                            <Flame className="w-3 h-3 fill-[#FF7A3D]" />
+                            PB: {userProg.bestHoldSec || 0}s
+                          </span>
+                        </div>
+
+                        <h4 className="font-bold text-xs sm:text-sm text-[#EEF1F4] mb-0.5 truncate">
+                          {skill.nama}
+                        </h4>
+                        <p className="text-[11px] text-[#8A929C] truncate mb-2">
+                          {stageData.nama}
+                        </p>
+
+                        {/* Progress Bar */}
+                        <div className="w-full h-1.5 bg-[#23272D] rounded-full overflow-hidden mb-3">
+                          <div
+                            className="h-full bg-[#C8F135] rounded-full transition-all duration-300"
+                            style={{ width: `${percent}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <Link
+                        href={`/skills/${skill.id}`}
+                        className="w-full py-1.5 rounded-lg bg-[#23272D] hover:bg-[#C8F135] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors text-center block"
+                      >
+                        Buka Roadmap
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Library Saya Section */}
             <div className="card-surface p-5 border-[#2E3238]">
               <div className="flex items-center justify-between mb-4">
@@ -220,25 +314,40 @@ export default function HomePage() {
                 <div className="text-[11px] font-semibold text-[#8A929C] mb-3 text-center">
                   Aktivitas 7 Hari Terakhir
                 </div>
-                <div className="grid grid-cols-7 gap-1 text-center">
-                  {streakDays.map((day, idx) => (
-                    <div key={idx} className="flex flex-col items-center gap-1.5">
-                      <span className={`text-[10px] ${day.isToday ? 'font-bold text-[#C8F135]' : 'text-[#8A929C]'}`}>
-                        {day.label}
-                      </span>
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs transition-all ${
-                          day.completed
-                            ? 'bg-[#C8F135] text-[#15171A] font-bold shadow-sm shadow-[#C8F135]/30'
-                            : day.isToday
-                            ? 'border-2 border-dashed border-[#C8F135]/60 text-[#8A929C]'
-                            : 'bg-[#23272D] text-[#8A929C]'
-                        }`}
-                      >
-                        {day.completed ? <CheckCircle2 className="w-4 h-4 stroke-[2.5]" /> : '•'}
+                <div className="grid grid-cols-7 gap-1 text-center min-h-[52px]">
+                  {mounted ? (
+                    streakDays.map((day, idx) => (
+                      <div key={idx} className="flex flex-col items-center gap-1.5">
+                        <span
+                          className={`text-[10px] ${
+                            day.isToday ? 'font-bold text-[#C8F135]' : 'text-[#8A929C]'
+                          }`}
+                        >
+                          {day.label}
+                        </span>
+                        <div
+                          className={`w-7 h-7 rounded-full flex items-center justify-center text-xs transition-all ${
+                            day.completed
+                              ? 'bg-[#C8F135] text-[#15171A] font-bold shadow-sm shadow-[#C8F135]/30'
+                              : day.isToday
+                              ? 'border-2 border-dashed border-[#C8F135]/60 text-[#8A929C]'
+                              : 'bg-[#23272D] text-[#8A929C]'
+                          }`}
+                        >
+                          {day.completed ? <CheckCircle2 className="w-4 h-4 stroke-[2.5]" /> : '•'}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    Array.from({ length: 7 }).map((_, idx) => (
+                      <div key={idx} className="flex flex-col items-center gap-1.5">
+                        <span className="text-[10px] text-[#8A929C]">•</span>
+                        <div className="w-7 h-7 rounded-full bg-[#23272D] text-[#8A929C] flex items-center justify-center text-xs">
+                          •
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
 

@@ -54,10 +54,19 @@ export async function POST(req: NextRequest) {
     await prisma.userLibrary.create({
       data: {
         userId: newUser.id,
-        durasi: [10, 15],
-        fokus: ['Push', 'Legs'],
-        sessionIds: ['s4', 's1', 's2', 's5'],
+        durasi: ['10', '15'],
+        skills: ['l-sit', 'handstand', 'front-lever'],
       },
+    });
+
+    // Inisialisasi UserSkillProgress untuk 3 skill utama
+    await prisma.userSkillProgress.createMany({
+      data: [
+        { userId: newUser.id, skillId: 'l-sit', currentStage: 1, bestHoldSec: 0 },
+        { userId: newUser.id, skillId: 'handstand', currentStage: 1, bestHoldSec: 0 },
+        { userId: newUser.id, skillId: 'front-lever', currentStage: 1, bestHoldSec: 0 },
+      ],
+      skipDuplicates: true,
     });
 
     const payload = {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Zap, Moon, Sun, LogOut, Bell } from 'lucide-react';
@@ -11,6 +11,13 @@ export const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const user = mounted ? currentUser : null;
 
   const handleLogout = async () => {
     await logout();
@@ -38,7 +45,7 @@ export const Header: React.FC = () => {
         </Link>
 
         {/* Desktop Nav for Logged In User */}
-        {currentUser && (
+        {user && (
           <nav className="hidden md:flex items-center gap-1 bg-[#23272D] p-1 rounded-xl border border-[#2E3238]">
             <Link
               href="/home"
@@ -49,6 +56,16 @@ export const Header: React.FC = () => {
               }`}
             >
               Beranda
+            </Link>
+            <Link
+              href="/skills"
+              className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${
+                isActive('/skills')
+                  ? 'bg-[#C8F135] text-[#15171A]'
+                  : 'text-[#8A929C] hover:text-[#EEF1F4]'
+              }`}
+            >
+              Skill
             </Link>
             <Link
               href="/library"
@@ -84,7 +101,7 @@ export const Header: React.FC = () => {
             {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
 
-          {currentUser ? (
+          {user ? (
             /* User Avatar & Menu */
             <div className="relative">
               <button
@@ -92,10 +109,10 @@ export const Header: React.FC = () => {
                 className="flex items-center gap-2 pl-2 pr-1.5 py-1 rounded-xl bg-[#23272D] border border-[#2E3238] hover:border-[#8A929C] transition-all"
               >
                 <span className="text-xs font-semibold text-[#EEF1F4] hidden sm:inline max-w-[100px] truncate">
-                  {currentUser.nama}
+                  {user.nama}
                 </span>
                 <div className="w-8 h-8 rounded-lg bg-[#C8F135] text-[#15171A] font-bold text-xs flex items-center justify-center">
-                  {(currentUser.nama || 'U').slice(0, 2).toUpperCase()}
+                  {(user.nama || 'U').slice(0, 2).toUpperCase()}
                 </div>
               </button>
 
@@ -105,8 +122,8 @@ export const Header: React.FC = () => {
                   onClick={() => setMenuOpen(false)}
                 >
                   <div className="px-3 py-2 border-b border-[#2E3238]">
-                    <p className="text-xs font-semibold text-[#EEF1F4] truncate">{currentUser.nama}</p>
-                    <p className="text-[11px] text-[#8A929C] truncate">{currentUser.email}</p>
+                    <p className="text-xs font-semibold text-[#EEF1F4] truncate">{user.nama}</p>
+                    <p className="text-[11px] text-[#8A929C] truncate">{user.email}</p>
                   </div>
                   <Link
                     href="/notifikasi"

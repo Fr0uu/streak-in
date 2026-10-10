@@ -3,7 +3,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Seeding initial data...');
+  console.log('Seeding initial data for Calisthenic Siswa (Skill Evolution Engine)...');
+
+  const demoUserId = '00000000-0000-0000-0000-000000000001';
 
   // 1. Akun Siswa Demo
   const demoUser = await prisma.user.upsert({
@@ -13,33 +15,61 @@ async function main() {
       kataSandi: 'rahasia123',
     },
     create: {
-      id: 'usr_demo_1',
+      id: demoUserId,
       email: 'rizky@sma11.sch.id',
       nama: 'Rizky',
       kataSandi: 'rahasia123',
     },
   });
 
-  console.log('User demo berhasil dibuat:', demoUser.email);
+  console.log('User demo terverifikasi:', demoUser.email);
 
-  // 2. Default Library untuk Siswa Demo
+  // 2. Progres Awal 3 Skill Roadmap
+  const skillsToSeed = [
+    { skillId: 'l-sit', currentStage: 2, bestHoldSec: 18 },
+    { skillId: 'handstand', currentStage: 1, bestHoldSec: 25 },
+    { skillId: 'front-lever', currentStage: 1, bestHoldSec: 15 },
+  ];
+
+  for (const s of skillsToSeed) {
+    await prisma.userSkillProgress.upsert({
+      where: {
+        userId_skillId: {
+          userId: demoUser.id,
+          skillId: s.skillId,
+        },
+      },
+      update: {
+        currentStage: s.currentStage,
+        bestHoldSec: s.bestHoldSec,
+      },
+      create: {
+        userId: demoUser.id,
+        skillId: s.skillId,
+        currentStage: s.currentStage,
+        bestHoldSec: s.bestHoldSec,
+      },
+    });
+  }
+
+  console.log('Progres 3 skill utama berhasil di-seed.');
+
+  // 3. User Library Target Siswa
   await prisma.userLibrary.upsert({
     where: { userId: demoUser.id },
     update: {
-      durasi: [10, 15],
-      fokus: ['Push', 'Legs'],
-      sessionIds: ['s4', 's1', 's2', 's5'],
+      durasi: ['10', '15'],
+      skills: ['l-sit', 'handstand'],
     },
     create: {
       userId: demoUser.id,
-      durasi: [10, 15],
-      fokus: ['Push', 'Legs'],
-      sessionIds: ['s4', 's1', 's2', 's5'],
+      durasi: ['10', '15'],
+      skills: ['l-sit', 'handstand'],
     },
   });
 
-  console.log('UserLibrary default berhasil dibuat.');
-  console.log('Seeding selesai!');
+  console.log('UserLibrary berhasil di-seed.');
+  console.log('✅ Seeding selesai sukses!');
 }
 
 main()
@@ -50,4 +80,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-

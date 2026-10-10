@@ -25,14 +25,21 @@ export async function GET() {
       library = await prisma.userLibrary.create({
         data: {
           userId: user.id,
-          durasi: [10, 15],
-          fokus: ['Push', 'Legs'],
-          sessionIds: ['s4', 's1', 's2', 's5'],
+          durasi: ['10', '15'],
+          skills: ['l-sit', 'handstand', 'front-lever'],
         },
       });
     }
 
-    return NextResponse.json({ success: true, data: library });
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...library,
+        durasi: library.durasi.map(Number),
+        fokus: ['Push', 'Legs', 'Skill Mastery'],
+        sessionIds: ['s_lsit_1', 's1', 's_handstand_1', 's2'],
+      },
+    });
   } catch (error) {
     console.error('API GET /api/library error:', error);
     return NextResponse.json(
@@ -55,27 +62,33 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { durasi, fokus, sessionIds } = body;
+    const { durasi, skills } = body;
 
-    if (!Array.isArray(durasi) || !Array.isArray(fokus) || !Array.isArray(sessionIds)) {
-      return NextResponse.json(
-        { error: 'Format data tidak valid: durasi, fokus, dan sessionIds harus array' },
-        { status: 400 }
-      );
-    }
+    const durasiStrings = Array.isArray(durasi) ? durasi.map(String) : ['10', '15'];
+    const skillsList = Array.isArray(skills) ? skills : ['l-sit', 'handstand', 'front-lever'];
 
     const saved = await prisma.userLibrary.upsert({
       where: { userId: user.id },
-      update: { durasi, fokus, sessionIds },
+      update: {
+        durasi: durasiStrings,
+        skills: skillsList,
+      },
       create: {
         userId: user.id,
-        durasi,
-        fokus,
-        sessionIds,
+        durasi: durasiStrings,
+        skills: skillsList,
       },
     });
 
-    return NextResponse.json({ success: true, data: saved });
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...saved,
+        durasi: saved.durasi.map(Number),
+        fokus: ['Push', 'Legs', 'Skill Mastery'],
+        sessionIds: ['s_lsit_1', 's1', 's_handstand_1', 's2'],
+      },
+    });
   } catch (error) {
     console.error('API POST /api/library error:', error);
     return NextResponse.json(
