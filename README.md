@@ -1,4 +1,4 @@
-# ⚡ Calisthenic Siswa Sibuk
+# ⚡ StreakIN
 
 > **Platform Kebugaran Singkat & Terukur untuk Pelajar Menengah (SMA/SMK)**  
 > Membantu siswa tetap bugar dan produktif di sela padatnya jadwal sekolah melalui sesi mikro 10–30 menit, panduan gerakan ramah kamar kos, dan pencatatan latihan otomatis.
