@@ -1,0 +1,59 @@
+// Prisma schema file for Calisthenic Siswa Sibuk
+// Connected to Local XAMPP MySQL (localhost:3306)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  nama      String
+  kataSandi String?  @map("kata_sandi")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model UserLibrary {
+  id         String   @id @default(uuid())
+  userId     String   @unique @map("user_id")
+  durasi     Json
+  fokus      Json
+  sessionIds Json     @map("session_ids")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("user_libraries")
+}
+
+model WorkoutLog {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  sessionId   String   @map("session_id")
+  sessionName String   @map("session_name")
+  durasiDetik Int      @default(0) @map("durasi_detik")
+  completedAt DateTime @default(now()) @map("completed_at")
+  sets        SetLog[]
+
+  @@map("workout_logs")
+}
+
+model SetLog {
+  id           String     @id @default(uuid())
+  workoutLogId String     @map("workout_log_id")
+  workoutLog   WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
+  exerciseId   String     @map("exercise_id")
+  noSet        Int        @map("no_set")
+  nilai        Int        @map("nilai")
+  selesai      Boolean    @default(true) @map("selesai")
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  @@map("set_logs")
+}
