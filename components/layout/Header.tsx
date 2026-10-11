@@ -36,10 +36,10 @@ export const Header: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-base leading-tight tracking-tight text-[#EEF1F4] dark:text-[#EEF1F4]">
-              Calisthenic <span className="text-[#C8F135]">Siswa</span>
+              Streak <span className="text-[#C8F135]">IN</span>
             </span>
             <span className="text-[11px] text-[#8A929C] hidden sm:inline leading-none">
-              Kebugaran Singkat Siswa Sibuk
+              Calisthenic for Beginners
             </span>
           </div>
         </Link>
