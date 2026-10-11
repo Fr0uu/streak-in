@@ -42,7 +42,7 @@ export default function NotificationPage() {
 
         {/* Feedback Banner */}
         {savedBanner && (
-          <div className="p-4 rounded-xl bg-[#C8F135]/15 border border-[#C8F135]/40 text-[#C8F135] text-xs font-semibold flex items-center gap-2 mb-5 animate-in fade-in duration-200">
+          <div className="p-4 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/40 text-[#FF7A03] text-xs font-semibold flex items-center gap-2 mb-5 animate-in fade-in duration-200">
             <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
             <span>Pengingat berhasil disimpan untuk pukul {jam} WIB.</span>
           </div>
@@ -68,7 +68,7 @@ export default function NotificationPage() {
                 aria-checked={aktif}
                 onClick={() => setAktif(!aktif)}
                 className={`w-14 h-8 rounded-full transition-colors relative p-1 flex-shrink-0 ${
-                  aktif ? 'bg-[#C8F135]' : 'bg-[#15171A] border border-[#2E3238]'
+                  aktif ? 'bg-[#FF7A03]' : 'bg-[#15171A] border border-[#2E3238]'
                 }`}
               >
                 <div
@@ -94,7 +94,7 @@ export default function NotificationPage() {
                   onChange={(e) => setJam(e.target.value)}
                   className={`w-full bg-[#15171A] border rounded-xl px-4 py-3 text-base font-semibold focus:outline-none transition-colors ${
                     aktif
-                      ? 'border-[#2E3238] focus:border-[#C8F135] text-[#EEF1F4]'
+                      ? 'border-[#2E3238] focus:border-[#FF7A03] text-[#EEF1F4]'
                       : 'border-[#2E3238] text-[#8A929C] opacity-50 cursor-not-allowed'
                   }`}
                 />
@@ -106,7 +106,7 @@ export default function NotificationPage() {
 
             <button
               type="submit"
-              className="w-full btn-brand py-3.5 text-sm font-bold shadow-lg shadow-[#C8F135]/20 flex items-center justify-center gap-2"
+              className="w-full btn-brand py-3.5 text-sm font-bold shadow-lg shadow-[#FF7A03]/20 flex items-center justify-center gap-2"
             >
               <span>Simpan Pengaturan</span>
               <CheckCircle2 className="w-4 h-4" />

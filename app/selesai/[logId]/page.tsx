@@ -56,10 +56,10 @@ export default function WorkoutDonePage() {
         {/* Celebration Header */}
         <div className="text-center mb-8 animate-in fade-in zoom-in-95 duration-300">
           <div className="relative inline-block mb-4">
-            <div className="w-20 h-20 rounded-3xl bg-[#C8F135]/20 border-2 border-[#C8F135]/40 flex items-center justify-center text-[#C8F135] mx-auto shadow-2xl shadow-[#C8F135]/30">
+            <div className="w-20 h-20 rounded-3xl bg-[#FF7A03]/20 border-2 border-[#FF7A03]/40 flex items-center justify-center text-[#FF7A03] mx-auto shadow-2xl shadow-[#FF7A03]/30">
               <Trophy className="w-10 h-10 stroke-[2.5]" />
             </div>
-            <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#C8F135] text-[#15171A] flex items-center justify-center font-bold text-xs">
+            <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#FF7A03] text-[#15171A] flex items-center justify-center font-bold text-xs">
               ✓
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function WorkoutDonePage() {
 
           <div className="card-surface p-4 border-[#2E3238]">
             <div className="flex items-center gap-1.5 text-xs text-[#8A929C] mb-1">
-              <Zap className="w-3.5 h-3.5 text-[#C8F135]" />
+              <Zap className="w-3.5 h-3.5 text-[#FF7A03]" />
               <span>Program</span>
             </div>
             <div className="text-xl sm:text-2xl font-extrabold text-[#EEF1F4] truncate">
@@ -100,7 +100,7 @@ export default function WorkoutDonePage() {
 
           <div className="card-surface p-4 border-[#2E3238]">
             <div className="flex items-center gap-1.5 text-xs text-[#8A929C] mb-1">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#C8F135]" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#FF7A03]" />
               <span>Set Tuntas</span>
             </div>
             <div className="text-xl sm:text-2xl font-extrabold text-[#EEF1F4]">
@@ -111,35 +111,35 @@ export default function WorkoutDonePage() {
 
           <div className="card-surface p-4 border-[#2E3238]">
             <div className="flex items-center gap-1.5 text-xs text-[#8A929C] mb-1">
-              <Flame className="w-3.5 h-3.5 text-[#FF7A3D]" />
+              <Flame className="w-3.5 h-3.5 text-[#FF7A03]" />
               <span>Total Reps / Detik</span>
             </div>
             <div className="text-xl sm:text-2xl font-extrabold text-[#EEF1F4]">
               {totalReps}
             </div>
-            <span className="text-[11px] text-[#C8F135] font-semibold">Kontraksi Efektif</span>
+            <span className="text-[11px] text-[#FF7A03] font-semibold">Kontraksi Efektif</span>
           </div>
         </div>
 
         {/* Isometric Personal Best Highlight (If applicable) */}
         {maxHoldInLog > 0 && (
-          <div className="card-surface p-4 sm:p-5 mb-4 border-[#FF7A3D]/40 bg-gradient-to-r from-[#23272D] to-[#1E2227] flex items-center justify-between gap-3">
+          <div className="card-surface p-4 sm:p-5 mb-4 border-[#FF7A03]/40 bg-gradient-to-r from-[#23272D] to-[#1E2227] flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#FF7A3D]/20 text-[#FF7A3D] flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-[#FF7A03]/20 text-[#FF7A03] flex items-center justify-center font-bold">
                 🔥
               </div>
               <div>
-                <span className="text-xs font-bold text-[#FF7A3D] uppercase tracking-wider block">
+                <span className="text-xs font-bold text-[#FF7A03] uppercase tracking-wider block">
                   Rekor Tahanan (Isometric Hold)
                 </span>
                 <p className="text-xs text-[#8A929C]">Hold terlama yang dicapai pada sesi ini</p>
               </div>
             </div>
             <div className="text-right">
-              <span className="text-2xl font-extrabold text-[#FF7A3D] font-mono">
+              <span className="text-2xl font-extrabold text-[#FF7A03] font-mono">
                 {maxHoldInLog}s
               </span>
-              <span className="text-[10px] text-[#C8F135] block font-semibold">Tercatat di Database!</span>
+              <span className="text-[10px] text-[#FF7A03] block font-semibold">Tercatat di Database!</span>
             </div>
           </div>
         )}
@@ -148,8 +148,8 @@ export default function WorkoutDonePage() {
         <div className="card-surface p-5 mb-5 border-[#2E3238] bg-gradient-to-br from-[#23272D] to-[#15171A]">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-[#C8F135]/20 text-[#C8F135] flex items-center justify-center">
-                <Flame className="w-6 h-6 fill-[#C8F135]" />
+              <div className="w-10 h-10 rounded-xl bg-[#FF7A03]/20 text-[#FF7A03] flex items-center justify-center">
+                <Flame className="w-6 h-6 fill-[#FF7A03]" />
               </div>
               <div>
                 <h3 className="font-extrabold text-lg text-[#EEF1F4]">
@@ -160,7 +160,7 @@ export default function WorkoutDonePage() {
                 </p>
               </div>
             </div>
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#C8F135] text-[#15171A]">
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#FF7A03] text-[#15171A]">
               +1 Hari
             </span>
           </div>
@@ -170,7 +170,7 @@ export default function WorkoutDonePage() {
         {showReminderPrompt && (
           <div className="card-surface p-4 sm:p-5 mb-6 border-[#2E3238] bg-[#23272D]/80">
             <div className="flex items-start gap-3 mb-3">
-              <div className="w-9 h-9 rounded-xl bg-[#FF7A3D]/20 text-[#FF7A3D] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="w-9 h-9 rounded-xl bg-[#FF7A03]/20 text-[#FF7A03] flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Bell className="w-5 h-5" />
               </div>
               <div>
@@ -204,7 +204,7 @@ export default function WorkoutDonePage() {
         <div className="space-y-2.5">
           <Link
             href="/skills"
-            className="w-full btn-brand py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#C8F135]/20"
+            className="w-full btn-brand py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#FF7A03]/20"
           >
             <Award className="w-4 h-4" />
             <span>Lihat Progres di Katalog Skill</span>

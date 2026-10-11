@@ -70,15 +70,15 @@ export default function HomePage() {
 
         {/* Conditional Interrupted Workout Recovery Banner */}
         {mounted && activeWorkout && (
-          <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-[#FF7A3D]/10 border border-[#FF7A3D]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in duration-200">
+          <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-[#FF7A03]/10 border border-[#FF7A03]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in duration-200">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#FF7A3D]/20 border border-[#FF7A3D]/30 text-[#FF7A3D] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="w-10 h-10 rounded-xl bg-[#FF7A03]/20 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center flex-shrink-0 mt-0.5">
                 <RotateCcw className="w-5 h-5 animate-spin-slow" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#FF7A3D] animate-ping" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#FF7A3D]">
+                  <span className="w-2 h-2 rounded-full bg-[#FF7A03] animate-ping" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#FF7A03]">
                     Latihan Belum Selesai
                   </span>
                 </div>
@@ -93,7 +93,7 @@ export default function HomePage() {
 
             <Link
               href={`/latihan/${activeWorkout.sessionId}`}
-              className="px-5 py-3 rounded-xl bg-[#FF7A3D] hover:bg-[#f06b2e] text-[#15171A] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all flex-shrink-0"
+              className="px-5 py-3 rounded-xl bg-[#FF7A03] hover:bg-[#E66E00] text-[#15171A] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all flex-shrink-0"
             >
               <span>Lanjutkan Latihan</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -106,17 +106,17 @@ export default function HomePage() {
           <div className="lg:col-span-2 space-y-6">
             <div className="card-surface p-5 sm:p-7 border-[#2E3238] relative overflow-hidden shadow-xl">
               {/* Soft glow */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-[#C8F135]/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF7A03]/5 rounded-full blur-3xl pointer-events-none" />
 
               {/* Status Header */}
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#C8F135]/15 text-[#C8F135] border border-[#C8F135]/30">
-                  <span className="w-2 h-2 rounded-full bg-[#C8F135]" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30">
+                  <span className="w-2 h-2 rounded-full bg-[#FF7A03]" />
                   Sesi Hari Ini • {todaySession.durasiMenit} Menit • {todaySession.fokus}
                 </span>
                 <Link
                   href="/library"
-                  className="text-xs text-[#8A929C] hover:text-[#C8F135] transition-colors"
+                  className="text-xs text-[#8A929C] hover:text-[#FF7A03] transition-colors"
                 >
                   Ganti Sesi →
                 </Link>
@@ -154,7 +154,7 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={() => router.push(`/latihan/${todaySession.id}`)}
-                className="w-full btn-brand py-4 text-base font-bold shadow-lg shadow-[#C8F135]/20 flex items-center justify-center gap-2 group cursor-pointer"
+                className="w-full btn-brand py-4 text-base font-bold shadow-lg shadow-[#FF7A03]/20 flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <Play className="w-5 h-5 fill-current transition-transform group-hover:scale-110" />
                 <span>Mulai Latihan</span>
@@ -165,13 +165,13 @@ export default function HomePage() {
             <div className="card-surface p-5 border-[#2E3238]">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-[#C8F135]/15 border border-[#C8F135]/30 text-[#C8F135] flex items-center justify-center flex-shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center flex-shrink-0">
                     <Award className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="font-extrabold text-sm sm:text-base text-[#EEF1F4] flex items-center gap-2">
                       <span>Skill Evolution Engine</span>
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#C8F135]/15 text-[#C8F135] border border-[#C8F135]/30 hidden sm:inline-block">
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30 hidden sm:inline-block">
                         3 Skill Utama
                       </span>
                     </h3>
@@ -180,7 +180,7 @@ export default function HomePage() {
                 </div>
                 <Link
                   href="/skills"
-                  className="text-xs font-bold text-[#C8F135] hover:underline flex items-center gap-1 flex-shrink-0"
+                  className="text-xs font-bold text-[#FF7A03] hover:underline flex items-center gap-1 flex-shrink-0"
                 >
                   <span>Lihat Semua</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -202,11 +202,11 @@ export default function HomePage() {
                     >
                       <div>
                         <div className="flex items-center justify-between gap-1 mb-1.5">
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#23272D] text-[#C8F135]">
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#23272D] text-[#FF7A03]">
                             Stage {stageNum}/5
                           </span>
-                          <span className="text-[10px] font-bold text-[#FF7A3D] flex items-center gap-0.5">
-                            <Flame className="w-3 h-3 fill-[#FF7A3D]" />
+                          <span className="text-[10px] font-bold text-[#FF7A03] flex items-center gap-0.5">
+                            <Flame className="w-3 h-3 fill-[#FF7A03]" />
                             PB: {userProg.bestHoldSec || 0}s
                           </span>
                         </div>
@@ -221,7 +221,7 @@ export default function HomePage() {
                         {/* Progress Bar */}
                         <div className="w-full h-1.5 bg-[#23272D] rounded-full overflow-hidden mb-3">
                           <div
-                            className="h-full bg-[#C8F135] rounded-full transition-all duration-300"
+                            className="h-full bg-[#FF7A03] rounded-full transition-all duration-300"
                             style={{ width: `${percent}%` }}
                           />
                         </div>
@@ -229,7 +229,7 @@ export default function HomePage() {
 
                       <Link
                         href={`/skills/${skill.id}`}
-                        className="w-full py-1.5 rounded-lg bg-[#23272D] hover:bg-[#C8F135] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors text-center block"
+                        className="w-full py-1.5 rounded-lg bg-[#23272D] hover:bg-[#FF7A03] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors text-center block"
                       >
                         Buka Roadmap
                       </Link>
@@ -248,7 +248,7 @@ export default function HomePage() {
                 </div>
                 <Link
                   href="/library"
-                  className="text-xs font-bold text-[#C8F135] hover:underline flex items-center gap-1"
+                  className="text-xs font-bold text-[#FF7A03] hover:underline flex items-center gap-1"
                 >
                   <span>Ubah Library</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -266,7 +266,7 @@ export default function HomePage() {
                     >
                       <div>
                         <div className="flex items-center gap-1.5 mb-0.5">
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#23272D] text-[#C8F135]">
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#23272D] text-[#FF7A03]">
                             {s.durasiMenit}m
                           </span>
                           <h4 className="font-bold text-xs sm:text-sm text-[#EEF1F4]">{s.nama}</h4>
@@ -275,7 +275,7 @@ export default function HomePage() {
                       </div>
                       <Link
                         href={`/latihan/${s.id}`}
-                        className="px-3 py-1.5 rounded-lg bg-[#23272D] hover:bg-[#C8F135] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-[#23272D] hover:bg-[#FF7A03] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors"
                       >
                         Mulai
                       </Link>
@@ -292,8 +292,8 @@ export default function HomePage() {
             <div className="card-surface p-5 sm:p-6 border-[#2E3238]">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-xl bg-[#C8F135]/15 border border-[#C8F135]/30 text-[#C8F135] flex items-center justify-center">
-                    <Flame className="w-5 h-5 fill-[#C8F135]" />
+                  <div className="w-9 h-9 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center">
+                    <Flame className="w-5 h-5 fill-[#FF7A03]" />
                   </div>
                   <div>
                     <h3 className="font-extrabold text-lg text-[#EEF1F4]">
@@ -304,7 +304,7 @@ export default function HomePage() {
                     </p>
                   </div>
                 </div>
-                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${streak > 0 ? 'bg-[#C8F135]/15 text-[#C8F135] border border-[#C8F135]/30' : 'bg-[#2E3238] text-[#8A929C]'}`}>
+                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${streak > 0 ? 'bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30' : 'bg-[#2E3238] text-[#8A929C]'}`}>
                   {streak > 0 ? 'Aktif' : 'Mulai'}
                 </span>
               </div>
@@ -320,7 +320,7 @@ export default function HomePage() {
                       <div key={idx} className="flex flex-col items-center gap-1.5">
                         <span
                           className={`text-[10px] ${
-                            day.isToday ? 'font-bold text-[#C8F135]' : 'text-[#8A929C]'
+                            day.isToday ? 'font-bold text-[#FF7A03]' : 'text-[#8A929C]'
                           }`}
                         >
                           {day.label}
@@ -328,9 +328,9 @@ export default function HomePage() {
                         <div
                           className={`w-7 h-7 rounded-full flex items-center justify-center text-xs transition-all ${
                             day.completed
-                              ? 'bg-[#C8F135] text-[#15171A] font-bold shadow-sm shadow-[#C8F135]/30'
+                              ? 'bg-[#FF7A03] text-[#15171A] font-bold shadow-sm shadow-[#FF7A03]/30'
                               : day.isToday
-                              ? 'border-2 border-dashed border-[#C8F135]/60 text-[#8A929C]'
+                              ? 'border-2 border-dashed border-[#FF7A03]/60 text-[#8A929C]'
                               : 'bg-[#23272D] text-[#8A929C]'
                           }`}
                         >
@@ -359,7 +359,7 @@ export default function HomePage() {
 
             {/* Quick Student Tip Card */}
             <div className="card-surface p-5 border-[#2E3238]">
-              <div className="flex items-center gap-2 mb-2 text-xs font-bold text-[#C8F135]">
+              <div className="flex items-center gap-2 mb-2 text-xs font-bold text-[#FF7A03]">
                 <Sparkles className="w-4 h-4" />
                 <span>Tips Pelajar Bugar</span>
               </div>

@@ -218,11 +218,11 @@ export default function WorkoutPlayerPage() {
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#C8F135]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#FF7A03]">
                 Gerakan {exerciseIndex + 1} dari {totalExercises}
               </span>
               {session.skillId && (
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FF7A3D]/20 text-[#FF7A3D] border border-[#FF7A3D]/30">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FF7A03]/20 text-[#FF7A03] border border-[#FF7A03]/30">
                   Target Skill: {session.skillId.toUpperCase()}
                 </span>
               )}
@@ -244,23 +244,33 @@ export default function WorkoutPlayerPage() {
         {/* Top Progress Bar */}
         <div className="max-w-2xl mx-auto w-full bg-[#23272D] h-1.5 rounded-full mt-2 overflow-hidden">
           <div
-            className="bg-[#C8F135] h-full transition-all duration-300"
+            className="bg-[#FF7A03] h-full transition-all duration-300"
             style={{ width: `${Math.max(5, ((exerciseIndex + 1) / totalExercises) * 100)}%` }}
           />
         </div>
       </div>
 
       <MobileContainer maxWidth="xl" withBottomNav={false}>
-        {/* Media Container (16:9 Illustration) */}
+        {/* Media Container (16:9 Illustration / Image) */}
         <div className="card-surface p-0 overflow-hidden mb-5 border-[#2E3238] relative aspect-video bg-[#23272D] flex flex-col items-center justify-center text-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#15171A] border border-[#2E3238] flex items-center justify-center text-[#C8F135] mb-2 shadow-inner">
-            <Play className="w-8 h-8 fill-current ml-1" />
-          </div>
-          <span className="text-xs font-bold text-[#EEF1F4]">{currentExerciseData.nama}</span>
-          <span className="text-[11px] text-[#8A929C]">Panduan Form Ideal • Ramah Kamar Kos</span>
+          {currentExerciseData.imageUrl ? (
+            <img
+              src={currentExerciseData.imageUrl}
+              alt={currentExerciseData.nama}
+              className="w-full h-full object-cover object-center"
+            />
+          ) : (
+            <>
+              <div className="w-16 h-16 rounded-2xl bg-[#15171A] border border-[#2E3238] flex items-center justify-center text-[#FF7A03] mb-2 shadow-inner">
+                <Play className="w-8 h-8 fill-current ml-1" />
+              </div>
+              <span className="text-xs font-bold text-[#EEF1F4]">{currentExerciseData.nama}</span>
+              <span className="text-[11px] text-[#8A929C]">Panduan Form Ideal • Ramah Kamar Kos</span>
+            </>
+          )}
 
           {/* Badge Tempo / Mode */}
-          <div className="absolute bottom-3 left-3 bg-[#15171A]/80 backdrop-blur px-2.5 py-1 rounded-lg border border-[#2E3238] text-[11px] font-semibold text-[#C8F135]">
+          <div className="absolute bottom-3 left-3 bg-[#15171A]/80 backdrop-blur px-2.5 py-1 rounded-lg border border-[#2E3238] text-[11px] font-semibold text-[#FF7A03]">
             {isIsometricHold ? 'Mode: Isometric Static Hold' : 'Tempo: 2-1-2 Repetisi'}
           </div>
         </div>
@@ -272,11 +282,7 @@ export default function WorkoutPlayerPage() {
               {currentExerciseData.nama}
             </h2>
             <span
-              className={`px-3 py-1 rounded-full text-xs font-bold border ${
-                isIsometricHold
-                  ? 'bg-[#FF7A3D]/15 text-[#FF7A3D] border-[#FF7A3D]/30'
-                  : 'bg-[#C8F135]/15 text-[#C8F135] border-[#C8F135]/30'
-              }`}
+              className="px-3 py-1 rounded-full text-xs font-bold border bg-[#FF7A03]/15 text-[#FF7A03] border-[#FF7A03]/30"
             >
               {currentSessionExercise.sets} Set × {currentSessionExercise.target} {currentSessionExercise.unit}
             </span>
@@ -286,10 +292,10 @@ export default function WorkoutPlayerPage() {
 
         {/* ISOMETRIC HOLD COUNTDOWN / STOPWATCH TIMER COMPONENT */}
         {isIsometricHold && (
-          <div className="card-surface p-5 mb-5 border-[#FF7A3D]/50 bg-gradient-to-br from-[#23272D] to-[#1C1F24] shadow-xl relative overflow-hidden">
+          <div className="card-surface p-5 mb-5 border-[#FF7A03]/50 bg-gradient-to-br from-[#23272D] to-[#1C1F24] shadow-xl relative overflow-hidden">
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#FF7A3D]">
-                <Flame className="w-4 h-4 fill-[#FF7A3D]" />
+              <div className="flex items-center gap-2 text-xs font-bold text-[#FF7A03]">
+                <Flame className="w-4 h-4 fill-[#FF7A03]" />
                 <span>Isometric Hold Timer</span>
               </div>
               <span className="text-[11px] text-[#8A929C]">
@@ -302,8 +308,8 @@ export default function WorkoutPlayerPage() {
               <div
                 className={`text-5xl sm:text-6xl font-mono font-extrabold tracking-wider transition-colors ${
                   holdTimerElapsed >= currentSessionExercise.target
-                    ? 'text-[#C8F135] animate-pulse'
-                    : 'text-[#FF7A3D]'
+                    ? 'text-[#FF7A03] animate-pulse'
+                    : 'text-[#EEF1F4]'
                 }`}
               >
                 {String(Math.floor(holdTimerElapsed / 60)).padStart(2, '0')}:
@@ -325,7 +331,7 @@ export default function WorkoutPlayerPage() {
                 <button
                   type="button"
                   onClick={() => setHoldTimerRunning(true)}
-                  className="py-3 px-4 rounded-xl bg-[#FF7A3D] hover:bg-[#f06b2e] text-[#15171A] text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all"
+                  className="py-3 px-4 rounded-xl bg-[#FF7A03] hover:bg-[#E66E00] text-[#15171A] text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all"
                 >
                   <Play className="w-4 h-4 fill-current" />
                   <span>{holdTimerElapsed === 0 ? 'Mulai Tahan (Hold)' : 'Lanjutkan Hold'}</span>
@@ -334,7 +340,7 @@ export default function WorkoutPlayerPage() {
                 <button
                   type="button"
                   onClick={() => setHoldTimerRunning(false)}
-                  className="py-3 px-4 rounded-xl bg-[#23272D] border border-[#FF7A3D]/40 text-[#FF7A3D] text-xs font-bold flex items-center justify-center gap-2 transition-all"
+                  className="py-3 px-4 rounded-xl bg-[#23272D] border border-[#FF7A03]/40 text-[#FF7A03] text-xs font-bold flex items-center justify-center gap-2 transition-all"
                 >
                   <Pause className="w-4 h-4" />
                   <span>Jeda Sementara</span>
@@ -364,7 +370,7 @@ export default function WorkoutPlayerPage() {
           <ul className="space-y-2">
             {currentExerciseData.langkah.map((point, idx) => (
               <li key={idx} className="flex items-start gap-2.5 text-xs text-[#EEF1F4] leading-relaxed">
-                <CheckCircle2 className="w-4 h-4 text-[#C8F135] flex-shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-[#FF7A03] flex-shrink-0 mt-0.5" />
                 <span>{point}</span>
               </li>
             ))}
@@ -372,8 +378,8 @@ export default function WorkoutPlayerPage() {
         </div>
 
         {/* Common Mistakes Warning Box */}
-        <div className="p-4 rounded-xl bg-[#FF7A3D]/10 border border-[#FF7A3D]/30 mb-4">
-          <div className="flex items-center gap-2 text-[#FF7A3D] text-xs font-bold mb-1.5">
+        <div className="p-4 rounded-xl bg-[#FF7A03]/10 border border-[#FF7A03]/30 mb-4">
+          <div className="flex items-center gap-2 text-[#FF7A03] text-xs font-bold mb-1.5">
             <AlertTriangle className="w-4 h-4 flex-shrink-0" />
             <span>Peringatan Kesalahan Umum:</span>
           </div>
@@ -444,7 +450,7 @@ export default function WorkoutPlayerPage() {
                   key={setNo}
                   className={`p-3 rounded-xl border flex items-center justify-between gap-3 transition-all ${
                     isSetDone
-                      ? 'bg-[#15171A] border-[#C8F135]/40 text-[#EEF1F4]'
+                      ? 'bg-[#15171A] border-[#FF7A03]/40 text-[#EEF1F4]'
                       : 'bg-[#15171A] border-[#2E3238]'
                   }`}
                 >
@@ -457,7 +463,7 @@ export default function WorkoutPlayerPage() {
                         Target: {currentSessionExercise.target} {currentSessionExercise.unit}
                       </span>
                       {completedItem && (
-                        <p className="text-[11px] text-[#C8F135]">
+                        <p className="text-[11px] text-[#FF7A03]">
                           Tercatat: {completedItem.nilai} {currentSessionExercise.unit}
                         </p>
                       )}
@@ -474,8 +480,8 @@ export default function WorkoutPlayerPage() {
                     }
                     className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all min-h-[40px] ${
                       isSetDone
-                        ? 'bg-[#C8F135]/20 text-[#C8F135] border border-[#C8F135]/40'
-                        : 'bg-[#C8F135] text-[#15171A] hover:bg-[#b8e026]'
+                        ? 'bg-[#FF7A03]/20 text-[#FF7A03] border border-[#FF7A03]/40'
+                        : 'bg-[#FF7A03] text-[#15171A] hover:bg-[#E66E00]'
                     }`}
                   >
                     {isSetDone ? (
@@ -499,9 +505,9 @@ export default function WorkoutPlayerPage() {
 
         {/* Rest Timer Card Overlay */}
         {timerRunning && (
-          <div className="card-surface p-5 mb-5 border-[#FF7A3D]/40 bg-[#23272D] shadow-2xl animate-in zoom-in-95 duration-200">
+          <div className="card-surface p-5 mb-5 border-[#FF7A03]/40 bg-[#23272D] shadow-2xl animate-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#FF7A3D]">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#FF7A03]">
                 <Clock className="w-4 h-4 animate-spin-slow" />
                 <span>Timer Istirahat Otomatis</span>
               </div>
@@ -509,7 +515,7 @@ export default function WorkoutPlayerPage() {
             </div>
 
             <div className="text-center py-3">
-              <div className="text-4xl sm:text-5xl font-mono font-extrabold text-[#C8F135] tracking-wider">
+              <div className="text-4xl sm:text-5xl font-mono font-extrabold text-[#FF7A03] tracking-wider">
                 {String(Math.floor(timerSeconds / 60)).padStart(2, '0')}:
                 {String(timerSeconds % 60).padStart(2, '0')}
               </div>
@@ -536,7 +542,7 @@ export default function WorkoutPlayerPage() {
               <button
                 type="button"
                 onClick={handleSkipTimer}
-                className="py-2.5 rounded-xl bg-[#FF7A3D]/20 text-[#FF7A3D] border border-[#FF7A3D]/30 text-xs font-bold hover:bg-[#FF7A3D]/30"
+                className="py-2.5 rounded-xl bg-[#FF7A03]/20 text-[#FF7A03] border border-[#FF7A03]/30 text-xs font-bold hover:bg-[#FF7A03]/30"
               >
                 Lewati
               </button>
@@ -550,7 +556,7 @@ export default function WorkoutPlayerPage() {
             <button
               type="button"
               onClick={handleNextOrFinish}
-              className="w-full btn-brand py-4 text-sm font-bold shadow-xl shadow-[#C8F135]/20 flex items-center justify-center gap-2"
+              className="w-full btn-brand py-4 text-sm font-bold shadow-xl shadow-[#FF7A03]/20 flex items-center justify-center gap-2"
             >
               {exerciseIndex < totalExercises - 1 ? (
                 <>
@@ -599,7 +605,7 @@ export default function WorkoutPlayerPage() {
         {tipModal && (
           <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
             <div className="card-surface p-6 max-w-sm w-full border-[#2E3238] shadow-2xl">
-              <div className="flex items-center gap-2 text-[#C8F135] mb-2 font-bold text-sm">
+              <div className="flex items-center gap-2 text-[#FF7A03] mb-2 font-bold text-sm">
                 <Info className="w-4 h-4" />
                 <span>{tipModal.title}</span>
               </div>

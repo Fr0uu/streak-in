@@ -89,11 +89,11 @@ function AuthContent() {
       <MobileContainer maxWidth="xl" withBottomNav={false}>
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <div className="inline-flex w-12 h-12 rounded-2xl bg-[#C8F135] text-[#15171A] items-center justify-center mb-3 shadow-lg shadow-[#C8F135]/20">
+          <div className="inline-flex w-12 h-12 rounded-2xl bg-[#FF7A03] text-[#15171A] items-center justify-center mb-3 shadow-lg shadow-[#FF7A03]/20">
             <Zap className="w-6 h-6 fill-current stroke-[#15171A]" />
           </div>
           <h1 className="text-2xl font-extrabold text-[#EEF1F4]">
-            Calisthenic <span className="text-[#C8F135]">Siswa Sibuk</span>
+            Calisthenic <span className="text-[#FF7A03]">Siswa Sibuk</span>
           </h1>
           <p className="text-xs sm:text-sm text-[#8A929C] mt-1">
             Platform Kebugaran Singkat & Terukur untuk Pelajar Menengah
@@ -103,8 +103,8 @@ function AuthContent() {
         {/* Auth Card */}
         <div className="card-surface p-6 sm:p-8 border-[#2E3238] shadow-2xl relative">
           {/* Quick Demo Helper Banner */}
-          <div className="mb-5 p-3 rounded-xl bg-[#C8F135]/10 border border-[#C8F135]/20 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2 text-[#C8F135]">
+          <div className="mb-5 p-3 rounded-xl bg-[#FF7A03]/10 border border-[#FF7A03]/20 flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2 text-[#FF7A03]">
               <Sparkles className="w-4 h-4 flex-shrink-0" />
               <span>Coba cepat dengan akun siswa demo?</span>
             </div>
@@ -114,7 +114,7 @@ function AuthContent() {
                 setActiveTab('login');
                 fillDemoLogin();
               }}
-              className="text-xs font-bold text-[#15171A] bg-[#C8F135] hover:bg-[#b8e026] px-2.5 py-1 rounded-lg transition-colors"
+              className="text-xs font-bold text-[#15171A] bg-[#FF7A03] hover:bg-[#E66E00] px-2.5 py-1 rounded-lg transition-colors"
             >
               Isi Demo
             </button>
@@ -130,7 +130,7 @@ function AuthContent() {
               }}
               className={`py-2 text-xs sm:text-sm font-bold rounded-lg transition-all ${
                 activeTab === 'register'
-                  ? 'bg-[#C8F135] text-[#15171A] shadow-sm'
+                  ? 'bg-[#FF7A03] text-[#15171A] shadow-sm'
                   : 'text-[#8A929C] hover:text-[#EEF1F4]'
               }`}
             >
@@ -144,7 +144,7 @@ function AuthContent() {
               }}
               className={`py-2 text-xs sm:text-sm font-bold rounded-lg transition-all ${
                 activeTab === 'login'
-                  ? 'bg-[#C8F135] text-[#15171A] shadow-sm'
+                  ? 'bg-[#FF7A03] text-[#15171A] shadow-sm'
                   : 'text-[#8A929C] hover:text-[#EEF1F4]'
               }`}
             >
@@ -165,7 +165,7 @@ function AuthContent() {
                   value={regNama}
                   onChange={(e) => setRegNama(e.target.value)}
                   placeholder="Rizky Maulana"
-                  className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#C8F135] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] transition-colors"
+                  className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#FF7A03] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] transition-colors"
                 />
               </div>
 
@@ -179,7 +179,7 @@ function AuthContent() {
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
                   placeholder="rizky@sma11.sch.id"
-                  className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#C8F135] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] transition-colors"
+                  className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#FF7A03] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] transition-colors"
                 />
               </div>
 
@@ -195,7 +195,7 @@ function AuthContent() {
                     value={regPassword}
                     onChange={(e) => setRegPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#C8F135] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] pr-10 transition-colors"
+                    className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#FF7A03] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] pr-10 transition-colors"
                   />
                   <button
                     type="button"
@@ -224,7 +224,7 @@ function AuthContent() {
               </button>
 
               <div className="p-3 rounded-xl bg-[#15171A] border border-[#2E3238] text-[11px] text-[#8A929C] flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#C8F135] flex-shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#FF7A03] flex-shrink-0 mt-0.5" />
                 <span>Setelah mendaftar, kamu akan memilah library latihan pertamamu (durasi 10, 15, atau 30 menit).</span>
               </div>
             </form>
@@ -241,7 +241,7 @@ function AuthContent() {
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   placeholder="rizky@sma11.sch.id"
-                  className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#C8F135] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] transition-colors"
+                  className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#FF7A03] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] transition-colors"
                 />
               </div>
 
@@ -251,7 +251,7 @@ function AuthContent() {
                   <button
                     type="button"
                     onClick={() => setForgotPasswordMsg(true)}
-                    className="text-[11px] text-[#C8F135] hover:underline"
+                    className="text-[11px] text-[#FF7A03] hover:underline"
                   >
                     Lupa kata sandi?
                   </button>
@@ -263,7 +263,7 @@ function AuthContent() {
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#C8F135] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] pr-10 transition-colors"
+                    className="w-full bg-[#15171A] border border-[#2E3238] focus:border-[#FF7A03] focus:outline-none rounded-xl px-4 py-3 text-sm text-[#EEF1F4] placeholder-[#5C636B] pr-10 transition-colors"
                   />
                   <button
                     type="button"
@@ -276,7 +276,7 @@ function AuthContent() {
               </div>
 
               {forgotPasswordMsg && (
-                <div className="p-3 rounded-xl bg-[#C8F135]/10 border border-[#C8F135]/30 text-xs text-[#C8F135]">
+                <div className="p-3 rounded-xl bg-[#FF7A03]/10 border border-[#FF7A03]/30 text-xs text-[#FF7A03]">
                   Tautan atur ulang dikirim ke emailmu (simulasi).
                 </div>
               )}
@@ -307,7 +307,7 @@ function AuthContent() {
                 <button
                   type="button"
                   onClick={() => setActiveTab('login')}
-                  className="font-bold text-[#C8F135] hover:underline"
+                  className="font-bold text-[#FF7A03] hover:underline"
                 >
                   Masuk di sini
                 </button>
@@ -318,7 +318,7 @@ function AuthContent() {
                 <button
                   type="button"
                   onClick={() => setActiveTab('register')}
-                  className="font-bold text-[#C8F135] hover:underline"
+                  className="font-bold text-[#FF7A03] hover:underline"
                 >
                   Daftar sekarang (Gratis)
                 </button>

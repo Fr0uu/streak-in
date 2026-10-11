@@ -64,7 +64,7 @@ export default function SkillDetailPage() {
 
         {/* Success Toast Banner */}
         {toastMessage && (
-          <div className="p-4 rounded-xl bg-[#C8F135]/15 border border-[#C8F135]/40 text-[#C8F135] text-xs font-semibold flex items-center gap-2 mb-5 animate-in fade-in duration-200">
+          <div className="p-4 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/40 text-[#FF7A03] text-xs font-semibold flex items-center gap-2 mb-5 animate-in fade-in duration-200">
             <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
             <span>{toastMessage}</span>
           </div>
@@ -111,15 +111,15 @@ export default function SkillDetailPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-3.5 rounded-xl bg-[#15171A] border border-[#2E3238]">
             <div>
               <span className="text-[11px] text-[#8A929C] block">Stage Aktifmu</span>
-              <span className="text-sm sm:text-base font-extrabold text-[#C8F135]">
+              <span className="text-sm sm:text-base font-extrabold text-[#FF7A03]">
                 Stage {currentStageNum} / {skill.stages.length}
               </span>
             </div>
 
             <div>
               <span className="text-[11px] text-[#8A929C] block">Rekor Hold Terbaik (PB)</span>
-              <span className="text-sm sm:text-base font-extrabold text-[#FF7A3D] flex items-center gap-1">
-                <Flame className="w-4 h-4 fill-[#FF7A3D]" />
+              <span className="text-sm sm:text-base font-extrabold text-[#FF7A03] flex items-center gap-1">
+                <Flame className="w-4 h-4 fill-[#FF7A03]" />
                 {userProg.bestHoldSec || 0} Detik
               </span>
             </div>
@@ -138,7 +138,7 @@ export default function SkillDetailPage() {
             <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#8A929C]">
               Linimasa 5 Stage Progresi (Klik Stage untuk Rincian)
             </h2>
-            <span className="text-[11px] text-[#C8F135] font-semibold">
+            <span className="text-[11px] text-[#FF7A03] font-semibold">
               Stage {selectedStageTab} Terpilih
             </span>
           </div>
@@ -156,20 +156,20 @@ export default function SkillDetailPage() {
                   onClick={() => setSelectedStageTab(st.stageNumber)}
                   className={`p-2.5 sm:p-3.5 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1 min-h-[64px] ${
                     isSelected
-                      ? 'bg-[#23272D] border-[#C8F135] shadow-lg shadow-[#C8F135]/15'
+                      ? 'bg-[#23272D] border-[#FF7A03] shadow-lg shadow-[#FF7A03]/15'
                       : isPassed
-                      ? 'bg-[#15171A] border-[#C8F135]/30 opacity-90'
+                      ? 'bg-[#15171A] border-[#FF7A03]/30 opacity-90'
                       : 'bg-[#15171A] border-[#2E3238] opacity-60 hover:opacity-100'
                   }`}
                 >
                   <div className="flex items-center justify-center">
                     {isPassed ? (
-                      <CheckCircle2 className="w-4 h-4 text-[#C8F135]" />
+                      <CheckCircle2 className="w-4 h-4 text-[#FF7A03]" />
                     ) : (
                       <span
                         className={`text-xs font-extrabold w-5 h-5 rounded-full flex items-center justify-center ${
                           isCurrent
-                            ? 'bg-[#C8F135] text-[#15171A]'
+                            ? 'bg-[#FF7A03] text-[#15171A]'
                             : 'bg-[#23272D] text-[#8A929C]'
                         }`}
                       >
@@ -188,20 +188,31 @@ export default function SkillDetailPage() {
 
         {/* Selected Stage Detail Card */}
         <div className="card-surface p-5 sm:p-7 border-[#2E3238] mb-8 space-y-6">
+          {/* Stage Illustration Image (jika tersedia) */}
+          {selectedStageData.imageUrl && (
+            <div className="relative w-full aspect-video sm:aspect-[21/9] rounded-xl overflow-hidden border border-[#2E3238] bg-[#15171A]">
+              <img
+                src={selectedStageData.imageUrl}
+                alt={selectedStageData.nama}
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
+          )}
+
           {/* Stage Title & Target Badge */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#2E3238]">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-bold text-[#C8F135] uppercase tracking-wider">
+                <span className="text-xs font-bold text-[#FF7A03] uppercase tracking-wider">
                   Stage {selectedStageData.stageNumber} dari 5
                 </span>
                 {currentStageNum === selectedStageData.stageNumber && (
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#C8F135] text-[#15171A]">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FF7A03] text-[#15171A]">
                     Stage Aktifmu
                   </span>
                 )}
                 {currentStageNum > selectedStageData.stageNumber && (
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#C8F135]/20 text-[#C8F135]">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FF7A03]/20 text-[#FF7A03]">
                     Lulus ✓
                   </span>
                 )}
@@ -215,7 +226,7 @@ export default function SkillDetailPage() {
             </div>
 
             <div className="p-3 rounded-xl bg-[#15171A] border border-[#2E3238] flex items-center gap-3 flex-shrink-0">
-              <div className="w-10 h-10 rounded-lg bg-[#FF7A3D]/20 text-[#FF7A3D] flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-lg bg-[#FF7A03]/20 text-[#FF7A03] flex items-center justify-center font-bold">
                 ⏱️
               </div>
               <div>
@@ -228,10 +239,10 @@ export default function SkillDetailPage() {
           </div>
 
           {/* Syarat Lulus Box */}
-          <div className="p-3.5 rounded-xl bg-[#C8F135]/10 border border-[#C8F135]/30 flex items-start gap-3">
-            <Sparkles className="w-4 h-4 text-[#C8F135] flex-shrink-0 mt-0.5" />
+          <div className="p-3.5 rounded-xl bg-[#FF7A03]/10 border border-[#FF7A03]/30 flex items-start gap-3">
+            <Sparkles className="w-4 h-4 text-[#FF7A03] flex-shrink-0 mt-0.5" />
             <div>
-              <span className="text-xs font-bold text-[#C8F135] block">Syarat Lulus Stage:</span>
+              <span className="text-xs font-bold text-[#FF7A03] block">Syarat Lulus Stage:</span>
               <p className="text-xs text-[#EEF1F4] mt-0.5">{selectedStageData.syaratLulus}</p>
             </div>
           </div>
@@ -244,7 +255,7 @@ export default function SkillDetailPage() {
             <div className="space-y-2.5">
               {selectedStageData.langkah.map((step, idx) => (
                 <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#EEF1F4] leading-relaxed">
-                  <span className="w-5 h-5 rounded-full bg-[#23272D] border border-[#2E3238] text-[11px] font-bold text-[#C8F135] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="w-5 h-5 rounded-full bg-[#23272D] border border-[#2E3238] text-[11px] font-bold text-[#FF7A03] flex items-center justify-center flex-shrink-0 mt-0.5">
                     {idx + 1}
                   </span>
                   <span>{step}</span>
@@ -255,8 +266,8 @@ export default function SkillDetailPage() {
 
           {/* Peringatan Keselamatan & Kesalahan Umum */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-[#FF7A3D]/10 border border-[#FF7A3D]/30 text-xs">
-              <div className="flex items-center gap-1.5 text-[#FF7A3D] font-bold mb-2">
+            <div className="p-4 rounded-xl bg-[#FF7A03]/10 border border-[#FF7A03]/30 text-xs">
+              <div className="flex items-center gap-1.5 text-[#FF7A03] font-bold mb-2">
                 <AlertTriangle className="w-4 h-4 flex-shrink-0" />
                 <span>Kesalahan Umum yang Dihindari:</span>
               </div>
@@ -268,7 +279,7 @@ export default function SkillDetailPage() {
             </div>
 
             <div className="p-4 rounded-xl bg-[#23272D] border border-[#2E3238] text-xs">
-              <div className="flex items-center gap-1.5 text-[#C8F135] font-bold mb-2">
+              <div className="flex items-center gap-1.5 text-[#FF7A03] font-bold mb-2">
                 <ShieldCheck className="w-4 h-4 flex-shrink-0" />
                 <span>Tips Aman Siswa:</span>
               </div>
@@ -292,7 +303,7 @@ export default function SkillDetailPage() {
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-4 border-t border-[#2E3238]">
             <Link
               href={`/latihan/s_${skill.id.replace('-', '')}_${selectedStageData.stageNumber <= 2 ? selectedStageData.stageNumber : 1}`}
-              className="w-full sm:flex-1 btn-brand py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#C8F135]/20"
+              className="w-full sm:flex-1 btn-brand py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#FF7A03]/20"
             >
               <Play className="w-4 h-4 fill-current" />
               <span>Mulai Latihan Stage {selectedStageData.stageNumber} Sekarang</span>
@@ -302,7 +313,7 @@ export default function SkillDetailPage() {
               <button
                 type="button"
                 onClick={() => handleAdvanceStage(selectedStageData.stageNumber + 1)}
-                className="w-full sm:w-auto btn-outline px-5 py-3.5 text-xs font-bold flex items-center justify-center gap-1.5 text-[#C8F135] border-[#C8F135]/40 hover:bg-[#C8F135]/10"
+                className="w-full sm:w-auto btn-outline px-5 py-3.5 text-xs font-bold flex items-center justify-center gap-1.5 text-[#FF7A03] border-[#FF7A03]/40 hover:bg-[#FF7A03]/10"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Naik ke Stage {selectedStageData.stageNumber + 1}</span>

@@ -10,6 +10,7 @@ export interface SkillStage {
   tipsAman: string;
   lebihMudah: string;
   lebihSulit: string;
+  imageUrl?: string;
 }
 
 export interface Skill {
@@ -34,6 +35,7 @@ export interface Exercise {
   lebihMudah: string;
   lebihSulit: string;
   isTimeBased?: boolean;
+  imageUrl?: string;
 }
 
 export interface SessionExercise {
@@ -65,7 +67,7 @@ export const SEED_SKILLS: Skill[] = [
     nama: 'L-Sit Progression',
     kategori: 'Core & Hip Flexors',
     level: 'Pemula',
-    badgeColor: '#C8F135',
+    badgeColor: '#FF7A03',
     deskripsi: 'Fondasi kekuatan inti statis dan bahu terkunci untuk menopang seluruh tubuh membentuk huruf L sempurna.',
     manfaatSiswa: 'Memperbaiki postur duduk bungkuk saat belajar di sekolah & memperkuat otot perut bawah tanpa alat gym.',
     durasiMingguEstimasi: '4–8 Minggu',
@@ -182,7 +184,7 @@ export const SEED_SKILLS: Skill[] = [
     nama: 'Handstand Progression',
     kategori: 'Bahu & Keseimbangan',
     level: 'Menengah',
-    badgeColor: '#FF7A3D',
+    badgeColor: '#FF7A03',
     deskripsi: 'Penguasaan berdiri dengan kedua tangan melawan gravitasi, melatih stabilitas bahu, inti tubuh, dan fokus mental.',
     manfaatSiswa: 'Meningkatkan aliran darah ke otak untuk kesegaran belajar & membangun rasa percaya diri mengatasi rasa takut jatuh.',
     durasiMingguEstimasi: '6–12 Minggu',
@@ -299,7 +301,7 @@ export const SEED_SKILLS: Skill[] = [
     nama: 'Front Lever Progression',
     kategori: 'Punggung & Lats',
     level: 'Lanjutan',
-    badgeColor: '#C8F135',
+    badgeColor: '#FF7A03',
     deskripsi: 'Puncak kekuatan tarikan calisthenics: menahan seluruh tubuh horizontal kaku layaknya papan hanya dengan bergantungan pada palang.',
     manfaatSiswa: 'Membangun kekuatan punggung dan lats super kuat untuk postur tegap prima serta daya tahan fisik atletik.',
     durasiMingguEstimasi: '8–16 Minggu',

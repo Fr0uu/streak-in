@@ -33,14 +33,14 @@ export default function LandingPage() {
         {/* Hero Section */}
         <div className="pt-6 sm:pt-12 pb-10 text-center max-w-2xl mx-auto">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#23272D] border border-[#2E3238] text-xs font-semibold text-[#C8F135] mb-6 shadow-sm animate-pulse">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#23272D] border border-[#2E3238] text-xs font-semibold text-[#FF7A03] mb-6 shadow-sm animate-pulse">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Dibuat Khusus Siswa SMA / SMK</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.15] text-[#EEF1F4] mb-4">
             Latihan calisthenic,{' '}
-            <span className="text-[#C8F135] underline decoration-[#C8F135]/40 decoration-wavy">
+            <span className="text-[#FF7A03] underline decoration-[#FF7A03]/40 decoration-wavy">
               pas di sela jadwal sibukmu
             </span>
           </h1>
@@ -53,7 +53,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mx-auto">
             <Link
               href="/akun?tab=register"
-              className="w-full sm:w-auto flex-1 btn-brand px-6 py-3.5 text-base font-bold shadow-lg shadow-[#C8F135]/15 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto flex-1 btn-brand px-6 py-3.5 text-base font-bold shadow-lg shadow-[#FF7A03]/15 flex items-center justify-center gap-2"
             >
               <span>Buat Akun Gratis</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -68,7 +68,7 @@ export default function LandingPage() {
 
           {/* Quick Demo Hint */}
           <div className="mt-4 flex items-center justify-center gap-2 text-xs text-[#8A929C]">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#C8F135]" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#FF7A03]" />
             <span>Tersedia akun demo cepat & tanpa kartu kredit</span>
           </div>
         </div>
@@ -83,11 +83,11 @@ export default function LandingPage() {
 
           <div className="card-surface p-5 sm:p-7 relative overflow-hidden max-w-xl mx-auto border-[#2E3238] shadow-2xl">
             {/* Ambient glow */}
-            <div className="absolute top-0 right-0 w-44 h-44 bg-[#C8F135]/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-44 h-44 bg-[#FF7A03]/5 rounded-full blur-3xl pointer-events-none" />
 
             <div className="flex items-center justify-between gap-3 mb-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#C8F135]/15 text-[#C8F135] border border-[#C8F135]/30">
-                <span className="w-2 h-2 rounded-full bg-[#C8F135] animate-ping" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30">
+                <span className="w-2 h-2 rounded-full bg-[#FF7A03] animate-ping" />
                 Sesi Rekomendasi Hari Ini
               </span>
               <span className="text-xs font-semibold text-[#8A929C] bg-[#15171A] px-2.5 py-1 rounded-lg border border-[#2E3238]">
@@ -155,7 +155,7 @@ export default function LandingPage() {
             {/* Pillar 1 */}
             <div className="card-surface p-5 flex flex-col justify-between border-[#2E3238] hover:border-[#8A929C] transition-all">
               <div>
-                <div className="w-10 h-10 rounded-xl bg-[#C8F135]/15 border border-[#C8F135]/30 text-[#C8F135] flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center mb-4">
                   <Clock className="w-5 h-5" />
                 </div>
                 <h3 className="font-bold text-base text-[#EEF1F4] mb-2">
@@ -165,7 +165,7 @@ export default function LandingPage() {
                   Pas di sela istirahat belajar atau sebelum mandi sore. Tidak butuh alat gym maupun waktu perjalanan.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-[#2E3238] text-[11px] text-[#C8F135] font-semibold flex items-center gap-1">
+              <div className="mt-4 pt-3 border-t border-[#2E3238] text-[11px] text-[#FF7A03] font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>Langsung mulai dengan 1 klik</span>
               </div>
@@ -174,7 +174,7 @@ export default function LandingPage() {
             {/* Pillar 2 */}
             <div className="card-surface p-5 flex flex-col justify-between border-[#2E3238] hover:border-[#8A929C] transition-all">
               <div>
-                <div className="w-10 h-10 rounded-xl bg-[#FF7A3D]/15 border border-[#FF7A3D]/30 text-[#FF7A3D] flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center mb-4">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <h3 className="font-bold text-base text-[#EEF1F4] mb-2">
@@ -184,7 +184,7 @@ export default function LandingPage() {
                   Poin teknik ringkas, peringatan kesalahan umum berisiko cedera, serta opsi penyesuaian level lebih mudah dan lebih sulit.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-[#2E3238] text-[11px] text-[#FF7A3D] font-semibold flex items-center gap-1">
+              <div className="mt-4 pt-3 border-t border-[#2E3238] text-[11px] text-[#FF7A03] font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>Pilihan regresi & progresi</span>
               </div>
@@ -193,7 +193,7 @@ export default function LandingPage() {
             {/* Pillar 3 */}
             <div className="card-surface p-5 flex flex-col justify-between border-[#2E3238] hover:border-[#8A929C] transition-all">
               <div>
-                <div className="w-10 h-10 rounded-xl bg-[#C8F135]/15 border border-[#C8F135]/30 text-[#C8F135] flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center mb-4">
                   <Flame className="w-5 h-5" />
                 </div>
                 <h3 className="font-bold text-base text-[#EEF1F4] mb-2">
@@ -203,7 +203,7 @@ export default function LandingPage() {
                   Timer istirahat 45 detik otomatis, pencatat set yang mudah diisi, dan tracker streak 7 hari untuk memicu konsistensi.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-[#2E3238] text-[11px] text-[#C8F135] font-semibold flex items-center gap-1">
+              <div className="mt-4 pt-3 border-t border-[#2E3238] text-[11px] text-[#FF7A03] font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>Simpan latihan terputus</span>
               </div>
@@ -221,7 +221,7 @@ export default function LandingPage() {
         {/* Footer */}
         <footer className="mt-14 pt-6 border-t border-[#2E3238] text-center text-xs text-[#8A929C]">
           <p className="flex items-center justify-center gap-1.5 mb-1">
-            <Zap className="w-3.5 h-3.5 text-[#C8F135]" />
+            <Zap className="w-3.5 h-3.5 text-[#FF7A03]" />
             <span className="font-semibold text-[#EEF1F4]">Calisthenic Siswa Sibuk</span> — Dibangun untuk pelajar produktif.
           </p>
           <p>© 2026 Calisthenic Siswa. Semua hak dilindungi.</p>

@@ -21,12 +21,12 @@ export const Header: React.FC = () => {
       <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link to={currentUser ? '/home' : '/'} className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-[#C8F135] flex items-center justify-center text-[#15171A] shadow-sm transition-transform group-hover:scale-105">
+          <div className="w-9 h-9 rounded-xl bg-[#FF7A03] flex items-center justify-center text-[#15171A] shadow-sm transition-transform group-hover:scale-105">
             <Zap className="w-5 h-5 fill-current stroke-[#15171A]" />
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-base leading-tight tracking-tight text-[#EEF1F4] dark:text-[#EEF1F4]">
-              Calisthenic <span className="text-[#C8F135]">Siswa</span>
+              Calisthenic <span className="text-[#FF7A03]">Siswa</span>
             </span>
             <span className="text-[11px] text-[#8A929C] hidden sm:inline leading-none">
               Kebugaran Singkat Siswa Sibuk
@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
               to="/home"
               className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${
                 isActive('/home')
-                  ? 'bg-[#C8F135] text-[#15171A]'
+                  ? 'bg-[#FF7A03] text-[#15171A]'
                   : 'text-[#8A929C] hover:text-[#EEF1F4]'
               }`}
             >
@@ -51,7 +51,7 @@ export const Header: React.FC = () => {
               to="/library"
               className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${
                 isActive('/library')
-                  ? 'bg-[#C8F135] text-[#15171A]'
+                  ? 'bg-[#FF7A03] text-[#15171A]'
                   : 'text-[#8A929C] hover:text-[#EEF1F4]'
               }`}
             >
@@ -61,7 +61,7 @@ export const Header: React.FC = () => {
               to="/riwayat"
               className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${
                 isActive('/riwayat')
-                  ? 'bg-[#C8F135] text-[#15171A]'
+                  ? 'bg-[#FF7A03] text-[#15171A]'
                   : 'text-[#8A929C] hover:text-[#EEF1F4]'
               }`}
             >
@@ -91,7 +91,7 @@ export const Header: React.FC = () => {
                 <span className="text-xs font-semibold text-[#EEF1F4] hidden sm:inline max-w-[100px] truncate">
                   {currentUser.nama}
                 </span>
-                <div className="w-8 h-8 rounded-lg bg-[#C8F135] text-[#15171A] font-bold text-xs flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-[#FF7A03] text-[#15171A] font-bold text-xs flex items-center justify-center">
                   {currentUser.nama.slice(0, 2).toUpperCase()}
                 </div>
               </button>
@@ -127,13 +127,13 @@ export const Header: React.FC = () => {
             <div className="flex items-center gap-2">
               <Link
                 to="/akun?tab=login"
-                className="px-3.5 py-2 text-xs sm:text-sm font-semibold text-[#EEF1F4] hover:text-[#C8F135] transition-colors"
+                className="px-3.5 py-2 text-xs sm:text-sm font-semibold text-[#EEF1F4] hover:text-[#FF7A03] transition-colors"
               >
                 Masuk
               </Link>
               <Link
                 to="/akun?tab=register"
-                className="px-3.5 py-2 bg-[#C8F135] hover:bg-[#b8e026] text-[#15171A] text-xs sm:text-sm font-bold rounded-xl transition-all shadow-sm"
+                className="px-3.5 py-2 bg-[#FF7A03] hover:bg-[#E66E00] text-[#15171A] text-xs sm:text-sm font-bold rounded-xl transition-all shadow-sm"
               >
                 Buat Akun
               </Link>

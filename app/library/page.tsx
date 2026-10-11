@@ -102,7 +102,7 @@ export default function LibraryPage() {
                   onClick={() => toggleDuration(dur)}
                   className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all min-h-[44px] ${
                     active
-                      ? 'bg-[#C8F135] text-[#15171A] shadow-md shadow-[#C8F135]/15'
+                      ? 'bg-[#FF7A03] text-[#15171A] shadow-md shadow-[#FF7A03]/15'
                       : 'bg-[#15171A] text-[#8A929C] border border-[#2E3238] hover:text-[#EEF1F4]'
                   }`}
                 >
@@ -136,7 +136,7 @@ export default function LibraryPage() {
                   onClick={() => toggleFocus(fok)}
                   className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all min-h-[44px] ${
                     active
-                      ? 'bg-[#C8F135] text-[#15171A] shadow-md shadow-[#C8F135]/15'
+                      ? 'bg-[#FF7A03] text-[#15171A] shadow-md shadow-[#FF7A03]/15'
                       : 'bg-[#15171A] text-[#8A929C] border border-[#2E3238] hover:text-[#EEF1F4]'
                   }`}
                 >
@@ -154,7 +154,7 @@ export default function LibraryPage() {
             <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#8A929C]">
               Program Sesi Tersedia ({filteredSessions.length})
             </h2>
-            <span className="text-xs text-[#C8F135] font-semibold">
+            <span className="text-xs text-[#FF7A03] font-semibold">
               {selectedSessionIds.length} Sesi Tercentang
             </span>
           </div>
@@ -174,7 +174,7 @@ export default function LibraryPage() {
                   onClick={() => toggleSession(session.id)}
                   className={`card-surface p-4 cursor-pointer transition-all border ${
                     isChecked
-                      ? 'border-[#C8F135]/60 bg-[#23272D]'
+                      ? 'border-[#FF7A03]/60 bg-[#23272D]'
                       : 'border-[#2E3238] opacity-75 hover:opacity-100'
                   }`}
                 >
@@ -183,7 +183,7 @@ export default function LibraryPage() {
                     <div
                       className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors ${
                         isChecked
-                          ? 'bg-[#C8F135] text-[#15171A]'
+                          ? 'bg-[#FF7A03] text-[#15171A]'
                           : 'bg-[#15171A] border border-[#2E3238] text-transparent'
                       }`}
                     >
@@ -195,7 +195,7 @@ export default function LibraryPage() {
                         <h3 className="font-bold text-sm sm:text-base text-[#EEF1F4] truncate">
                           {session.nama}
                         </h3>
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#15171A] border border-[#2E3238] text-[#C8F135] flex-shrink-0">
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#15171A] border border-[#2E3238] text-[#FF7A03] flex-shrink-0">
                           {session.durasiMenit} Mnt • {session.fokus}
                         </span>
                       </div>
@@ -234,7 +234,7 @@ export default function LibraryPage() {
             onClick={handleSave}
             className={`w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
               selectedSessionIds.length > 0
-                ? 'btn-brand shadow-lg shadow-[#C8F135]/20'
+                ? 'btn-brand shadow-lg shadow-[#FF7A03]/20'
                 : 'bg-[#2E3238] text-[#8A929C] cursor-not-allowed'
             }`}
           >

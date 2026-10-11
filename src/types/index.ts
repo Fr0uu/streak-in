@@ -17,6 +17,7 @@ export interface SkillStage {
   tipsAman: string;
   lebihMudah: string;
   lebihSulit: string;
+  imageUrl?: string;
 }
 
 export interface Skill {
@@ -50,6 +51,7 @@ export interface Exercise {
   lebihMudah: string;
   lebihSulit: string;
   mediaPlaceholder?: string;
+  imageUrl?: string;
   isTimeBased?: boolean;
 }
 

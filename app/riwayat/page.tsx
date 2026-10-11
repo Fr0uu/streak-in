@@ -48,18 +48,18 @@ export default function HistoryPage() {
           <div className="card-surface p-4 sm:p-5 border-[#2E3238]">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs text-[#8A929C] font-semibold">Total Sesi Selesai</span>
-              <CheckCircle2 className="w-4 h-4 text-[#C8F135]" />
+              <CheckCircle2 className="w-4 h-4 text-[#FF7A03]" />
             </div>
             <div className="text-2xl sm:text-3xl font-extrabold text-[#EEF1F4]">
               {logs.length} <span className="text-sm font-normal text-[#8A929C]">Sesi</span>
             </div>
-            <span className="text-[11px] text-[#C8F135]">Disiplin tercatat</span>
+            <span className="text-[11px] text-[#FF7A03]">Disiplin tercatat</span>
           </div>
 
           <div className="card-surface p-4 sm:p-5 border-[#2E3238]">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs text-[#8A929C] font-semibold">Streak Saat Ini</span>
-              <Flame className="w-4 h-4 text-[#FF7A3D]" />
+              <Flame className="w-4 h-4 text-[#FF7A03]" />
             </div>
             <div className="text-2xl sm:text-3xl font-extrabold text-[#EEF1F4]">
               {streak} <span className="text-sm font-normal text-[#8A929C]">Hari 🔥</span>
@@ -90,7 +90,7 @@ export default function HistoryPage() {
               </p>
               <Link
                 href={`/latihan/${todaySession.id}`}
-                className="btn-brand px-6 py-3.5 text-sm font-bold inline-flex items-center gap-2 shadow-lg shadow-[#C8F135]/20"
+                className="btn-brand px-6 py-3.5 text-sm font-bold inline-flex items-center gap-2 shadow-lg shadow-[#FF7A03]/20"
               >
                 <Play className="w-4 h-4 fill-current" />
                 <span>Mulai Sesi Pertamamu</span>
@@ -114,17 +114,17 @@ export default function HistoryPage() {
                       className="p-4 sm:p-5 flex items-center justify-between gap-3 cursor-pointer hover:bg-[#2A2F37] transition-colors"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#C8F135] mt-1.5 flex-shrink-0" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#FF7A03] mt-1.5 flex-shrink-0" />
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
                             <h3 className="font-bold text-sm sm:text-base text-[#EEF1F4]">
                               {log.sessionNama}
                             </h3>
-                            <span className="text-[11px] font-semibold text-[#C8F135] bg-[#C8F135]/10 px-2 py-0.5 rounded">
+                            <span className="text-[11px] font-semibold text-[#FF7A03] bg-[#FF7A03]/10 px-2 py-0.5 rounded">
                               Tuntas
                             </span>
                             {log.skillFocus && (
-                              <span className="text-[11px] font-semibold text-[#FF7A3D] bg-[#FF7A3D]/10 border border-[#FF7A3D]/25 px-2 py-0.5 rounded flex items-center gap-1">
+                              <span className="text-[11px] font-semibold text-[#FF7A03] bg-[#FF7A03]/10 border border-[#FF7A03]/25 px-2 py-0.5 rounded flex items-center gap-1">
                                 🎯 Skill: {log.skillFocus.toUpperCase()}
                               </span>
                             )}
@@ -197,15 +197,13 @@ export default function HistoryPage() {
                                     {item.name}
                                   </span>
                                   {item.isIsometric && (
-                                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#FF7A3D]/15 text-[#FF7A3D] font-mono flex-shrink-0">
+                                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#FF7A03]/15 text-[#FF7A03] font-mono flex-shrink-0">
                                       Hold
                                     </span>
                                   )}
                                 </div>
                                 <span
-                                  className={`font-mono font-bold flex-shrink-0 ${
-                                    item.isIsometric ? 'text-[#FF7A3D]' : 'text-[#C8F135]'
-                                  }`}
+                                  className="font-mono font-bold flex-shrink-0 text-[#FF7A03]"
                                 >
                                   {item.values
                                     .map((v) => (item.isIsometric ? `${v}s` : `${v} reps`))

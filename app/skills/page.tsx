@@ -24,7 +24,7 @@ export default function SkillsCatalogPage() {
       <MobileContainer maxWidth="4xl">
         {/* Header Hero */}
         <div className="mb-6 sm:mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8F135]/15 border border-[#C8F135]/30 text-xs font-bold text-[#C8F135] mb-2.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-xs font-bold text-[#FF7A03] mb-2.5">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Skill Evolution Engine • Ala Project Calis</span>
           </div>
@@ -75,7 +75,7 @@ export default function SkillsCatalogPage() {
                   </div>
 
                   {/* Title & Category */}
-                  <h2 className="text-xl font-extrabold text-[#EEF1F4] mb-1 group-hover:text-[#C8F135] transition-colors">
+                  <h2 className="text-xl font-extrabold text-[#EEF1F4] mb-1 group-hover:text-[#FF7A03] transition-colors">
                     {skill.nama}
                   </h2>
                   <p className="text-xs font-semibold text-[#8A929C] mb-3">
@@ -90,7 +90,7 @@ export default function SkillsCatalogPage() {
                   <div className="p-3.5 rounded-xl bg-[#15171A] border border-[#2E3238] mb-4">
                     <div className="flex items-center justify-between text-xs mb-1.5">
                       <span className="text-[#8A929C] font-medium">Stage Aktif:</span>
-                      <span className="font-extrabold text-[#C8F135]">
+                      <span className="font-extrabold text-[#FF7A03]">
                         Stage {currentStageNum} dari {skill.stages.length}
                       </span>
                     </div>
@@ -102,15 +102,15 @@ export default function SkillsCatalogPage() {
                     {/* Progress Bar */}
                     <div className="w-full h-1.5 bg-[#23272D] rounded-full overflow-hidden mb-2.5">
                       <div
-                        className="h-full bg-[#C8F135] transition-all duration-500 rounded-full"
+                        className="h-full bg-[#FF7A03] transition-all duration-500 rounded-full"
                         style={{ width: `${progressPercent}%` }}
                       />
                     </div>
 
                     <div className="flex items-center justify-between text-[11px] text-[#8A929C]">
                       <span>Target: {currentStageData.targetHoldSec} dtk</span>
-                      <span className="flex items-center gap-1 text-[#FF7A3D] font-bold">
-                        <Flame className="w-3 h-3 fill-[#FF7A3D]" />
+                      <span className="flex items-center gap-1 text-[#FF7A03] font-bold">
+                        <Flame className="w-3 h-3 fill-[#FF7A03]" />
                         PB: {userProg.bestHoldSec || 0} dtk
                       </span>
                     </div>
@@ -118,7 +118,7 @@ export default function SkillsCatalogPage() {
 
                   {/* Student Relevance Note */}
                   <div className="p-3 rounded-xl bg-[#23272D]/60 border border-[#2E3238] text-[11px] text-[#8A929C] mb-5 flex items-start gap-2">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#C8F135] flex-shrink-0 mt-0.5" />
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#FF7A03] flex-shrink-0 mt-0.5" />
                     <span className="line-clamp-2">{skill.manfaatSiswa}</span>
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export default function SkillsCatalogPage() {
         {/* Philosophy Note Banner */}
         <div className="p-5 rounded-2xl bg-[#23272D] border border-[#2E3238] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#C8F135]/15 text-[#C8F135] flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-[#FF7A03]/15 text-[#FF7A03] flex items-center justify-center flex-shrink-0">
               <Award className="w-5 h-5" />
             </div>
             <div>

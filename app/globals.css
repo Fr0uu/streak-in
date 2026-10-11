@@ -8,10 +8,10 @@
   --line: #2E3238;
   --text: #EEF1F4;
   --text-sub: #8A929C;
-  --brand: #C8F135;
+  --brand: #FF7A03;
   --brand-text: #15171A;
-  --accent: #FF7A3D;
-  --accent-bg: rgba(255, 122, 61, 0.1);
+  --accent: #FF7A03;
+  --accent-bg: rgba(255, 122, 3, 0.1);
 }
 
 .light {
@@ -20,10 +20,10 @@
   --line: #E1E4DC;
   --text: #15171A;
   --text-sub: #5C636B;
-  --brand: #C8F135;
+  --brand: #FF7A03;
   --brand-text: #15171A;
-  --accent: #FF7A3D;
-  --accent-bg: rgba(255, 122, 61, 0.1);
+  --accent: #FF7A03;
+  --accent-bg: rgba(255, 122, 3, 0.1);
 }
 
 body {
@@ -65,7 +65,7 @@ body {
 }
 
 .btn-brand:hover {
-  background-color: #b8e026;
+  background-color: #E66E00;
   transform: translateY(-1px);
 }
 
