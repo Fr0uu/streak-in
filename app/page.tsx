@@ -40,7 +40,7 @@ export default function LandingPage() {
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.15] text-[#EEF1F4] mb-4">
             Latihan calisthenic,{' '}
-            <span className="text-[#C8F135] underline decoration-[#C8F135]/40 decoration-wavy underline-offset-4">
+            <span className="text-[#C8F135] underline decoration-[#C8F135]/40 decoration-wavy">
               pas di sela jadwal sibukmu
             </span>
           </h1>
