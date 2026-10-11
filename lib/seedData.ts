@@ -75,6 +75,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 1,
         nama: 'Support Hold',
+        imageUrl: '/images/skills/lsit-skill-support-hold.png',
         deskripsi: 'Menopang tubuh di atas kursi/parallette dengan lengan lurus terkunci dan bahu ditekan ke bawah (depresi skapula).',
         targetHoldSec: 30,
         targetSets: 3,
@@ -96,6 +97,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 2,
         nama: 'Tuck L-Sit (Kaki Menekuk)',
+        imageUrl: '/images/skills/lsit-skill-tuck-hold.png',
         deskripsi: 'Menopang tubuh dengan kedua lutut ditarik rapat ke dada, melayang seimbang tanpa menyentuh lantai.',
         targetHoldSec: 20,
         targetSets: 3,
@@ -117,6 +119,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 3,
         nama: 'One-Leg L-Sit (Satu Kaki Lurus)',
+        imageUrl: '/images/skills/lsit-skill-single-leg-hold.png',
         deskripsi: 'Satu kaki dijulurkan lurus sempurna sejajar lantai, sementara satu kaki tetap ditarik di dada.',
         targetHoldSec: 15,
         targetSets: 3,
@@ -138,6 +141,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 4,
         nama: 'Straddle L-Sit',
+        imageUrl: '/images/skills/lsit-skill-adv-tuck.png',
         deskripsi: 'Kedua kaki lurus dan dibuka lebar ke samping kiri-kanan untuk memperpendek tuas beban sebelum L-sit penuh.',
         targetHoldSec: 15,
         targetSets: 3,
@@ -159,6 +163,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 5,
         nama: 'Full L-Sit',
+        imageUrl: '/images/skills/lsit-skill-full-hold.png',
         deskripsi: 'Bentuk huruf L sempurna: kedua kaki rapat lurus horizontal sejajar lantai dengan sudut 90 derajat terhadap torso.',
         targetHoldSec: 10,
         targetSets: 3,
@@ -192,6 +197,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 1,
         nama: 'Wall Walk Hold',
+        imageUrl: '/images/skills/hs-skill-chest-to-wall.png',
         deskripsi: 'Merangkak naik ke dinding secara bertahap hingga tubuh membentuk garis diagonal/vertikal menghadap dinding.',
         targetHoldSec: 30,
         targetSets: 3,
@@ -213,6 +219,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 2,
         nama: 'Chest-to-Wall Handstand Hold',
+        imageUrl: '/images/skills/hs-support-scapular-handstand-shrugs.png',
         deskripsi: 'Posisi vertikal tegak lurus sempurna dengan dada dan jari kaki hampir menempel dinding kamar.',
         targetHoldSec: 45,
         targetSets: 3,
@@ -234,6 +241,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 3,
         nama: 'Back-to-Wall Toe Taps',
+        imageUrl: '/images/skills/hs-skill-heel-pulls.png',
         deskripsi: 'Menghadap keluar membelakangi dinding, lepaskan tumit bergantian dari dinding untuk melatih sensor keseimbangan jari tangan.',
         targetHoldSec: 30,
         targetSets: 3,
@@ -255,6 +263,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 4,
         nama: 'Kick-Up to Wall with Soft Touch',
+        imageUrl: '/images/skills/hs-support-pike-pushups.png',
         deskripsi: 'Melatih tendangan naik terkontrol dari lantai tanpa memantul keras di dinding, menahan seimbang mandiri sebelum menyentuh dinding.',
         targetHoldSec: 20,
         targetSets: 3,
@@ -276,6 +285,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 5,
         nama: 'Freestanding Handstand',
+        imageUrl: '/images/skills/hs-skill-kick-up-reps.png',
         deskripsi: 'Berdiri dengan tangan di lantai terbuka tanpa dinding sama sekali selama minimal 10 detik dengan garis lurus stabil.',
         targetHoldSec: 10,
         targetSets: 3,
@@ -309,6 +319,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 1,
         nama: 'Inverted Hang (Gantung Terbalik)',
+        imageUrl: '/images/skills/fl-support-straight-arm-pulldowns.png',
         deskripsi: 'Bergantung pada palang dengan tubuh terbalik vertikal lurus kaki menunjuk ke langit.',
         targetHoldSec: 30,
         targetSets: 3,
@@ -330,6 +341,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 2,
         nama: 'Tuck Front Lever',
+        imageUrl: '/images/skills/fl-skill-tuck-hold.png',
         deskripsi: 'Tubuh horizontal sejajar lantai dari bahu hingga pinggul dengan lutut ditarik rapat ke arah dada.',
         targetHoldSec: 20,
         targetSets: 3,
@@ -351,6 +363,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 3,
         nama: 'Advanced Tuck Front Lever',
+        imageUrl: '/images/skills/fl-skill-adv-tuck-hold.png',
         deskripsi: 'Punggung horizontal sempurna dengan paha membentuk sudut 90 derajat dari torso (lutut tidak menempel di dada).',
         targetHoldSec: 15,
         targetSets: 3,
@@ -372,6 +385,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 4,
         nama: 'Straddle / One-Leg Front Lever',
+        imageUrl: '/images/skills/fl-skill-straddle-single-leg.png',
         deskripsi: 'Satu kaki dijulurkan lurus penuh sejajar lantai ATAU kedua kaki dibuka lebar ke samping untuk memperpendek tuas.',
         targetHoldSec: 10,
         targetSets: 3,
@@ -393,6 +407,7 @@ export const SEED_SKILLS: Skill[] = [
       {
         stageNumber: 5,
         nama: 'Full Front Lever',
+        imageUrl: '/images/skills/fl-skill-full-lever-hold.png',
         deskripsi: 'Kekuatan tarikan calisthenics tingkat dewa: seluruh tubuh membentuk garis lurus kaku horizontal sejajar lantai.',
         targetHoldSec: 5,
         targetSets: 3,
@@ -423,6 +438,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex1',
     nama: 'Support Hold',
     area: 'Bahu, triceps & core',
+    imageUrl: '/images/skills/lsit-skill-support-hold.png',
     targetDefault: '3 x 30 dtk',
     langkah: [
       'Tangan di atas dua kursi kokoh atau parallettes setinggi pinggul.',
@@ -442,6 +458,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex2',
     nama: 'Tuck L-Sit',
     area: 'Perut bawah & hip flexors',
+    imageUrl: '/images/skills/lsit-skill-tuck-hold.png',
     targetDefault: '3 x 20 dtk',
     langkah: [
       'Dari support hold, dorong tangan kuat ke bawah.',
@@ -461,6 +478,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex3',
     nama: 'Wall Walk Hold',
     area: 'Bahu & scapula',
+    imageUrl: '/images/skills/hs-skill-chest-to-wall.png',
     targetDefault: '3 x 30 dtk',
     langkah: [
       'Posisi push-up membelakangi dinding kamar.',
@@ -480,6 +498,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex4',
     nama: 'Chest-to-Wall Handstand',
     area: 'Bahu, wrist & core',
+    imageUrl: '/images/skills/hs-support-scapular-handstand-shrugs.png',
     targetDefault: '3 x 45 dtk',
     langkah: [
       'Lakukan wall walk hingga dada berada 15-20 cm dari dinding.',
@@ -499,6 +518,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex5',
     nama: 'Inverted Hang',
     area: 'Lats & posterior chain',
+    imageUrl: '/images/skills/fl-support-straight-arm-pulldowns.png',
     targetDefault: '3 x 30 dtk',
     langkah: [
       'Gantung pada palang dengan tangan selebar bahu.',
@@ -518,6 +538,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex6',
     nama: 'Tuck Front Lever',
     area: 'Punggung atas & lats',
+    imageUrl: '/images/skills/fl-skill-tuck-hold.png',
     targetDefault: '3 x 20 dtk',
     langkah: [
       'Dorong palang ke arah paha dengan lengan lurus terkunci.',
@@ -537,6 +558,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex7',
     nama: 'Push-up',
     area: 'Dada, bahu & triceps',
+    imageUrl: '/images/exercises/push-up-low.png',
     targetDefault: '3 x 8 reps',
     langkah: [
       'Tangan sedikit lebih lebar dari bahu, telapak rata di lantai.',
@@ -556,6 +578,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex8',
     nama: 'Incline push-up',
     area: 'Dada, bahu & triceps',
+    imageUrl: '/images/exercises/incline-push-up-low.png',
     targetDefault: '3 x 10 reps',
     langkah: [
       'Telapak tangan pada permukaan meja/kursi stabil.',
@@ -575,6 +598,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex9',
     nama: 'Dead Bug',
     area: 'Core & hip flexors',
+    imageUrl: '/images/exercises/dead-bug-start.png',
     targetDefault: '3 x 8 reps',
     langkah: [
       'Berbaring telentang, punggung bawah menempel rata di lantai.',
@@ -594,6 +618,7 @@ export const SEED_EXERCISES: Exercise[] = [
     id: 'ex10',
     nama: 'Plank',
     area: 'Core & abs',
+    imageUrl: '/images/exercises/forearm-plank.png',
     targetDefault: '3 x 30 dtk',
     langkah: [
       'Tumpuan pada siku dan lengan bawah, siku tepat di bawah bahu.',

@@ -357,15 +357,24 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Quick Student Tip Card */}
-            <div className="card-surface p-5 border-[#2E3238]">
-              <div className="flex items-center gap-2 mb-2 text-xs font-bold text-[#FF7A03]">
-                <Sparkles className="w-4 h-4" />
-                <span>Tips Pelajar Bugar</span>
+            {/* Quick Student Tip Card with Mascot */}
+            <div className="card-surface p-4 sm:p-5 border-[#2E3238] flex items-center gap-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#15171A] border border-[#2E3238] flex-shrink-0 flex items-center justify-center p-1 overflow-hidden">
+                <img
+                  src="/images/mascot/ppt-welcome.png"
+                  alt="Orange Guy Pelajar Calisthenics"
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <p className="text-xs text-[#8A929C] leading-relaxed">
-                "Konsistensi 15 menit setiap hari jauh lebih efektif untuk fokus belajar daripada latihan 2 jam sekali seminggu."
-              </p>
+              <div>
+                <div className="flex items-center gap-1.5 mb-1 text-xs font-bold text-[#FF7A03]">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Tips Pelajar Bugar</span>
+                </div>
+                <p className="text-xs text-[#8A929C] leading-relaxed">
+                  "Konsistensi 15 menit setiap hari jauh lebih efektif untuk fokus belajar daripada latihan 2 jam sekali seminggu."
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -56,10 +56,14 @@ export default function WorkoutDonePage() {
         {/* Celebration Header */}
         <div className="text-center mb-8 animate-in fade-in zoom-in-95 duration-300">
           <div className="relative inline-block mb-4">
-            <div className="w-20 h-20 rounded-3xl bg-[#FF7A03]/20 border-2 border-[#FF7A03]/40 flex items-center justify-center text-[#FF7A03] mx-auto shadow-2xl shadow-[#FF7A03]/30">
-              <Trophy className="w-10 h-10 stroke-[2.5]" />
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-[#FF7A03]/10 border-2 border-[#FF7A03]/30 flex items-center justify-center p-2 mx-auto shadow-2xl shadow-[#FF7A03]/30 overflow-hidden">
+              <img
+                src="/images/mascot/ppt-celebrate.png"
+                alt="Orange Guy Selebrasi Latihan"
+                className="w-full h-full object-contain"
+              />
             </div>
-            <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#FF7A03] text-[#15171A] flex items-center justify-center font-bold text-xs">
+            <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#FF7A03] text-[#15171A] flex items-center justify-center font-bold text-xs shadow-md">
               ✓
             </div>
           </div>
