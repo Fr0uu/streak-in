@@ -19,6 +19,7 @@ import { SEED_EXERCISES } from '@/src/data/seedExercises';
 import { SEED_SKILLS } from '@/lib/seedData';
 import { getStreak7Days } from '@/src/utils/storage';
 import { MobileContainer } from '@/components/layout/MobileContainer';
+import { SafeImage } from '@/components/ui/SafeImage';
 
 export default function HomePage() {
   const router = useRouter();
@@ -54,13 +55,13 @@ export default function HomePage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#15171A] text-[#EEF1F4]">
-      <MobileContainer maxWidth="4xl">
-        {/* User Greeting Header */}
-        <div className="flex items-center justify-between mb-5">
+    <div className="min-h-[100dvh] bg-[#15171A] text-[#EEF1F4] overflow-x-hidden">
+      <MobileContainer maxWidth="6xl">
+        {/* User Greeting Header - padat & personal */}
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#EEF1F4]">
-              Halo, {mounted && currentUser?.nama ? currentUser.nama : 'Siswa'} 👋
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#EEF1F4]">
+              Halo, {mounted && currentUser?.nama ? currentUser.nama : 'Kawan'} 👋
             </h1>
             <p className="text-xs sm:text-sm text-[#8A929C] mt-0.5">
               Siap produktif & bugar di sela jadwal sekolah hari ini.
@@ -70,30 +71,30 @@ export default function HomePage() {
 
         {/* Conditional Interrupted Workout Recovery Banner */}
         {mounted && activeWorkout && (
-          <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-[#FF7A03]/10 border border-[#FF7A03]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in duration-200">
+          <div className="mb-4 sm:mb-5 p-3.5 sm:p-4 rounded-2xl bg-[#FF7A03]/10 border border-[#FF7A03]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in duration-200">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#FF7A03]/20 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center flex-shrink-0 mt-0.5">
                 <RotateCcw className="w-5 h-5 animate-spin-slow" />
               </div>
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-[#FF7A03] animate-ping" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#FF7A03]">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF7A03]">
                     Latihan Belum Selesai
                   </span>
                 </div>
-                <h3 className="font-bold text-sm sm:text-base text-[#EEF1F4] mt-0.5">
+                <h3 className="font-bold text-sm text-[#EEF1F4] mt-0.5">
                   Sesi: {activeSession?.nama || 'Sesi Latihan'}
                 </h3>
                 <p className="text-xs text-[#8A929C]">
-                  Progresmu tersimpan aman. Lanjutkan set latihan sekarang!
+                  Progres tersimpan rapi. Yuk lanjutkan set latihanmu!
                 </p>
               </div>
             </div>
 
             <Link
               href={`/latihan/${activeWorkout.sessionId}`}
-              className="px-5 py-3 rounded-xl bg-[#FF7A03] hover:bg-[#E66E00] text-[#15171A] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all flex-shrink-0"
+              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#FF7A03] hover:bg-[#E66E00] text-[#15171A] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all flex-shrink-0 select-none"
             >
               <span>Lanjutkan Latihan</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -101,30 +102,30 @@ export default function HomePage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           {/* Main Hero Card: Sesi Hari Ini */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="card-surface p-5 sm:p-7 border-[#2E3238] relative overflow-hidden shadow-xl">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-5">
+            <div className="card-surface p-4 sm:p-6 border-[#2E3238] relative overflow-hidden shadow-xl">
               {/* Soft glow */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF7A03]/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-44 h-44 bg-[#FF7A03]/5 rounded-full blur-3xl pointer-events-none" />
 
               {/* Status Header */}
-              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30">
                   <span className="w-2 h-2 rounded-full bg-[#FF7A03]" />
                   Sesi Hari Ini • {todaySession.durasiMenit} Menit • {todaySession.fokus}
                 </span>
                 <Link
                   href="/library"
-                  className="text-xs text-[#8A929C] hover:text-[#FF7A03] transition-colors"
+                  className="min-h-[44px] px-2 flex items-center text-xs text-[#8A929C] hover:text-[#FF7A03] transition-colors"
                 >
                   Ganti Sesi →
                 </Link>
               </div>
 
               {/* Title & Desc */}
-              <div className="mb-5">
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#EEF1F4] mb-1.5">
+              <div className="mb-4">
+                <h2 className="text-xl sm:text-2xl font-extrabold text-[#EEF1F4] mb-1">
                   {todaySession.nama}
                 </h2>
                 <p className="text-xs sm:text-sm text-[#8A929C] leading-relaxed">
@@ -133,15 +134,15 @@ export default function HomePage() {
               </div>
 
               {/* Exercise List Preview */}
-              <div className="mb-6">
-                <div className="text-[11px] font-bold text-[#8A929C] uppercase tracking-wider mb-2.5">
+              <div className="mb-5">
+                <div className="text-[11px] font-bold text-[#8A929C] uppercase tracking-wider mb-2">
                   Daftar Gerakan Target:
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {todayExerciseItems.map((ex, idx) => (
                     <div
                       key={idx}
-                      className="bg-[#15171A] border border-[#2E3238] px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs"
+                      className="bg-[#15171A] border border-[#2E3238] px-3 py-2 rounded-xl flex items-center justify-between text-xs"
                     >
                       <span className="font-semibold text-[#EEF1F4]">{ex.nama}</span>
                       <span className="text-[#8A929C] text-[11px]">{ex.target}</span>
@@ -150,44 +151,44 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Big Single-Click CTA */}
+              {/* Big Single-Click CTA - Area sentuh prima min 50px */}
               <button
                 type="button"
                 onClick={() => router.push(`/latihan/${todaySession.id}`)}
-                className="w-full btn-brand py-4 text-base font-bold shadow-lg shadow-[#FF7A03]/20 flex items-center justify-center gap-2 group cursor-pointer"
+                className="w-full btn-brand min-h-[50px] py-3.5 text-sm sm:text-base font-bold shadow-lg shadow-[#FF7A03]/20 flex items-center justify-center gap-2 group cursor-pointer active:scale-98 transition-all"
               >
                 <Play className="w-5 h-5 fill-current transition-transform group-hover:scale-110" />
-                <span>Mulai Latihan</span>
+                <span>Mulai Latihan Sekarang</span>
               </button>
             </div>
 
             {/* Skill Evolution Engine Section */}
-            <div className="card-surface p-5 border-[#2E3238]">
-              <div className="flex items-center justify-between mb-4">
+            <div className="card-surface p-4 sm:p-5 border-[#2E3238]">
+              <div className="flex items-center justify-between mb-3.5">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center flex-shrink-0">
                     <Award className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-extrabold text-sm sm:text-base text-[#EEF1F4] flex items-center gap-2">
-                      <span>Skill Evolution Engine</span>
+                    <h3 className="font-extrabold text-sm sm:text-base text-[#EEF1F4] flex items-center gap-1.5">
+                      <span>Peta Jalan 5 Stage</span>
                       <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30 hidden sm:inline-block">
-                        3 Skill Utama
+                        3 Skill
                       </span>
                     </h3>
-                    <p className="text-xs text-[#8A929C]">Progresi 5 tahapan sistematis ala Project Calis</p>
+                    <p className="text-[11px] text-[#8A929C]">Progresi bertahap dari nol sampai mahir</p>
                   </div>
                 </div>
                 <Link
                   href="/skills"
-                  className="text-xs font-bold text-[#FF7A03] hover:underline flex items-center gap-1 flex-shrink-0"
+                  className="min-h-[44px] px-2 flex items-center gap-1 text-xs font-bold text-[#FF7A03] hover:underline flex-shrink-0"
                 >
                   <span>Lihat Semua</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 {SEED_SKILLS.map((skill) => {
                   const userProg = getSkillProgress(skill.id);
                   const stageNum = userProg.currentStage || 1;
@@ -198,7 +199,7 @@ export default function HomePage() {
                   return (
                     <div
                       key={skill.id}
-                      className="p-3.5 rounded-xl bg-[#15171A] border border-[#2E3238] flex flex-col justify-between hover:border-[#8A929C] transition-all"
+                      className="p-3 rounded-xl bg-[#15171A] border border-[#2E3238] flex flex-col justify-between hover:border-[#8A929C] transition-all"
                     >
                       <div>
                         <div className="flex items-center justify-between gap-1 mb-1.5">
@@ -219,7 +220,7 @@ export default function HomePage() {
                         </p>
 
                         {/* Progress Bar */}
-                        <div className="w-full h-1.5 bg-[#23272D] rounded-full overflow-hidden mb-3">
+                        <div className="w-full h-1.5 bg-[#23272D] rounded-full overflow-hidden mb-2.5">
                           <div
                             className="h-full bg-[#FF7A03] rounded-full transition-all duration-300"
                             style={{ width: `${percent}%` }}
@@ -227,9 +228,10 @@ export default function HomePage() {
                         </div>
                       </div>
 
+                      {/* Touch target min 44px */}
                       <Link
                         href={`/skills/${skill.id}`}
-                        className="w-full py-1.5 rounded-lg bg-[#23272D] hover:bg-[#FF7A03] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors text-center block"
+                        className="w-full min-h-[44px] py-2 rounded-lg bg-[#23272D] hover:bg-[#FF7A03] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors flex items-center justify-center select-none active:scale-95"
                       >
                         Buka Roadmap
                       </Link>
@@ -240,42 +242,42 @@ export default function HomePage() {
             </div>
 
             {/* Library Saya Section */}
-            <div className="card-surface p-5 border-[#2E3238]">
-              <div className="flex items-center justify-between mb-4">
+            <div className="card-surface p-4 sm:p-5 border-[#2E3238]">
+              <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h3 className="font-bold text-base text-[#EEF1F4]">Library Saya</h3>
-                  <p className="text-xs text-[#8A929C]">Program tersimpan dalam rotasi harianmu</p>
+                  <h3 className="font-bold text-sm sm:text-base text-[#EEF1F4]">Library Saya</h3>
+                  <p className="text-[11px] text-[#8A929C]">Program tersimpan dalam rotasi harianmu</p>
                 </div>
                 <Link
                   href="/library"
-                  className="text-xs font-bold text-[#FF7A03] hover:underline flex items-center gap-1"
+                  className="min-h-[44px] px-2 flex items-center gap-1 text-xs font-bold text-[#FF7A03] hover:underline"
                 >
-                  <span>Ubah Library</span>
+                  <span>Atur Library</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {(library?.sessionIds || ['s1', 's2']).slice(0, 4).map((sId) => {
                   const s = getSessionById(sId);
                   if (!s) return null;
                   return (
                     <div
                       key={s.id}
-                      className="p-3.5 rounded-xl bg-[#15171A] border border-[#2E3238] flex items-center justify-between gap-3 hover:border-[#8A929C] transition-all"
+                      className="p-3 rounded-xl bg-[#15171A] border border-[#2E3238] flex items-center justify-between gap-3 hover:border-[#8A929C] transition-all"
                     >
-                      <div>
+                      <div className="min-w-0">
                         <div className="flex items-center gap-1.5 mb-0.5">
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#23272D] text-[#FF7A03]">
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#23272D] text-[#FF7A03] flex-shrink-0">
                             {s.durasiMenit}m
                           </span>
-                          <h4 className="font-bold text-xs sm:text-sm text-[#EEF1F4]">{s.nama}</h4>
+                          <h4 className="font-bold text-xs sm:text-sm text-[#EEF1F4] truncate">{s.nama}</h4>
                         </div>
-                        <p className="text-[11px] text-[#8A929C]">{s.fokus} • {s.exercises.length} Gerakan</p>
+                        <p className="text-[11px] text-[#8A929C] truncate">{s.fokus} • {s.exercises.length} Gerakan</p>
                       </div>
                       <Link
                         href={`/latihan/${s.id}`}
-                        className="px-3 py-1.5 rounded-lg bg-[#23272D] hover:bg-[#FF7A03] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors"
+                        className="min-h-[44px] px-3.5 py-2 rounded-lg bg-[#23272D] hover:bg-[#FF7A03] hover:text-[#15171A] text-xs font-bold text-[#EEF1F4] border border-[#2E3238] transition-colors flex items-center justify-center flex-shrink-0 active:scale-95"
                       >
                         Mulai
                       </Link>
@@ -287,37 +289,37 @@ export default function HomePage() {
           </div>
 
           {/* Right Column: Streak & Motivation Tracker */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-5">
             {/* Streak Tracker Card */}
-            <div className="card-surface p-5 sm:p-6 border-[#2E3238]">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center">
+            <div className="card-surface p-4 sm:p-5 border-[#2E3238]">
+              <div className="flex items-center justify-between mb-3.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-[#FF7A03]/15 border border-[#FF7A03]/30 text-[#FF7A03] flex items-center justify-center flex-shrink-0">
                     <Flame className="w-5 h-5 fill-[#FF7A03]" />
                   </div>
                   <div>
-                    <h3 className="font-extrabold text-lg text-[#EEF1F4]">
+                    <h3 className="font-extrabold text-base sm:text-lg text-[#EEF1F4]">
                       Streak {streak} Hari 🔥
                     </h3>
                     <p className="text-[11px] text-[#8A929C]">
-                      {streak > 0 ? 'Konsistensi luar biasa, pertahankan!' : 'Latihan hari ini untuk mulai streak!'}
+                      {streak > 0 ? 'Konsistensi mantap, terus jaga!' : 'Latihan hari ini buat mulai streak!'}
                     </p>
                   </div>
                 </div>
-                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${streak > 0 ? 'bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30' : 'bg-[#2E3238] text-[#8A929C]'}`}>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${streak > 0 ? 'bg-[#FF7A03]/15 text-[#FF7A03] border border-[#FF7A03]/30' : 'bg-[#2E3238] text-[#8A929C]'}`}>
                   {streak > 0 ? 'Aktif' : 'Mulai'}
                 </span>
               </div>
 
               {/* 7-Day Visual Tracker */}
-              <div className="p-3.5 rounded-xl bg-[#15171A] border border-[#2E3238] mb-4">
-                <div className="text-[11px] font-semibold text-[#8A929C] mb-3 text-center">
+              <div className="p-3 rounded-xl bg-[#15171A] border border-[#2E3238] mb-3.5">
+                <div className="text-[11px] font-semibold text-[#8A929C] mb-2 text-center">
                   Aktivitas 7 Hari Terakhir
                 </div>
-                <div className="grid grid-cols-7 gap-1 text-center min-h-[52px]">
+                <div className="grid grid-cols-7 gap-1 text-center min-h-[50px]">
                   {mounted ? (
                     streakDays.map((day, idx) => (
-                      <div key={idx} className="flex flex-col items-center gap-1.5">
+                      <div key={idx} className="flex flex-col items-center gap-1">
                         <span
                           className={`text-[10px] ${
                             day.isToday ? 'font-bold text-[#FF7A03]' : 'text-[#8A929C]'
@@ -340,7 +342,7 @@ export default function HomePage() {
                     ))
                   ) : (
                     Array.from({ length: 7 }).map((_, idx) => (
-                      <div key={idx} className="flex flex-col items-center gap-1.5">
+                      <div key={idx} className="flex flex-col items-center gap-1">
                         <span className="text-[10px] text-[#8A929C]">•</span>
                         <div className="w-7 h-7 rounded-full bg-[#23272D] text-[#8A929C] flex items-center justify-center text-xs">
                           •
@@ -352,27 +354,29 @@ export default function HomePage() {
               </div>
 
               <div className="text-xs text-[#8A929C] flex items-center justify-between">
-                <span>Total Sesi Terselesaikan:</span>
+                <span>Total Sesi Selesai:</span>
                 <span className="font-bold text-[#EEF1F4]">{logs.length} Sesi</span>
               </div>
             </div>
 
             {/* Quick Student Tip Card with Mascot */}
-            <div className="card-surface p-4 sm:p-5 border-[#2E3238] flex items-center gap-4">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#15171A] border border-[#2E3238] flex-shrink-0 flex items-center justify-center p-1 overflow-hidden">
-                <img
+            <div className="card-surface p-3.5 sm:p-4 border-[#2E3238] flex items-center gap-3.5">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0">
+                <SafeImage
                   src="/images/mascot/ppt-welcome.png"
-                  alt="Orange Guy Pelajar Calisthenics"
-                  className="w-full h-full object-contain"
+                  alt="Maskot StreakIn - Pelajar Kalistenik"
+                  aspectRatioClass="w-12 h-12 sm:w-14 sm:h-14"
+                  className="w-full h-full object-contain p-0.5"
+                  fallbackType="mascot"
                 />
               </div>
               <div>
-                <div className="flex items-center gap-1.5 mb-1 text-xs font-bold text-[#FF7A03]">
+                <div className="flex items-center gap-1.5 mb-0.5 text-xs font-bold text-[#FF7A03]">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Tips Pelajar Bugar</span>
+                  <span>Tips Kawan Bugar</span>
                 </div>
-                <p className="text-xs text-[#8A929C] leading-relaxed">
-                  "Konsistensi 15 menit setiap hari jauh lebih efektif untuk fokus belajar daripada latihan 2 jam sekali seminggu."
+                <p className="text-[11px] sm:text-xs text-[#8A929C] leading-relaxed">
+                  "Latihan 15 menit konsisten tiap hari jauh lebih nendang dibanding 2 jam sekali seminggu tapi bikin pegal berhari-hari."
                 </p>
               </div>
             </div>
@@ -382,4 +386,3 @@ export default function HomePage() {
     </div>
   );
 }
-

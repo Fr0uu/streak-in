@@ -19,10 +19,21 @@
 .DS_Store
 *.pem
 
-# debug
+# debug & logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+build.log
+
+# audit & test artifacts
+test_runner.mjs
+run_cdp_audit.mjs
+audit_report.json
+scratch_visuals_check.json
+screenshot-streak-in.png
+public/test_screenshots/
+.agents/
 
 # local env files
 .env*.local

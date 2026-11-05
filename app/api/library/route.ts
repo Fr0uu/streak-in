@@ -26,7 +26,7 @@ export async function GET() {
         data: {
           userId: user.id,
           durasi: ['10', '15'],
-          skills: ['l-sit', 'handstand', 'front-lever'],
+          skills: ['l-sit', 'handstand', 'elbow-lever'],
         },
       });
     }
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     const { durasi, skills } = body;
 
     const durasiStrings = Array.isArray(durasi) ? durasi.map(String) : ['10', '15'];
-    const skillsList = Array.isArray(skills) ? skills : ['l-sit', 'handstand', 'front-lever'];
+    const skillsList = Array.isArray(skills) ? skills : ['l-sit', 'handstand', 'elbow-lever'];
 
     const saved = await prisma.userLibrary.upsert({
       where: { userId: user.id },

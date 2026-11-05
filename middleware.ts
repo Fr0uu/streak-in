@@ -7,14 +7,12 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Protected paths
-  const protectedPaths = ['/home', '/library', '/latihan', '/selesai', '/riwayat', '/notifikasi'];
+  const protectedPaths = ['/home', '/skills', '/library', '/latihan', '/selesai', '/riwayat', '/notifikasi'];
   const isProtected = protectedPaths.some((path) => pathname.startsWith(path));
 
-  // If visiting protected route without auth session, redirect to /akun?next=
+  // If visiting protected route without auth session, redirect to landing /
   if (isProtected && !hasUserSession) {
-    const redirectUrl = new URL('/akun', request.url);
-    redirectUrl.searchParams.set('next', pathname);
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   // If already logged in and visiting /akun or root /, redirect to /home

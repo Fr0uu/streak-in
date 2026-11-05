@@ -72,85 +72,88 @@ export default function LibraryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#15171A] text-[#EEF1F4]">
-      <MobileContainer maxWidth="4xl">
+    <div className="min-h-[100dvh] bg-[#15171A] text-[#EEF1F4] overflow-x-hidden">
+      <MobileContainer maxWidth="6xl">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#EEF1F4] flex items-center gap-2">
+        <div className="mb-3 sm:mb-6">
+          <h1 className="text-xl sm:text-3xl font-extrabold text-[#EEF1F4] flex items-center gap-2">
             <span>Susun Library Latihan</span>
           </h1>
-          <p className="text-xs sm:text-sm text-[#8A929C] mt-1">
-            Personalisasi program calisthenics ringkas sesuai jadwal belajar & waktu luangmu.
+          <p className="text-xs sm:text-sm text-[#8A929C] mt-0.5">
+            Personalisasi program kalistenik ringkas sesuai jadwal belajar & waktu luangmu.
           </p>
         </div>
 
-        {/* Filter Step 1: Durasi */}
-        <div className="card-surface p-4 sm:p-5 mb-4 border-[#2E3238]">
-          <div className="flex items-center justify-between mb-3">
-            <label className="text-xs font-bold uppercase tracking-wider text-[#EEF1F4]">
-              Langkah 1: Durasi Sesi
-            </label>
-            <span className="text-[11px] text-[#8A929C]">Multi-pilih</span>
+        {/* Filters: 2-kolom di Laptop (lg), tumpuk di HP */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 sm:gap-4 mb-3.5 sm:mb-6">
+          {/* Filter Step 1: Durasi */}
+          <div className="card-surface p-3 sm:p-5 border-[#2E3238]">
+            <div className="flex items-center justify-between mb-2 sm:mb-2.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#EEF1F4]">
+                Langkah 1: Durasi Sesi
+              </label>
+              <span className="text-[11px] text-[#8A929C]">Multi-pilih</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {[10, 15, 30].map((dur) => {
+                const active = selectedDurations.includes(dur);
+                return (
+                  <button
+                    key={dur}
+                    type="button"
+                    onClick={() => toggleDuration(dur)}
+                    className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all min-h-[44px] active:scale-95 ${
+                      active
+                        ? 'bg-[#FF7A03] text-[#15171A] shadow-md shadow-[#FF7A03]/15'
+                        : 'bg-[#15171A] text-[#8A929C] border border-[#2E3238] hover:text-[#EEF1F4]'
+                    }`}
+                  >
+                    {dur} Menit
+                    {active && <Check className="w-4 h-4 stroke-[2.5]" />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2.5">
-            {[10, 15, 30].map((dur) => {
-              const active = selectedDurations.includes(dur);
-              return (
-                <button
-                  key={dur}
-                  type="button"
-                  onClick={() => toggleDuration(dur)}
-                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all min-h-[44px] ${
-                    active
-                      ? 'bg-[#FF7A03] text-[#15171A] shadow-md shadow-[#FF7A03]/15'
-                      : 'bg-[#15171A] text-[#8A929C] border border-[#2E3238] hover:text-[#EEF1F4]'
-                  }`}
-                >
-                  {dur} Menit
-                  {active && <Check className="w-4 h-4 stroke-[2.5]" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* Filter Step 2: Fokus */}
-        <div className="card-surface p-4 sm:p-5 mb-6 border-[#2E3238]">
-          <div className="flex items-center justify-between mb-3">
-            <label className="text-xs font-bold uppercase tracking-wider text-[#EEF1F4]">
-              Langkah 2: Fokus Latihan
-            </label>
-            <span className="text-[11px] text-[#8A929C]">
-              {selectedFocuses.length} Terpilih
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2.5">
-            {['Push', 'Legs', 'Pull dan core', 'Full body'].map((fok) => {
-              const active = selectedFocuses.includes(fok);
-              const label =
-                fok === 'Pull dan core' ? 'Pull & Core' : fok === 'Full body' ? 'Full Body' : fok;
-              return (
-                <button
-                  key={fok}
-                  type="button"
-                  onClick={() => toggleFocus(fok)}
-                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all min-h-[44px] ${
-                    active
-                      ? 'bg-[#FF7A03] text-[#15171A] shadow-md shadow-[#FF7A03]/15'
-                      : 'bg-[#15171A] text-[#8A929C] border border-[#2E3238] hover:text-[#EEF1F4]'
-                  }`}
-                >
-                  {label}
-                  {active && <Check className="w-4 h-4 stroke-[2.5]" />}
-                </button>
-              );
-            })}
+          {/* Filter Step 2: Fokus */}
+          <div className="card-surface p-3 sm:p-5 border-[#2E3238]">
+            <div className="flex items-center justify-between mb-2 sm:mb-2.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#EEF1F4]">
+                Langkah 2: Fokus Latihan
+              </label>
+              <span className="text-[11px] text-[#8A929C]">
+                {selectedFocuses.length} Terpilih
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {['Push', 'Legs', 'Pull dan core', 'Full body'].map((fok) => {
+                const active = selectedFocuses.includes(fok);
+                const label =
+                  fok === 'Pull dan core' ? 'Pull & Core' : fok === 'Full body' ? 'Full Body' : fok;
+                return (
+                  <button
+                    key={fok}
+                    type="button"
+                    onClick={() => toggleFocus(fok)}
+                    className={`px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all min-h-[44px] active:scale-95 ${
+                      active
+                        ? 'bg-[#FF7A03] text-[#15171A] shadow-md shadow-[#FF7A03]/15'
+                        : 'bg-[#15171A] text-[#8A929C] border border-[#2E3238] hover:text-[#EEF1F4]'
+                    }`}
+                  >
+                    {label}
+                    {active && <Check className="w-4 h-4 stroke-[2.5]" />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Matching Sessions List */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-3">
+        <div className="mb-4 sm:mb-8">
+          <div className="flex items-center justify-between mb-2 sm:mb-2.5">
             <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#8A929C]">
               Program Sesi Tersedia ({filteredSessions.length})
             </h2>
@@ -159,10 +162,9 @@ export default function LibraryPage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
             {filteredSessions.map((session) => {
               const isChecked = selectedSessionIds.includes(session.id);
-              // Get exercise names
               const exNames = session.exercises
                 .map((se) => SEED_EXERCISES.find((e) => e.id === se.exerciseId)?.nama)
                 .filter(Boolean)
@@ -172,22 +174,22 @@ export default function LibraryPage() {
                 <div
                   key={session.id}
                   onClick={() => toggleSession(session.id)}
-                  className={`card-surface p-4 cursor-pointer transition-all border ${
+                  className={`card-surface p-3 sm:p-4 cursor-pointer transition-all border min-h-[52px] select-none ${
                     isChecked
                       ? 'border-[#FF7A03]/60 bg-[#23272D]'
                       : 'border-[#2E3238] opacity-75 hover:opacity-100'
                   }`}
                 >
-                  <div className="flex items-start gap-3">
-                    {/* Custom Checkbox */}
+                  <div className="flex items-start gap-2.5 sm:gap-3">
+                    {/* Custom Checkbox - area sentuh nyaman */}
                     <div
-                      className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors ${
+                      className={`w-5 h-5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors ${
                         isChecked
                           ? 'bg-[#FF7A03] text-[#15171A]'
                           : 'bg-[#15171A] border border-[#2E3238] text-transparent'
                       }`}
                     >
-                      <Check className="w-4 h-4 stroke-[3]" />
+                      <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3]" />
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -195,7 +197,7 @@ export default function LibraryPage() {
                         <h3 className="font-bold text-sm sm:text-base text-[#EEF1F4] truncate">
                           {session.nama}
                         </h3>
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#15171A] border border-[#2E3238] text-[#FF7A03] flex-shrink-0">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#15171A] border border-[#2E3238] text-[#FF7A03] flex-shrink-0">
                           {session.durasiMenit} Mnt • {session.fokus}
                         </span>
                       </div>
@@ -209,7 +211,7 @@ export default function LibraryPage() {
                           {session.exercises.length} Gerakan
                         </span>
                         <span className="bg-[#15171A] px-2 py-0.5 rounded border border-[#2E3238]">
-                          Kos-friendly
+                          Ramah kamar kos
                         </span>
                       </div>
                     </div>
@@ -220,8 +222,8 @@ export default function LibraryPage() {
           </div>
         </div>
 
-        {/* Sticky Bottom Save Bar */}
-        <div className="sticky bottom-20 md:bottom-6 card-surface p-4 border-[#2E3238] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#23272D]/95 backdrop-blur">
+        {/* Sticky Bottom Save Bar - posisikan aman di atas BottomNav */}
+        <div className="sticky bottom-16 md:bottom-6 card-surface p-3 sm:p-4 border-[#2E3238] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#23272D]/95 backdrop-blur z-30">
           <div className="text-xs text-[#8A929C] text-center sm:text-left">
             <span className="font-bold text-[#EEF1F4]">
               {selectedSessionIds.length} Sesi Terpilih
@@ -232,7 +234,7 @@ export default function LibraryPage() {
             type="button"
             disabled={selectedSessionIds.length === 0}
             onClick={handleSave}
-            className={`w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
+            className={`w-full sm:w-auto min-h-[48px] px-8 py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-98 ${
               selectedSessionIds.length > 0
                 ? 'btn-brand shadow-lg shadow-[#FF7A03]/20'
                 : 'bg-[#2E3238] text-[#8A929C] cursor-not-allowed'
@@ -246,4 +248,3 @@ export default function LibraryPage() {
     </div>
   );
 }
-

@@ -36,12 +36,12 @@ export const safeLocalStorage = {
   },
 };
 
-// Initial demo user
+// Initial demo user (tanpa menyimpan kata sandi di local storage)
 export const DEFAULT_DEMO_USER: User = {
   id: 'usr_demo_1',
   nama: 'Rizky',
   email: 'rizky@sma11.sch.id',
-  kataSandi: 'rahasia123',
+  kataSandi: '',
 };
 
 // Keys
@@ -53,6 +53,7 @@ export const STORAGE_KEYS = {
   ACTIVE_WORKOUT: 'calisthenic_active_workout',
   REMINDER: 'calisthenic_reminder',
   THEME: 'calisthenic_theme',
+  SOUND_ENABLED: 'calisthenic_sound_enabled',
 };
 
 // Date helper in YYYY-MM-DD local format

@@ -1,78 +1,83 @@
-# ⚡ StreakIN
+# ⚡ StreakIn
 
-> **Platform Kebugaran Singkat & Terukur untuk Pelajar Menengah (SMA/SMK)**  
-> Membantu siswa tetap bugar dan produktif di sela padatnya jadwal sekolah melalui sesi mikro 10–30 menit, panduan gerakan ramah kamar kos, dan pencatatan latihan otomatis.
+> **Platform Latihan Kalistenik Pelajar (SMA/SMK)**  
+> Membantu siswa tetap bugar dan produktif di sela jadwal sekolah yang padat melalui sesi 10, 15, dan 30 menit, panduan gerakan ramah kamar kos, Isometric Hold Timer, dan Rest Timer presisi.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-5.21-2D3748?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
-[![Database](https://img.shields.io/badge/Database-Supabase%20%2F%20MySQL-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com/)
-[![Deployment](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/)
+[![Database](https://img.shields.io/badge/Database-PostgreSQL%20%2F%20MySQL-3ECF8E?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
+[![Deployment](https://img.shields.io/badge/Node_Runner-Webuzo%20%2F%20VPS-orange?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 
 ---
 
 ## 📌 Latar Belakang Masalah
 
-Berdasarkan riset kebutuhan siswa usia 16–18 tahun:
-1. **Keterbatasan Waktu & Energi Mental:** 86% siswa merasa kelelahan setelah seharian belajar di sekolah dan kesulitan menyisihkan waktu 1–2 jam untuk pergi ke gym.
-2. **Keraguan Postur & Takut Cedera:** Sebagian besar siswa berlatih mandiri di rumah tanpa pengawasan instruktur, sehingga membutuhkan panduan form yang jelas dan alternatif gerakan yang lebih aman.
-3. **Inkonsistensi Rutinitas:** Kesibukan tugas sekolah dan ujian sering memutus kebiasaan olahraga.
+Berdasarkan kebutuhan siswa usia 15–18 tahun:
+1. **Keterbatasan Waktu & Energi Mental:** Siswa sering kelelahan setelah seharian belajar di sekolah dan kesulitan menyisihkan waktu 1–2 jam untuk pergi ke tempat gym.
+2. **Kekhawatiran Postur & Risiko Cedera:** Latihan mandiri tanpa pelatih membutuhkan panduan form yang jelas, opsi regresi yang lebih aman, dan isyarat suara/getaran saat menahan posisi hold.
+3. **Inkonsistensi Kebiasaan:** Jadwal tugas dan ujian sekolah sering memutus rutinitas olahraga.
 
-**Calisthenic Siswa Sibuk** hadir sebagai solusi: menghadirkan sesi calisthenics 10–30 menit tanpa alat gym, bebas suara hentakan (ramah kamar kos), dengan prinsip **1-Click Start**.
+**StreakIn** hadir sebagai kawan latihan: menghadirkan sesi kalistenik 10, 15, dan 30 menit tanpa alat gym, bebas hentakan keras (ramah kamar kos), dengan prinsip **1-Click Start**.
 
 ---
 
 ## ✨ Fitur Utama
 
-- 🚀 **1-Click Start & Sesi Otomatis Berotasi:** Siswa dapat langsung memulai latihan hari ini dari dashboard tanpa harus mengatur alur menu yang rumit.
-- 🛡️ **Panduan Teknik & Kotak Keselamatan:** Setiap gerakan dilengkapi poin instruksi ringkas, peringatan kesalahan umum berisiko cedera (*Orange Warning Box*), dan tempo gerakan.
-- 🔄 **Chip Penyesuaian Level (Regresi & Progresi):** Fitur *"Lebih mudah"* (misal: *Incline Push-up*) dan *"Lebih sulit"* (*Diamond Push-up*) memudahkan siswa menyesuaikan beban latihan dengan level kebugaran masing-masing.
-- ⏱️ **Player Latihan Interaktif & Timer Istirahat 45 Detik:** Countdown timer istirahat otomatis antar set dengan kontrol cepat instan (`+15 dtk`, `-15 dtk`, `Lewati`).
-- 🔥 **Tracker Konsistensi 7 Hari (Streak Tracker):** Visualisasi titik aktivitas mingguan dan selebrasi di akhir sesi untuk menjaga motivasi belajar dan berolahraga.
-- 📚 **Custom Library Onboarding:** Personalisasi kombinasi durasi (10, 15, 30 menit) dan fokus latihan (*Push*, *Legs*, *Pull & Core*, *Full Body*).
-- 📜 **Riwayat Latihan (Accordion View):** Log riwayat latihan tersimpan rapi dengan rincian repetisi per set yang dapat diperluas (*expandable*).
-- 🌓 **Dual-Theme (Default Dark Mode):** Desain mobile-first dengan tema gelap pekat (`#15171A`) dan aksen *Lime Green* (`#C8F135`) yang hemat daya serta nyaman di mata saat dibuka malam hari.
+- 🚀 **1-Click Start Sesi Hari Ini:** Siswa dapat langsung memulai latihan harian dari beranda tanpa navigasi berbelit.
+- 🎯 **Peta Jalan Skill 5 Stage:** Panduan terstruktur untuk 3 skill fokus (L-Sit, Handstand, dan Elbow Lever) lengkap dengan kriteria kelulusan tiap tahap.
+- ⏱️ **Timer Latihan Terpadu:**
+  - *Isometric Hold Timer*: Menghitung detik tahanan statis dengan tombol mulai/jeda ergonomis satu jempol.
+  - *Rest Timer 45 Detik*: Menghitung mundur otomatis jeda antar set dengan tombol instan (`+15 dtk`, `-15 dtk`, `Lewati`).
+- 🔊 **Audio Beep & Haptic Feedback:** Bunyi hitung mundur 3-2-1 detik terakhir dan getaran (Web Audio API & Vibration API) dengan toggle suara yang tersimpan di memori perangkat.
+- 🔥 **Tracker Konsistensi 7 Hari (Streak Tracker):** Visualisasi disiplin latihan harian untuk memicu semangat siswa.
+- 📚 **Library Latihan Fleksibel:** Personalisasi kombinasi durasi (10, 15, 30 menit) dan fokus otot (*Push*, *Legs*, *Pull & Core*, *Full Body*).
+- 📜 **Riwayat & Evaluasi Latihan:** Pencatatan log sesi otomatis dengan riwayat beban repetisi dan detik tahanan.
+- 📱 **Desain Mobile-First Ergonomis:** Layout padat untuk kenyamanan penggunaan satu tangan di HP serta tampilan multi-kolom yang optimal di layar laptop.
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Kebutuhan Sistem & Tech Stack
 
-- **Frontend Framework:** [Next.js 14+](https://nextjs.org/) (App Router, React 18, TypeScript)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/) (Mobile-First Responsive Design)
-- **Ikon Antarmuka:** [Lucide React](https://lucide.dev/)
-- **ORM & Data Layer:** [Prisma ORM](https://www.prisma.io/) (Mendukung PostgreSQL Supabase & MySQL Localhost)
-- **Database:** [Supabase](https://supabase.com/) (Production PostgreSQL) / [XAMPP phpMyAdmin](https://www.apachefriends.org/) (Local MySQL)
-- **Hosting & CI/CD:** [Vercel](https://vercel.com/)
+- **Versi Node.js yang Disarankan:** Node.js **18.x LTS** atau **20.x LTS** (kompatibel dengan npm 9+)
+- **Frontend Framework:** Next.js 14 (App Router, React 18, TypeScript)
+- **Styling:** Tailwind CSS (Dark Mode default)
+- **Ikon Antarmuka:** Lucide React
+- **ORM & Data Layer:** Prisma ORM (Mendukung MySQL dan PostgreSQL)
+- **Host Architecture:** **Host-Agnostic** — Tidak terikat vendor platform serverless tertentu, siap dideploy di Node.js runner mandiri (Webuzo, VPS cPanel, Docker, Linux VM).
 
 ---
 
 ## 📁 Struktur Folder Proyek
 
 ```text
-calisthenic-siswa-sibuk/
-├── app/                              # Next.js 14 App Router
-│   ├── (auth)/akun/page.tsx          # Layar Autentikasi (Masuk & Daftar + Demo Auto-fill)
+calisthenic-app/
+├── app/                              # Next.js App Router
+│   ├── (auth)/akun/page.tsx          # Masuk & Daftar + Demo Auto-fill
 │   ├── (dashboard)/home/page.tsx     # Dashboard Siswa, Sesi Hari Ini & Streak
-│   ├── library/page.tsx              # Personalisasi Library Latihan
-│   ├── latihan/[sessionId]/page.tsx  # Interactive Workout Player & Rest Timer
-│   ├── selesai/[logId]/page.tsx      # Ringkasan Selesai Latihan & Selebrasi
+│   ├── skills/                       # Katalog & Roadmap Skill 5 Stage
+│   │   ├── page.tsx                  # Katalog Skill
+│   │   └── [skillId]/page.tsx        # Detail Progresi & Syarat Kelulusan Stage
+│   ├── library/page.tsx              # Personalisasi Library (10 / 15 / 30 Menit)
+│   ├── latihan/[sessionId]/page.tsx  # Interactive Workout Player, Timer & Audio
+│   ├── selesai/[logId]/page.tsx      # Ringkasan Selesai Latihan & Rekor PB
 │   ├── riwayat/page.tsx              # Riwayat Latihan (Accordion Log)
-│   ├── notifikasi/page.tsx           # Pengaturan Alarm Pengingat Harian
-│   ├── api/                          # Route Handlers (Auth, Library, Workout Logs)
-│   ├── globals.css                   # Tailwind Base & Token Desain
-│   └── layout.tsx                    # Root Layout & Global Providers
-├── components/                       # Reusable UI & Layout Components
+│   ├── notifikasi/page.tsx           # Pengaturan Alarm Pengingat
+│   ├── api/                          # Route Handlers API (Auth, Library, Logs)
+│   ├── globals.css                   # Token Desain & Pengaturan Global
+│   └── layout.tsx                    # Root Layout & Metadata
+├── components/                       # Komponen UI Reusable
 │   ├── layout/Header.tsx             # Navbar Desktop & Mobile Header
-│   ├── layout/BottomNav.tsx          # Fixed Bottom Navigation (Mobile View)
-│   └── layout/MobileContainer.tsx    # Responsivitas Kontainer Layar
-├── context/                          # React Client State Management
-│   ├── AuthContext.tsx               # Context Autentikasi Pengguna
-│   └── WorkoutContext.tsx            # Context Logika Latihan, Timer & Library
-├── prisma/
-│   ├── schema.prisma                 # Skema Database Prisma (Users, Logs, Sets)
-│   └── seed.js                       # Seeding Data Awal Siswa Demo
-├── middleware.ts                     # Proteksi Rute Terotentikasi
+│   ├── layout/BottomNav.tsx          # Navigasi Bawah Khusus HP
+│   ├── layout/MobileContainer.tsx    # Kontainer Responsif Mobile & Laptop
+│   └── ui/                           # Komponen Presentasional (SafeImage, StageImage)
+├── context/                          # State Management
+│   ├── AuthContext.tsx               # Otentikasi Pengguna & Demo Account
+│   └── WorkoutContext.tsx            # State Latihan, Timer, Stage, & Library
+├── lib/                              # Seed Data & Konfigurasi Sesi Latihan
+├── prisma/                           # Skema Database & Berkas Seed
+├── middleware.ts                     # Proteksi Rute Autentikasi
 └── README.md                         # Dokumentasi Proyek
 ```
 
@@ -82,8 +87,8 @@ calisthenic-siswa-sibuk/
 
 ### 1. Kloning Repositori
 ```bash
-git clone https://github.com/USERNAME-ANDA/calisthenic-siswa-sibuk.git
-cd calisthenic-siswa-sibuk
+git clone https://github.com/USERNAME-ANDA/calisthenic-app.git
+cd calisthenic-app
 ```
 
 ### 2. Pasang Dependensi
@@ -92,42 +97,82 @@ npm install
 ```
 
 ### 3. Konfigurasi Environment Variables (`.env`)
-Salin berkas `.env.example` menjadi `.env`:
+Salin berkas `.env.example` (atau buat berkas `.env` baru):
 ```bash
 cp .env.example .env
 ```
 
-Sesuaikan nilai koneksi database Anda:
-* **Untuk Local MySQL (XAMPP / phpMyAdmin):**
-  ```env
-  DATABASE_URL="mysql://root:@localhost:3306/calisthenic_db"
-  ```
-* **Untuk Cloud Supabase (PostgreSQL):**
-  ```env
-  DATABASE_URL="postgresql://postgres.[REF]:[PASS]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1"
-  DIRECT_URL="postgresql://postgres.[REF]:[PASS]@aws-0-[REGION].pooler.supabase.com:5432/postgres"
-  ```
+Sesuaikan koneksi database Anda:
+```env
+DATABASE_URL="mysql://root:@localhost:3306/calisthenic_db"
+# Atau PostgreSQL:
+# DATABASE_URL="postgresql://user:password@localhost:5432/calisthenic_db"
+```
 
-### 4. Sinkronisasi Database & Seed Data
+### 4. Sinkronisasi Database
 ```bash
-# Push skema tabel ke database
+# Generate Prisma Client & Push skema tabel
+npx prisma generate
 npx prisma db push
 
-# Masukkan akun demo awal
+# (Opsional) Jalankan data awalan
 npm run seed
 ```
 
-### 5. Jalankan Server Lokal
+### 5. Jalankan Development Server
 ```bash
 npm run dev
 ```
-Buka browser di [http://localhost:3000](http://localhost:3000).
+Buka peramban di [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🌐 Panduan Build & Deployment ke Server / Webuzo (Node Runner)
+
+Aplikasi ini bersifat **host-agnostic** dan tidak memiliki keterikatan dengan platform Vercel. Anda dapat menjalankannya di server VPS/cPanel/Webuzo dengan langkah berikut:
+
+### 1. Prasyarat Server
+- Server Linux (Ubuntu/Debian/CentOS/Almalinux) atau Control Panel Webuzo/cPanel
+- **Node.js:** Versi **18.x LTS** atau **20.x LTS**
+- Database: MySQL 8+ atau PostgreSQL 14+
+- Process Manager: PM2 (disarankan) atau Node App Runner bawaan panel
+
+### 2. Tahap Build Produksi
+Di terminal server atau pipeline deployment Anda:
+```bash
+# 1. Pasang dependensi
+npm install --production=false
+
+# 2. Sinkronkan skema Prisma
+npx prisma generate
+
+# 3. Kompilasi aplikasi Next.js ke mode produksi
+npm run build
+```
+
+### 3. Menjalankan Aplikasi
+Jalankan server produksi menggunakan:
+```bash
+npm run start
+```
+
+Atau menggunakan **PM2** agar aplikasi tetap berjalan di latar belakang (*daemon*) dan otomatis menyala kembali jika server reboot:
+```bash
+# Menjalankan Next.js produksi dengan PM2 di port default 3000
+pm2 start npm --name "streakin-app" -- start
+
+# Menyimpan konfigurasi startup PM2
+pm2 save
+pm2 startup
+```
+
+Jika server menggunakan reverse proxy Nginx/Apache, arahkan proxy pass ke `http://127.0.0.1:3000`.
 
 ---
 
 ## 🔑 Akun Demo Pengujian
 
-Aplikasi telah dilengkapi akun demo pengujian yang siap digunakan tanpa perlu registrasi ulang:
+Aplikasi dilengkapi akun demo bawaan untuk kemudahan evaluasi:
 
 | Keterangan | Nilai |
 |---|---|
@@ -137,28 +182,6 @@ Aplikasi telah dilengkapi akun demo pengujian yang siap digunakan tanpa perlu re
 
 ---
 
-## 🌐 Panduan Deployment ke Vercel
+## 📄 Lisensi
 
-1. **Push repositori ini ke akun GitHub Anda:**
-   ```bash
-   git init
-   git add .
-   git commit -m "feat: initial release for Calisthenic Siswa Sibuk"
-   git branch -M main
-   git remote add origin https://github.com/USERNAME-ANDA/calisthenic-siswa-sibuk.git
-   git push -u origin main
-   ```
-2. Buka [Vercel](https://vercel.com/) dan impor repositori GitHub tersebut.
-3. Pada tab **Environment Variables**, tambahkan:
-   - `DATABASE_URL`: *(Connection pooling URI dari Supabase)*
-   - `DIRECT_URL`: *(Direct connection URI dari Supabase)*
-4. Klik **Deploy**. Aplikasi akan otomatis ter-build dan siap diuji secara publik!
-
----
-
-## 📄 Lisensi & Kontribusi
-
-Proyek ini dibuat untuk tujuan edukasi, portofolio, dan kompetisi inovasi digital pelajar. Terbuka untuk kontribusi fitur dan masukan desain.
-
-© 2026 **Calisthenic Siswa Sibuk**.
-
+© 2026 **StreakIn** — Kawan Latihan Kalistenik Pelajar Indonesia.

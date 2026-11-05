@@ -34,23 +34,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } catch {}
     }
 
-    const saved = safeLocalStorage.getItem(STORAGE_KEYS.THEME);
-    const initialTheme = saved === 'light' || saved === 'dark' ? saved : 'dark';
-    setTheme(initialTheme);
+    /*
+     * [MODE TERANG DINONAKTIFKAN SEMENTARA - SEGERA HADIR]
+     * Simpan kode asli untuk re-aktivasi nanti:
+     * const saved = safeLocalStorage.getItem(STORAGE_KEYS.THEME);
+     * const initialTheme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+     * setTheme(initialTheme);
+     */
+    setTheme('dark');
   }, []);
 
-  // Sync theme with HTML root
+  // Sync theme with HTML root - selalu kunci ke 'dark'
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.classList.add('light');
-      root.classList.remove('dark');
-    }
-    safeLocalStorage.setItem(STORAGE_KEYS.THEME, theme);
+    root.classList.add('dark');
+    root.classList.remove('light');
+    safeLocalStorage.setItem(STORAGE_KEYS.THEME, 'dark');
   }, [theme]);
 
   // Check active session from API /api/auth/me on mount
@@ -80,8 +80,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkMe();
   }, []);
 
+  // [MODE TERANG DINONAKTIFKAN SEMENTARA - SEGERA HADIR]
+  // Kode asli: setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    // No-op sementara mode terang dinonaktifkan
+    setTheme('dark');
   };
 
   const login = async (email: string, kataSandi: string) => {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { SESSION_COOKIE_NAME, createSessionToken } from '@/lib/session';
+import { hashPassword } from '@/lib/password';
 
 export async function POST(req: NextRequest) {
   try {
@@ -42,11 +43,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Hash password menggunakan scrypt + salt acak
+    const hashedPassword = hashPassword(kataSandi);
+
     const newUser = await prisma.user.create({
       data: {
         nama: trimmedNama,
         email: trimmedEmail,
-        kataSandi,
+        kataSandi: hashedPassword,
       },
     });
 
@@ -55,7 +59,7 @@ export async function POST(req: NextRequest) {
       data: {
         userId: newUser.id,
         durasi: ['10', '15'],
-        skills: ['l-sit', 'handstand', 'front-lever'],
+        skills: ['l-sit', 'handstand', 'elbow-lever'],
       },
     });
 
@@ -64,7 +68,7 @@ export async function POST(req: NextRequest) {
       data: [
         { userId: newUser.id, skillId: 'l-sit', currentStage: 1, bestHoldSec: 0 },
         { userId: newUser.id, skillId: 'handstand', currentStage: 1, bestHoldSec: 0 },
-        { userId: newUser.id, skillId: 'front-lever', currentStage: 1, bestHoldSec: 0 },
+        { userId: newUser.id, skillId: 'elbow-lever', currentStage: 1, bestHoldSec: 0 },
       ],
       skipDuplicates: true,
     });
@@ -92,10 +96,11 @@ export async function POST(req: NextRequest) {
     response.cookies.set({
       name: SESSION_COOKIE_NAME,
       value: token,
-      httpOnly: false,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
       path: '/',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 30,
+      maxAge: 60 * 60 * 24 * 30, // 30 hari
     });
 
     return response;
@@ -107,4 +112,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
