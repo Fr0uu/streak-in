@@ -20,22 +20,23 @@ export async function GET() {
       where: { userId: user.id },
     });
 
-    // Jika belum ada library, inisialisasi default
+    // Jika user belum menyusun library, jangan auto-create default dummy
     if (!library) {
-      library = await prisma.userLibrary.create({
-        data: {
-          userId: user.id,
-          durasi: ['10', '15'],
-          skills: ['l-sit', 'handstand', 'elbow-lever'],
-        },
+      return NextResponse.json({
+        success: true,
+        data: null,
       });
     }
+
+    const durasiArray = Array.isArray(library.durasi)
+      ? (library.durasi as string[]).map(Number)
+      : [10, 15];
 
     return NextResponse.json({
       success: true,
       data: {
         ...library,
-        durasi: library.durasi.map(Number),
+        durasi: durasiArray,
         fokus: ['Push', 'Legs', 'Skill Mastery'],
         sessionIds: ['s_lsit_1', 's1', 's_handstand_1', 's2'],
       },
@@ -80,11 +81,15 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const savedDurasi = Array.isArray(saved.durasi)
+      ? (saved.durasi as string[]).map(Number)
+      : [10, 15];
+
     return NextResponse.json({
       success: true,
       data: {
         ...saved,
-        durasi: saved.durasi.map(Number),
+        durasi: savedDurasi,
         fokus: ['Push', 'Legs', 'Skill Mastery'],
         sessionIds: ['s_lsit_1', 's1', 's_handstand_1', 's2'],
       },

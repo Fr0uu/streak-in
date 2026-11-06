@@ -39,11 +39,7 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const [library, setLibrary] = useState<UserLibrary | null>(null);
   const [logs, setLogs] = useState<WorkoutLog[]>([]);
-  const [skillProgressList, setSkillProgressList] = useState<UserSkillProgress[]>([
-    { userId: currentUser?.id || '', skillId: 'l-sit', currentStage: 1, bestHoldSec: 0 },
-    { userId: currentUser?.id || '', skillId: 'handstand', currentStage: 1, bestHoldSec: 0 },
-    { userId: currentUser?.id || '', skillId: 'front-lever', currentStage: 1, bestHoldSec: 0 },
-  ]);
+  const [skillProgressList, setSkillProgressList] = useState<UserSkillProgress[]>([]);
   const [activeWorkout, setActiveWorkout] = useState<ActiveWorkout | null>(null);
   const [reminder, setReminder] = useState<ReminderSetting>({
     userId: currentUser?.id || '',

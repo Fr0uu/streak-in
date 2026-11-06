@@ -1,12 +1,8 @@
 import { cookies } from 'next/headers';
-import { createHmac, timingSafeEqual } from 'crypto';
+import { createHmac, randomBytes, timingSafeEqual } from 'crypto';
 import { prisma } from './prisma';
 
 export const SESSION_COOKIE_NAME = 'calisthenic_session';
-
-const SESSION_SECRET =
-  process.env.SESSION_SECRET ||
-  'streakin-session-secure-key-92847291-change-in-production';
 
 export interface UserSessionPayload {
   userId: string;
@@ -14,33 +10,54 @@ export interface UserSessionPayload {
   nama: string;
 }
 
-/**
- * Buat HMAC-SHA256 signature untuk data string
- */
-function signData(data: string): string {
-  return createHmac('sha256', SESSION_SECRET).update(data).digest('hex');
-}
+// Secret sementara khusus development (bertahan saat hot reload)
+const globalForSession = globalThis as unknown as { __devSessionSecret?: string };
 
 /**
- * Buat signed token sesi: payloadBase64.signatureHex
+ * Baca secret saat dipakai (bukan saat modul dimuat) supaya `next build`
+ * tidak gagal ketika env belum ada. Di production wajib valid.
  */
+function getSessionSecret(): string {
+  const secret = process.env.SESSION_SECRET;
+
+  if (process.env.NODE_ENV === 'production') {
+    if (!secret || secret.length < 32) {
+      throw new Error('SESSION_SECRET wajib diisi (minimal 32 karakter) pada mode production.');
+    }
+    return secret;
+  }
+
+  if (secret && secret.length > 0) return secret;
+
+  if (!globalForSession.__devSessionSecret) {
+    globalForSession.__devSessionSecret = randomBytes(32).toString('hex');
+    console.warn(
+      '[DEV] SESSION_SECRET belum diatur. Memakai secret sementara; sesi hilang saat server dimulai ulang.'
+    );
+  }
+  return globalForSession.__devSessionSecret;
+}
+
+function signData(data: string): string {
+  return createHmac('sha256', getSessionSecret()).update(data).digest('hex');
+}
+
 export function createSessionToken(payload: UserSessionPayload): string {
   const payloadBase64 = Buffer.from(JSON.stringify(payload)).toString('base64');
   const signature = signData(payloadBase64);
   return `${payloadBase64}.${signature}`;
 }
 
-/**
- * Verifikasi signature token sesi dan parse payload
- */
 export function parseSessionToken(token: string): UserSessionPayload | null {
-  try {
-    if (!token || !token.includes('.')) return null;
+  if (!token || !token.includes('.')) return null;
 
+  // Di luar try/catch: jika secret production tidak valid, error muncul jelas di log
+  getSessionSecret();
+
+  try {
     const [payloadBase64, signature] = token.split('.');
     if (!payloadBase64 || !signature) return null;
 
-    // Verifikasi HMAC signature dengan timingSafeEqual
     const expectedSignature = signData(payloadBase64);
     const sigBuf = Buffer.from(signature, 'hex');
     const expectedBuf = Buffer.from(expectedSignature, 'hex');
@@ -59,9 +76,6 @@ export function parseSessionToken(token: string): UserSessionPayload | null {
   }
 }
 
-/**
- * Ambil data user dari session cookie yang valid
- */
 export async function getSessionUser() {
   try {
     const cookieStore = cookies();
@@ -73,7 +87,7 @@ export async function getSessionUser() {
 
     const user = await prisma.user.findUnique({
       where: { id: session.userId },
-      select: { id: true, email: true, nama: true },
+      select: { id: true, email: true, nama: true }
     });
 
     return user;

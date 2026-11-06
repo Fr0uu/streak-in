@@ -19,11 +19,11 @@ model User {
   @@map("users")
 }
 
-// 1. PROGRES SKILL PENGGUNA (Target Skill: L-Sit, Handstand, Front Lever)
+// 1. PROGRES SKILL PENGGUNA (Target Skill: L-Sit, Handstand, Elbow Lever)
 model UserSkillProgress {
   id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId       String   @map("user_id") @db.Uuid
-  skillId      String   @map("skill_id") // misal: 'l-sit', 'handstand', 'front-lever'
+  skillId      String   @map("skill_id") // misal: 'l-sit', 'handstand', 'elbow-lever'
   currentStage Int      @default(1) @map("current_stage") // Stage 1 s/d 5
   bestHoldSec  Int      @default(0) @map("best_hold_sec") // Rekor detik hold
   updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz

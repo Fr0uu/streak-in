@@ -54,24 +54,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Inisialisasi default UserLibrary untuk user baru
-    await prisma.userLibrary.create({
-      data: {
-        userId: newUser.id,
-        durasi: ['10', '15'],
-        skills: ['l-sit', 'handstand', 'elbow-lever'],
-      },
-    });
-
-    // Inisialisasi UserSkillProgress untuk 3 skill utama
-    await prisma.userSkillProgress.createMany({
-      data: [
-        { userId: newUser.id, skillId: 'l-sit', currentStage: 1, bestHoldSec: 0 },
-        { userId: newUser.id, skillId: 'handstand', currentStage: 1, bestHoldSec: 0 },
-        { userId: newUser.id, skillId: 'elbow-lever', currentStage: 1, bestHoldSec: 0 },
-      ],
-      skipDuplicates: true,
-    });
+    // Catatan: User baru tidak otomatis dibuatkan default UserLibrary atau default UserSkillProgress,
+    // agar beranda user baru tetap bersih dan mengarahkan user untuk kustomisasi mandiri di /library.
 
     const payload = {
       userId: newUser.id,

@@ -12,21 +12,19 @@ export default function LibraryPage() {
   const router = useRouter();
   const { library, saveLibrary } = useWorkout();
 
-  // Durasi options
+  // Durasi options (default kosong untuk user baru sebelum memilih)
   const [selectedDurations, setSelectedDurations] = useState<number[]>(
-    library?.durasi && library.durasi.length > 0 ? library.durasi : [10, 15]
+    library?.durasi && library.durasi.length > 0 ? library.durasi : []
   );
 
-  // Fokus options
+  // Fokus options (default kosong untuk user baru sebelum memilih)
   const [selectedFocuses, setSelectedFocuses] = useState<string[]>(
-    library?.fokus && library.fokus.length > 0 ? library.fokus : ['Push', 'Legs']
+    library?.fokus && library.fokus.length > 0 ? library.fokus : []
   );
 
-  // Selected session IDs
+  // Selected session IDs (default kosong untuk user baru sebelum memilih)
   const [selectedSessionIds, setSelectedSessionIds] = useState<string[]>(
-    library?.sessionIds && library.sessionIds.length > 0
-      ? library.sessionIds
-      : ['s1', 's2', 's4', 's5']
+    library?.sessionIds && library.sessionIds.length > 0 ? library.sessionIds : []
   );
 
   useEffect(() => {
@@ -55,13 +53,23 @@ export default function LibraryPage() {
     );
   };
 
-  // Filter sessions matching selected duration OR focus
+  // Filter sessions: jika salah satu filter aktif, cocokkan dengan filter yang dipilih
   const filteredSessions = SEED_SESSIONS.filter((session) => {
+    // Jika tidak ada durasi yang dipilih, abaikan filter durasi (lolos)
     const matchDur =
-      selectedDurations.length === 0 || selectedDurations.includes(session.durasiMenit);
+      selectedDurations.length === 0 ||
+      selectedDurations.some((dur) => Math.abs(session.durasiMenit - dur) <= 3);
+
+    // Jika tidak ada fokus yang dipilih, abaikan filter fokus (lolos)
     const matchFok =
       selectedFocuses.length === 0 ||
       selectedFocuses.some((f) => session.fokus.toLowerCase().includes(f.toLowerCase()));
+
+    // Jika kedua filter aktif, ambil sesi yang memenuhi fokus ATAU durasi agar program variatif
+    if (selectedDurations.length > 0 && selectedFocuses.length > 0) {
+      return matchDur && matchFok;
+    }
+
     return matchDur && matchFok;
   });
 
@@ -127,10 +135,16 @@ export default function LibraryPage() {
               </span>
             </div>
             <div className="flex flex-wrap gap-2">
-              {['Push', 'Legs', 'Pull dan core', 'Full body'].map((fok) => {
+              {['Push', 'Legs', 'Pull dan core', 'Full body', 'Skill Mastery'].map((fok) => {
                 const active = selectedFocuses.includes(fok);
                 const label =
-                  fok === 'Pull dan core' ? 'Pull & Core' : fok === 'Full body' ? 'Full Body' : fok;
+                  fok === 'Pull dan core'
+                    ? 'Pull & Core'
+                    : fok === 'Full body'
+                    ? 'Full Body'
+                    : fok === 'Skill Mastery'
+                    ? 'Skill Kalistenik'
+                    : fok;
                 return (
                   <button
                     key={fok}
@@ -223,7 +237,7 @@ export default function LibraryPage() {
         </div>
 
         {/* Sticky Bottom Save Bar - posisikan aman di atas BottomNav */}
-        <div className="sticky bottom-16 md:bottom-6 card-surface p-3 sm:p-4 border-[#2E3238] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#23272D]/95 backdrop-blur z-30">
+        <div className="sticky bottom-20 md:bottom-6 card-surface p-3.5 sm:p-4 border-[#2E3238] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#23272D]/95 backdrop-blur z-30">
           <div className="text-xs text-[#8A929C] text-center sm:text-left">
             <span className="font-bold text-[#EEF1F4]">
               {selectedSessionIds.length} Sesi Terpilih
